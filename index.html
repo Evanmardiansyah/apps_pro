@@ -410,9 +410,12 @@
               </h3>
               <p class="text-[10px] md:text-xs text-blue-700/80 dark:text-blue-300/80 mb-3 md:mb-4 pr-2">Terima PDF & Excel otomatis setiap tanggal 1 awal bulan.</p>
               <div class="flex gap-2 mb-3 w-full">
-                <input type="email" id="inputEmail" placeholder="Masukkan email Anda..." class="flex-1 min-w-0 px-3 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-700/50 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition text-xs md:text-sm font-medium text-slate-800 dark:text-white placeholder-slate-400">
-                <button onclick="saveAutoReport()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">
+                <input type="email" id="inputEmail" placeholder="Masukkan email Anda..." class="flex-1 min-w-0 px-3 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-700/50 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition text-xs md:text-sm font-medium text-slate-800 dark:text-white placeholder-slate-400 disabled:opacity-50 disabled:cursor-not-allowed">
+                <button id="btnAktifkanEmail" onclick="saveAutoReport()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">
                   Aktifkan
+                </button>
+                <button id="btnNonaktifkanEmail" onclick="disableAutoReport()" class="hidden bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">
+                  Nonaktifkan
                 </button>
               </div>
               <button onclick="sendReportNow()" class="w-full bg-white dark:bg-slate-800 border border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 font-bold py-2 md:py-2.5 rounded-lg transition text-[11px] md:text-sm shadow-sm truncate px-1">
@@ -490,6 +493,15 @@
               <button onclick="deleteBukuKas()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 md:py-2.5 rounded-lg transition shadow-sm text-xs md:text-sm flex justify-center items-center truncate">
                 <i class="fas fa-trash-alt mr-1.5"></i> Hapus Buku Kas Ini
               </button>
+            </div>
+            
+            <div class="md:hidden mt-8 mb-12 w-full flex flex-col gap-3">
+               <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all border border-slate-300 dark:border-slate-600 shadow-sm">
+                  <i class="fas fa-moon mr-2"></i> Mode Gelap
+               </button>
+               <button onclick="prosesLogout()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all border border-rose-200 dark:border-rose-800/50 shadow-sm">
+                  <i class="fas fa-sign-out-alt mr-2"></i> Keluar Aplikasi
+               </button>
             </div>
 
           </div>
@@ -586,7 +598,7 @@
 
   <script>
     // ⚠️ GANTI DENGAN LINK WEB APP GAS LU
-    const API_URL = "https://script.google.com/macros/s/AKfycbz2xrxpy2baau2vMuvmdTHIQ7seZRfyhzTDO7OSJRWxgkWIf_KZ4fO0Z5V4Duj4v-Sp6Q/exec";
+    const API_URL = "MASUKKAN_LINK_WEB_APP_GOOGLE_SCRIPT_LU_DISINI";
     const groqApiKey = "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";
 
     let listDataView = []; let chartInstance = null; let kategoriChartInstance = null; let isDataDirty = true; 
@@ -772,8 +784,26 @@
 
     function formatCurrencyHelper(num) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num); }
 
+    // ================= FITUR AUTO-EMAIL =================
     function initEmailInput() {
-       let em = localStorage.getItem('userEmailReport'); if(em && document.getElementById('inputEmail')) { document.getElementById('inputEmail').value = em; }
+       let em = localStorage.getItem('userEmailReport'); 
+       const inputEmail = document.getElementById('inputEmail');
+       const btnAktifkan = document.getElementById('btnAktifkanEmail');
+       const btnNonaktifkan = document.getElementById('btnNonaktifkanEmail');
+       
+       if(inputEmail && btnAktifkan && btnNonaktifkan) {
+         if(em) { 
+           inputEmail.value = em; 
+           inputEmail.disabled = true;
+           btnAktifkan.classList.add('hidden');
+           btnNonaktifkan.classList.remove('hidden');
+         } else {
+           inputEmail.value = '';
+           inputEmail.disabled = false;
+           btnAktifkan.classList.remove('hidden');
+           btnNonaktifkan.classList.add('hidden');
+         }
+       }
     }
 
     async function saveAutoReport() {
@@ -784,7 +814,20 @@
          const res = await fetchAPI('setupAutoReportTrigger', {email: email});
          if(res.success) {
            localStorage.setItem('userEmailReport', email);
+           initEmailInput();
            miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false });
+         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
+    }
+
+    async function disableAutoReport() {
+       miniSwal.fire({ title: '<span class="text-sm font-bold">Memproses...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
+       try {
+         const res = await fetchAPI('disableAutoReport');
+         if(res.success) {
+           localStorage.removeItem('userEmailReport');
+           initEmailInput();
+           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dinonaktifkan</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false });
          } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
        } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
@@ -797,11 +840,12 @@
        try {
          const res = await fetchAPI('sendReportNow', {sheetName: sheetName, email: email});
          if(res.success) {
-           localStorage.setItem('userEmailReport', email); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terkirim!</span>', html: '<span class="text-[11px]">Silakan cek Inbox email.</span>', timer: 3000, showConfirmButton: false });
+           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terkirim!</span>', html: '<span class="text-[11px]">Silakan cek Inbox email.</span>', timer: 3000, showConfirmButton: false });
          } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
        } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
+    // ================= BUDGET & KONTEN =================
     function initBudgetInput() {
        let budgetLimit = localStorage.getItem('userBudgetLimit');
        if(budgetLimit && document.getElementById('inputLimitAnggaran')) { let inpt = document.getElementById('inputLimitAnggaran'); inpt.value = budgetLimit; formatRupiah(inpt); }
@@ -1148,7 +1192,7 @@
 
     async function mintaSaranAI() {
       if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
-      if(listDataView.length === 0) return miniSwal.fire({icon: 'info', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Belum ada transaksi.</span>'});
+      if(listDataView.length === 0) return miniSwal.fire({icon: 'info', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Belum ada transaksi untuk dianalisis.</span>'});
 
       let totalM = 0, totalK = 0; let kat = {};
       listDataView.forEach(function(i) { let n = Number(i.nominal); if(i.jenis === 'Pemasukan') totalM += n; else { totalK += n; kat[i.kategori] = (kat[i.kategori] || 0) + n; } });
