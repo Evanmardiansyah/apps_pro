@@ -693,7 +693,7 @@
              Swal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-xs">Email dikirim ke customer.</span>', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }});
              document.getElementById('regUser').value = ''; document.getElementById('regPass').value = '';
              
-             const waText = `Halo Kak, terima kasih sudah berlangganan FinanSmart JagoNgulik!\n\nAkun kakak sudah aktif sampai dengan tanggal *${res.exp}*.\n\nSilakan login melalui web:\n🌐 *https://evanmardiansyah.github.io/keuangan_apps*\n\n👤 Username: *${user}*\n🔑 Password: *${pass}*\n\n*(Link akses database mentah Google Sheets juga sudah kami kirimkan ke email kakak sebagai arsip pribadi).*`;
+             const waText = `Halo Kak, terima kasih sudah berlangganan FinanSmart JagoNgulik!\n\nAkun kakak sudah aktif sampai dengan tanggal *${res.exp}*.\n\nSilakan login melalui web:\n🌐 *https://evanmardiansyah.github.io/apps_pro*\n\n👤 Username: *${user}*\n🔑 Password: *${pass}*\n\n*(Link akses database mentah Google Sheets juga sudah kami kirimkan ke email kakak sebagai arsip pribadi).*`;
              document.getElementById('teksWA').value = waText;
              document.getElementById('hasilGenerate').classList.remove('hidden');
           } else { Swal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-xs">${res.message}</span>`, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }}); }
