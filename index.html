@@ -52,8 +52,8 @@
     </div>
   </div>
 
-  <div id="adminContainer" class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-slate-900 hidden opacity-0 transition-opacity duration-500 overflow-y-auto p-3 md:p-8">
-    <div class="max-w-3xl mx-auto pb-10">
+  <div id="adminContainer" class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-slate-900 hidden opacity-0 transition-opacity duration-500 overflow-y-auto p-3 md:p-8 pb-24 md:pb-8">
+    <div class="max-w-3xl mx-auto">
       
       <div class="flex justify-between items-center mb-5 bg-white dark:bg-slate-800 p-3.5 md:p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
         <div class="flex items-center min-w-0">
@@ -154,7 +154,7 @@
 
       <div class="flex-1 flex flex-col h-full relative overflow-hidden w-full max-w-full">
         
-        <div class="flex-1 overflow-y-auto hide-scroll bg-slate-50/30 dark:bg-slate-800/30 transition-colors duration-300 w-full overflow-x-hidden px-4 md:px-8 pt-6 md:pt-8 pb-6">
+        <div class="flex-1 overflow-y-auto hide-scroll bg-slate-50/30 dark:bg-slate-800/30 transition-colors duration-300 w-full overflow-x-hidden px-4 md:px-8 pt-6 md:pt-8 pb-28 md:pb-8">
           
           <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full">
             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300"><i class="fas fa-book mr-1.5 text-blue-500 dark:text-blue-400"></i>Buku Kas Saat Ini</label>
@@ -491,15 +491,6 @@
                 <i class="fas fa-trash-alt mr-1.5"></i> Hapus Buku Kas Ini
               </button>
             </div>
-            
-            <div class="md:hidden mt-5 w-full pb-10">
-               <button onclick="toggleDarkMode()" class="w-full mb-3 flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all">
-                  <i class="fas fa-moon mr-2"></i> Mode Gelap
-               </button>
-               <button onclick="prosesLogout()" class="w-full flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all">
-                  <i class="fas fa-sign-out-alt mr-2"></i> Keluar
-               </button>
-            </div>
 
           </div>
 
@@ -601,7 +592,7 @@
     let listDataView = []; let chartInstance = null; let kategoriChartInstance = null; let isDataDirty = true; 
 
     // FIX UKURAN MINI SWAL
-    const miniSwal = Swal.mixin({ width: '280px', padding: '1.2em', customClass: { title: 'text-sm font-bold text-slate-800', htmlContainer: 'text-[11px] text-slate-500', popup: 'rounded-2xl shadow-xl border border-slate-100' } });
+    const miniSwal = Swal.mixin({ width: '280px', padding: '1.2em', customClass: { title: 'text-sm font-bold text-slate-800', htmlContainer: 'text-[11px] text-slate-500', popup: 'rounded-2xl shadow-xl border border-slate-100 dark:bg-slate-800 dark:border-slate-700' } });
 
     async function fetchAPI(action, payload = {}) {
       payload.action = action;
@@ -652,14 +643,14 @@
       const u = document.getElementById('loginUser').value.trim();
       const p = document.getElementById('loginPass').value.trim();
       
-      miniSwal.fire({ title: 'Mengecek Data...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Mengecek Data...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       try {
          const res = await fetchAPI('login', {username: u, password: p});
          if (res.success) {
             localStorage.setItem('finanSmartSheetId', res.sheetId);
             localStorage.setItem('finanSmartRole', res.role);
             miniSwal.close(); cekSesiLogin();
-         } else { miniSwal.fire({ icon: 'error', title: 'Login Gagal', text: res.message }); }
+         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Login Gagal</span>', html: `<span class="text-[11px] text-slate-500">${res.message}</span>`, customClass: { popup: 'rounded-2xl dark:bg-slate-800' } }); }
       } catch(err) { miniSwal.fire({ icon: 'error', title: 'Koneksi Gagal', text: err.message }); }
     }
 
@@ -677,10 +668,9 @@
        const email = document.getElementById('regEmail').value.trim();
        const days = document.getElementById('regDays').value;
 
-       // FIX UKURAN POP UP BIAR GAK NGE-BLOCK LAYAR
        Swal.fire({
           title: '<span class="text-sm md:text-base font-bold">Membuat Database...</span>',
-          html: '<span class="text-xs text-slate-500">Mohon tunggu, men-generate file di server...</span>',
+          html: '<span class="text-[11px] md:text-xs text-slate-500">Menyiapkan akses dan mengirim email...</span>',
           allowOutsideClick: false,
           width: '280px',
           customClass: { popup: 'rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 dark:bg-slate-800' },
@@ -690,21 +680,21 @@
        try {
           const res = await fetchAPI('registerUser', {username: user, password: pass, email: email, duration: days});
           if(res.success) {
-             Swal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-xs">Email dikirim ke customer.</span>', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }});
+             Swal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-[11px] text-slate-500">Database aktif dan Email dikirim.</span>', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }});
              document.getElementById('regUser').value = ''; document.getElementById('regPass').value = '';
              
-             const waText = `Halo Kak, terima kasih sudah berlangganan FinanSmart JagoNgulik!\n\nAkun kakak sudah aktif sampai dengan tanggal *${res.exp}*.\n\nSilakan login melalui web:\n🌐 *https://evanmardiansyah.github.io/apps_pro*\n\n👤 Username: *${user}*\n🔑 Password: *${pass}*\n\n*(Link akses database mentah Google Sheets juga sudah kami kirimkan ke email kakak sebagai arsip pribadi).*`;
+             const waText = `Halo Kak, terima kasih sudah berlangganan FinanSmart JagoNgulik!\n\nAkun kakak sudah aktif sampai dengan tanggal *${res.exp}*.\n\nSilakan login melalui web:\n🌐 *https://evanmardiansyah.github.io/keuangan_apps*\n\n👤 Username: *${user}*\n🔑 Password: *${pass}*\n\n*(Link akses database mentah Google Sheets juga sudah kami kirimkan ke email kakak sebagai arsip pribadi).*`;
              document.getElementById('teksWA').value = waText;
              document.getElementById('hasilGenerate').classList.remove('hidden');
-          } else { Swal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-xs">${res.message}</span>`, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }}); }
-       } catch(err) { Swal.fire({icon: 'error', title: 'Error', html: `<span class="text-xs">${err.message}</span>`, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }}); }
+          } else { Swal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>`, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }}); }
+       } catch(err) { Swal.fire({icon: 'error', title: 'Error', html: `<span class="text-[11px]">${err.message}</span>`, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }}); }
     }
 
     function copyWA() {
        var text = document.getElementById("teksWA");
        text.select(); text.setSelectionRange(0, 99999);
        document.execCommand("copy");
-       miniSwal.fire({icon:'success', title:'Tersalin!', text:'Pesan siap di-paste ke WhatsApp.', timer: 1500, showConfirmButton: false});
+       miniSwal.fire({icon:'success', title:'<span class="text-sm font-bold">Tersalin!</span>', html:'<span class="text-[11px]">Pesan siap di-paste ke WhatsApp.</span>', timer: 1500, showConfirmButton: false});
     }
 
     // ================= INISIASI APLIKASI UTAMA (CUSTOMER) =================
@@ -715,7 +705,7 @@
          const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
       } catch(err) {
          document.getElementById('globalSheet').innerHTML = '<option value="">Server Error</option>';
-         miniSwal.fire('Koneksi Gagal', err.message, 'error');
+         miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>`});
       }
     }
 
@@ -739,7 +729,7 @@
     function populateSheets(sheets) {
       const select = document.getElementById('globalSheet');
       if(!sheets || sheets.length === 0) { select.innerHTML = '<option value="">Data Kosong</option>'; return; }
-      if(sheets.length > 0 && sheets[0].toString().includes("ERROR:")) { select.innerHTML = '<option value="">' + sheets[0] + '</option>'; miniSwal.fire({icon: 'error', title: 'Gagal', text: sheets[0]}); return; }
+      if(sheets.length > 0 && sheets[0].toString().includes("ERROR:")) { select.innerHTML = '<option value="">' + sheets[0] + '</option>'; miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${sheets[0]}</span>`}); return; }
       const currentVal = select.value; select.innerHTML = '<option value="">-- Pilih Buku Kas --</option>';
       sheets.forEach(function(sheet) { select.innerHTML += '<option value="' + sheet + '">' + sheet + '</option>'; });
       if(currentVal && sheets.includes(currentVal)) select.value = currentVal;
@@ -788,28 +778,28 @@
 
     async function saveAutoReport() {
        let email = document.getElementById('inputEmail').value.trim();
-       if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: 'Email Salah', text: 'Masukkan alamat email yang benar.'});
-       miniSwal.fire({ title: 'Menyiapkan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+       if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Email Salah</span>', html: '<span class="text-[11px]">Masukkan alamat email yang benar.</span>'});
+       miniSwal.fire({ title: '<span class="text-sm font-bold">Menyiapkan...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
        try {
          const res = await fetchAPI('setupAutoReportTrigger', {email: email});
          if(res.success) {
            localStorage.setItem('userEmailReport', email);
-           miniSwal.fire({ icon: 'success', title: 'Berhasil', text: res.message, timer: 3000, showConfirmButton: false });
-         } else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-       } catch(err) { miniSwal.fire({ icon: 'error', title: 'Gagal', text: err.message }); }
+           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false });
+         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function sendReportNow() {
        let sheetName = document.getElementById('globalSheet').value; let email = document.getElementById('inputEmail').value.trim();
-       if(!sheetName) return miniSwal.fire({ icon: 'warning', title: 'Buku Kosong', text: 'Pilih Buku Kas dulu di bagian atas.'});
-       if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: 'Email Salah', text: 'Isi alamat email yang benar di kolom atasnya.'});
-       miniSwal.fire({ title: 'Membuat Laporan...', html: 'Mohon tunggu sebentar...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+       if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Buku Kosong</span>', html: '<span class="text-[11px]">Pilih Buku Kas dulu di atas.</span>'});
+       if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Email Salah</span>', html: '<span class="text-[11px]">Isi email yang benar.</span>'});
+       miniSwal.fire({ title: '<span class="text-sm font-bold">Membuat Laporan...</span>', html: '<span class="text-[11px] text-slate-500">Mohon tunggu sebentar...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
        try {
          const res = await fetchAPI('sendReportNow', {sheetName: sheetName, email: email});
          if(res.success) {
-           localStorage.setItem('userEmailReport', email); miniSwal.fire({ icon: 'success', title: 'Terkirim!', text: 'Silakan cek Inbox/Spam email.', timer: 3000, showConfirmButton: false });
-         } else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-       } catch(err) { miniSwal.fire({ icon: 'error', title: 'Gagal', text: err.message }); }
+           localStorage.setItem('userEmailReport', email); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terkirim!</span>', html: '<span class="text-[11px]">Silakan cek Inbox email.</span>', timer: 3000, showConfirmButton: false });
+         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     function initBudgetInput() {
@@ -820,11 +810,11 @@
 
     function saveBudgetFromSettings() {
        let inpt = document.getElementById('inputLimitAnggaran').value.replace(/\./g, '');
-       if(!inpt || isNaN(inpt) || inpt < 0) return miniSwal.fire({ icon: 'error', title: 'Data Tidak Valid', text: 'Masukkan jumlah uang dengan benar.'});
+       if(!inpt || isNaN(inpt) || inpt < 0) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Data Invalid</span>', html: '<span class="text-[11px]">Masukkan angka dengan benar.</span>'});
        try {
            localStorage.setItem('userBudgetLimit', inpt); updateBudgetUI();
-           miniSwal.fire({ icon: 'success', title: 'Anggaran Disimpan', timer: 1500, showConfirmButton: false }); processUIFromCache(); 
-       } catch(e) { miniSwal.fire({ icon: 'error', title: 'Gagal', text: 'Browser tidak mengizinkan penyimpanan.'}); }
+           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Tersimpan</span>', timer: 1500, showConfirmButton: false }); processUIFromCache(); 
+       } catch(e) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Browser menolak penyimpanan.</span>'}); }
     }
 
     function updateBudgetUI(totalPengeluaran = 0) {
@@ -852,27 +842,27 @@
     async function submitForm(event) {
       event.preventDefault();
       const sheetName = document.getElementById('globalSheet').value;
-      if(!sheetName) return miniSwal.fire({ icon: 'warning', title: 'Pilih Buku', text: 'Pilih Buku Kas di atas terlebih dahulu.' }); 
+      if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Pilih Buku</span>', html: '<span class="text-[11px]">Pilih Buku Kas di atas.</span>' }); 
       
       const form = document.getElementById('transaksiForm');
       const nominalBersih = form.nominal.value.replace(/\./g, '');
-      if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: 'Data Salah', text: 'Jumlah uang harus berupa angka.' });
+      if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Data Salah</span>', html: '<span class="text-[11px]">Jumlah uang harus berupa angka.</span>' });
 
       let tglInput = form.tanggal.value;
       if(!tglInput) { let t = new Date(); tglInput = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, '0') + "-" + String(t.getDate()).padStart(2, '0'); }
 
       const formData = { sheetName: sheetName, tanggal: tglInput, jenis: form.jenis.value, kategori: form.kategori.value, nominal: nominalBersih, keterangan: form.keterangan.value, metode: form.metode.value };
       
-      miniSwal.fire({ title: 'Menyimpan...', html: 'Mengirim data ke server.', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Menyimpan...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       try {
         const res = await fetchAPI('saveData', {data: formData});
         if(res.success) {
-          miniSwal.fire({ icon: 'success', title: 'Berhasil', text: 'Transaksi disimpan.', timer: 2000, showConfirmButton: false });
+          miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 2000, showConfirmButton: false });
           listDataView.push({ row: Date.now(), tanggal: formData.tanggal, jenis: formData.jenis, kategori: formData.kategori, nominal: formData.nominal, keterangan: formData.keterangan, waktu: new Date().toLocaleString('id-ID'), metode: formData.metode });
           processUIFromCache(); isDataDirty = true; loadListTransaksi(true); 
           form.reset(); document.getElementById('tanggal').valueAsDate = new Date();
-        } else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-      } catch(err) { miniSwal.fire({ icon: 'error', title: 'Koneksi Terputus', text: err.message }); }
+        } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+      } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     function toggleSearchBar() {
@@ -1026,14 +1016,14 @@
 
     async function submitNewCategory() {
       const input = document.getElementById('newSheetName'); const val = input.value.trim();
-      if(!val) return miniSwal.fire({ icon: 'warning', title: 'Nama Kosong', text: 'Silakan isi nama buku kas terlebih dahulu.' });
+      if(!val) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Nama Kosong</span>', html: '<span class="text-[11px]">Isi nama buku kas.</span>' });
       
       const oldSheet = document.getElementById('globalSheet').value; let carryOverBalance = 0;
       if(oldSheet && listDataView.length > 0) {
           let tm = 0, tk = 0; listDataView.forEach(i => { if(i.jenis === 'Pemasukan') tm += Number(i.nominal); else tk += Number(i.nominal); }); carryOverBalance = tm - tk;
       }
       
-      miniSwal.fire({ title: 'Membuat Buku...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Membuat Buku...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       try {
          const res = await fetchAPI('addNewSheet', {sheetName: val});
          if(res.success) {
@@ -1041,29 +1031,29 @@
                 let t = new Date(); let tglInput = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, '0') + "-" + String(t.getDate()).padStart(2, '0');
                 await fetchAPI('saveData', { data: { sheetName: val, tanggal: tglInput, jenis: "Pemasukan", kategori: "Sisa Saldo Sebelumnya", nominal: carryOverBalance, keterangan: "Dari periode " + oldSheet, metode: "Tunai" }});
             }
-            miniSwal.fire({ icon: 'success', title: 'Berhasil', text: 'Buku kas siap.', timer: 2000, showConfirmButton: false });
+            miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 2000, showConfirmButton: false });
             input.value = ''; const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
-         } else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-      } catch(err) { miniSwal.fire({ icon: 'error', title: 'Gagal Terhubung', text: err.message }); }
+         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+      } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     function deleteBukuKas() {
       const sheetName = document.getElementById('globalSheet').value;
-      if(!sheetName) return miniSwal.fire({icon: 'warning', title: 'Gagal', text: 'Pilih buku kas yang ingin dihapus.'});
+      if(!sheetName) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Pilih buku kas yang ingin dihapus.</span>'});
 
       Swal.fire({
-        title: 'Hapus Permanen', html: '<span class="text-sm">Yakin menghapus buku <b>' + sheetName + '</b> beserta isinya?</span>', icon: 'error', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' }
+        title: '<span class="text-sm md:text-base font-bold">Hapus Permanen</span>', html: '<span class="text-[11px] md:text-xs">Yakin menghapus buku <b>' + sheetName + '</b> beserta isinya?</span>', icon: 'error', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' }
       }).then(async (result) => {
         if(result.isConfirmed) {
-          miniSwal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+          miniSwal.fire({ title: '<span class="text-sm font-bold">Menghapus...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
           try {
              const res = await fetchAPI('deleteSheet', {sheetName: sheetName});
              if(res.success) {
-                miniSwal.fire({ icon: 'success', title: 'Terhapus', timer: 1500, showConfirmButton: false });
+                miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terhapus</span>', timer: 1500, showConfirmButton: false });
                 const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
                 listDataView = []; resetDashboardUI();
-             } else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-          } catch(err) { miniSwal.fire({ icon: 'error', title: 'Server Error', text: err.message }) }
+             } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+          } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Server Error</span>', html: `<span class="text-[11px]">${err.message}</span>` }) }
         }
       });
     }
@@ -1073,17 +1063,17 @@
       const sheetName = document.getElementById('globalSheet').value;
 
       miniSwal.fire({
-        title: 'Hapus Transaksi', text: 'Hapus data [' + data.kategori + ']?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Hapus', cancelButtonText: 'Batal'
+        title: '<span class="text-sm font-bold">Hapus Transaksi</span>', html: `<span class="text-[11px]">Hapus data [${data.kategori}]?</span>`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Hapus', cancelButtonText: 'Batal'
       }).then(async (result) => {
         if (result.isConfirmed) {
-          miniSwal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+          miniSwal.fire({ title: '<span class="text-sm font-bold">Menghapus...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
           try {
              const res = await fetchAPI('deleteData', {sheetName: sheetName, row: row});
              if(res.success) {
-                miniSwal.fire({ icon: 'success', title: 'Dihapus!', timer: 1500, showConfirmButton: false });
+                miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dihapus!</span>', timer: 1500, showConfirmButton: false });
                 isDataDirty = true; onSheetChange(); 
-             } else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-          } catch(err) { miniSwal.fire({ icon: 'error', title: 'Terputus', text: err.message }); }
+             } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+          } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
         }
       });
     }
@@ -1106,22 +1096,22 @@
       event.preventDefault();
       const sheetName = document.getElementById('globalSheet').value;
       const nominalBersih = document.getElementById('editNominal').value.replace(/\./g, '');
-      if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: 'Gagal', text: 'Angka nominal tidak valid.' });
+      if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Angka nominal tidak valid.</span>' });
 
       const payload = { sheetName: sheetName, row: document.getElementById('editRow').value, tanggal: document.getElementById('editTanggal').value, jenis: document.querySelector('input[name="editJenis"]:checked').value, kategori: document.getElementById('editKategori').value, nominal: nominalBersih, keterangan: document.getElementById('editKeterangan').value, metode: document.getElementById('editMetode').value };
       
-      closeEditModal(); miniSwal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      closeEditModal(); miniSwal.fire({ title: '<span class="text-sm font-bold">Menyimpan...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       try {
          const res = await fetchAPI('updateData', {payload: payload});
-         if(res.success) { miniSwal.fire({ icon: 'success', title: 'Disimpan', timer: 1500, showConfirmButton: false }); isDataDirty = true; onSheetChange(); } 
-         else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-      } catch(err) { miniSwal.fire({ icon: 'error', title: 'Terputus', text: err.message }); }
+         if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Disimpan</span>', timer: 1500, showConfirmButton: false }); isDataDirty = true; onSheetChange(); } 
+         else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+      } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function exportCSV() {
        const sheetName = document.getElementById('globalSheet').value;
-       if(!sheetName) return miniSwal.fire({ icon: 'warning', title: 'Pilih Buku', text: 'Pilih buku kas yang mau dibackup.' });
-       miniSwal.fire({ title: 'Menyiapkan File...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+       if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Pilih Buku</span>', html: '<span class="text-[11px]">Pilih buku kas yang mau dibackup.</span>' });
+       miniSwal.fire({ title: '<span class="text-sm font-bold">Menyiapkan File...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
        try {
          const res = await fetchAPI('getBackupData', {sheetName: sheetName});
          if(res.success) {
@@ -1130,15 +1120,15 @@
             const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob));
             link.setAttribute("download", 'Backup_' + sheetName + '.csv'); link.style.visibility = 'hidden';
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
-            miniSwal.fire({ icon: 'success', title: 'Berhasil!', timer: 1500, showConfirmButton: false });
-         } else { miniSwal.fire({ icon: 'error', title: 'Gagal', text: res.message }); }
-       } catch(err) { miniSwal.fire({ icon: 'error', title: 'Terputus', text: err.message }); }
+            miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 1500, showConfirmButton: false });
+         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     function exportPDF() {
       const sheetName = document.getElementById('globalSheet').value;
-      if(!sheetName || listDataView.length === 0) return miniSwal.fire({ icon: 'warning', title: 'Data Kosong', text: 'Tidak ada data untuk didownload.' });
-      miniSwal.fire({ title: 'Membuat PDF...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      if(!sheetName || listDataView.length === 0) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Tidak ada data untuk didownload.</span>' });
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Membuat PDF...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4'); 
       let totalMasuk = 0, totalKeluar = 0; listDataView.forEach(i => { const nom = Number(i.nominal); if(i.jenis === 'Pemasukan') totalMasuk += nom; else totalKeluar += nom; });
       let saldo = totalMasuk - totalKeluar;
@@ -1153,18 +1143,18 @@
       let pdfData = [...listDataView].sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
       pdfData.forEach((item, index) => { tableRows.push([ index + 1, item.tanggal, item.kategori, item.jenis, item.metode || '-', formatCurrencyHelper(Number(item.nominal)) ]); });
       doc.autoTable({ startY: 70, head: [tableColumn], body: tableRows, theme: 'grid', styles: { font: 'helvetica', fontSize: 8 }, headStyles: { fillColor: [30, 58, 138], textColor: [255, 255, 255], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 250, 252] }, columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 5: { halign: 'right' } } });
-      doc.save('Laporan_' + sheetName.replace(/\s+/g, '_') + '.pdf'); miniSwal.fire({ icon: 'success', title: 'Selesai!', timer: 1500, showConfirmButton: false });
+      doc.save('Laporan_' + sheetName.replace(/\s+/g, '_') + '.pdf'); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Selesai!</span>', timer: 1500, showConfirmButton: false });
     }
 
     async function mintaSaranAI() {
-      if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: 'API Key Kosong', text: 'Kredensial Groq belum diisi.'});
-      if(listDataView.length === 0) return miniSwal.fire({icon: 'info', title: 'Data Kosong', text: 'Belum ada transaksi untuk dianalisis.'});
+      if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
+      if(listDataView.length === 0) return miniSwal.fire({icon: 'info', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Belum ada transaksi.</span>'});
 
       let totalM = 0, totalK = 0; let kat = {};
       listDataView.forEach(function(i) { let n = Number(i.nominal); if(i.jenis === 'Pemasukan') totalM += n; else { totalK += n; kat[i.kategori] = (kat[i.kategori] || 0) + n; } });
       let limit = localStorage.getItem('userBudgetLimit') || 0; let topKat = Object.entries(kat).sort((a,b) => b[1]-a[1]).slice(0,3).map(k => k[0] + ' (' + formatCurrencyHelper(k[1]) + ')').join(', ');
 
-      miniSwal.fire({ title: 'AI Sedang Menganalisis...', html: 'Menyusun laporan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Menganalisis...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       let aiPrompt = "Bertindaklah sebagai penasihat keuangan yang profesional tapi asyik. Berikut data bulan ini: Pemasukan Rp" + totalM + ", Pengeluaran Rp" + totalK + ", Batas Anggaran Rp" + limit + ". Pengeluaran terbesar di: " + topKat + ". Berikan analisis singkat (apakah aman/boros) dan 2 tips hemat yang spesifik. Jangan pakai format markdown (bintang-bintang). Tulis dalam 2 atau 3 paragraf. Gunakan enter untuk memisahkan paragraf.";
 
       try {
@@ -1172,14 +1162,14 @@
         const data = await response.json(); if(data.error) throw new Error(data.error.message);
         let aiResponseRaw = data.choices[0].message.content; let formattedHtml = aiResponseRaw.replace(/\n/g, '<br><br>');
         Swal.fire({ title: '<div class="flex items-center justify-center border-b border-slate-100 dark:border-slate-700 pb-3 mb-2"><i class="fas fa-robot text-indigo-500 mr-2 text-xl"></i><span class="text-base font-extrabold text-slate-800 dark:text-white">Analisis AI</span></div>', html: '<div class="text-left text-[13px] md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">' + formattedHtml + '</div>', confirmButtonText: 'Tutup Saran', confirmButtonColor: '#4f46e5', width: '280px', customClass: { popup: 'rounded-2xl shadow-xl border border-indigo-50 dark:border-slate-700 dark:bg-slate-800' } });
-      } catch (e) { miniSwal.fire({icon: 'error', title: 'Gagal', text: 'Error AI: ' + e.message}); }
+      } catch (e) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${e.message}</span>`}); }
     }
 
     async function prosesMagicInput() {
       const textInput = document.getElementById('magicInput').value.trim();
-      if(!textInput) return miniSwal.fire({icon: 'warning', title: 'Teks Kosong', text: 'Ketik dulu transaksinya ya.'});
-      if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: 'API Key Kosong', text: 'Kredensial Groq belum diisi.'});
-      miniSwal.fire({ title: 'AI Sedang Membaca...', html: 'Tunggu sebentar...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      if(!textInput) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Kosong</span>', html: '<span class="text-[11px]">Ketik transaksinya dulu.</span>'});
+      if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Membaca...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
 
       const aiPrompt = "Anda asisten pencatat keuangan. Terjemahkan kalimat ini ke data keuangan: '" + textInput + "'. Aturan: 1. Tentukan 'nominal' dalam angka murni. 2. Tentukan 'jenis' ('Pemasukan' atau 'Pengeluaran'). 3. Tentukan 'kategori' cerdas. 4. Tentukan 'metode' pembayaran ('Tunai', 'Rekening Bank', 'E-Wallet'). Jika tidak jelas pilih 'Tunai'. 5. Jadikan inti kalimat sebagai 'keterangan'. Output HANYA JSON tanpa teks markdown. Format: {\"nominal\": angka, \"jenis\": \"Pengeluaran\", \"kategori\": \"Nama Kategori\", \"metode\": \"Tunai\", \"keterangan\": \"Deskripsi\"}.";
 
@@ -1194,18 +1184,18 @@
           document.getElementById('kategori').value = hasil.kategori || 'Lainnya'; if(hasil.metode) document.getElementById('metode').value = hasil.metode;
           const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal);
           document.getElementById('keterangan').value = hasil.keterangan || textInput; document.getElementById('magicInput').value = ''; 
-          miniSwal.fire({icon: 'success', title: 'Berhasil!', text: 'Formulir diisi AI.', timer: 2000, showConfirmButton: false});
-        } else { miniSwal.fire({icon: 'warning', title: 'Gagal', text: 'Nominal tidak ditemukan.'}); }
-      } catch (error) { miniSwal.fire({icon: 'error', title: 'Gagal', text: 'Error AI: ' + error.message}); }
+          miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 2000, showConfirmButton: false});
+        } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Nominal tidak ditemukan.</span>'}); }
+      } catch (error) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${error.message}</span>`}); }
     }
 
     function prosesScanStruk(event) {
       const file = event.target.files[0]; if(!file) return; event.target.value = '';
-      miniSwal.fire({ title: 'Menganalisis Struk...', html: 'AI sedang membaca foto...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Menganalisis...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       const reader = new FileReader(); reader.readAsDataURL(file);
       reader.onload = async function() {
         const base64Image = reader.result;
-        if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: 'API Key Kosong', text: 'Kredensial Groq belum diisi.'});
+        if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
         const aiPrompt = "Anda adalah analis data. Ekstrak dokumen struk ini. ABAIKAN subtotal, pajak, diskon, kembalian. Ambil HANYA SATU angka: TOTAL PEMBAYARAN FINAL (Grand Total). Tentukan 'kategori' cerdas. Tentukan 'metode' pembayaran ('Tunai', 'Rekening Bank', 'E-Wallet'). Jika Debit/BCA/Mandiri pilih Rekening Bank. Jika QRIS/ShopeePay pilih E-Wallet. Jika tidak jelas pilih 'Tunai'. Jadikan nama toko sebagai 'keterangan'. Output JSON murni. Format: {\"nominal\": angka, \"kategori\": \"Kategori\", \"metode\": \"Tunai\", \"keterangan\": \"Nama Toko\"}. Jika gagal, kembalikan nominal 0.";
 
         try {
@@ -1218,9 +1208,9 @@
             if(hasil.metode) document.getElementById('metode').value = hasil.metode;
             const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal);
             document.getElementById('keterangan').value = 'Toko: ' + (hasil.keterangan || 'Berhasil');
-            miniSwal.fire({icon: 'success', title: 'Berhasil', text: 'Struk berhasil dibaca AI.', timer: 3000, showConfirmButton: false});
-          } else { miniSwal.fire({icon: 'warning', title: 'Gagal', text: 'Gambar buram.'}); }
-        } catch (error) { miniSwal.fire({icon: 'error', title: 'Gagal', text: 'Error AI: ' + error.message}); }
+            miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 3000, showConfirmButton: false});
+          } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Gambar buram.</span>'}); }
+        } catch (error) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${error.message}</span>`}); }
       };
     }
   </script>
