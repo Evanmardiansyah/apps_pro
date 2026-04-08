@@ -52,84 +52,179 @@
     </div>
   </div>
 
-  <div id="adminContainer" class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-slate-900 hidden opacity-0 transition-opacity duration-500 overflow-y-auto p-3 md:p-8 pb-24 md:pb-8">
-    <div class="max-w-3xl mx-auto">
+  <div id="adminContainer" class="w-full h-full flex flex-col md:flex-row md:items-center md:justify-center md:p-4 hidden opacity-0 transition-opacity duration-500">
+    <div class="w-full h-full max-w-md md:max-w-5xl bg-white dark:bg-slate-800 sm:rounded-3xl shadow-none sm:shadow-2xl flex flex-col md:flex-row md:h-[90vh] md:max-h-[850px] border-0 sm:border border-slate-100 dark:border-slate-700 transition-colors duration-300 relative overflow-hidden">
       
-      <div class="flex justify-between items-center mb-5 bg-white dark:bg-slate-800 p-3.5 md:p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-        <div class="flex items-center min-w-0">
-          <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white mr-2.5 shadow-lg shadow-indigo-500/30 flex-shrink-0">
-            <i class="fas fa-user-shield text-sm md:text-lg"></i>
+      <div class="hidden md:flex flex-col w-64 bg-slate-50 dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-700 p-6 justify-between flex-shrink-0 transition-colors duration-300 z-10">
+        <div>
+          <div class="flex items-center mb-10 mt-2 px-2">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white mr-3 shadow-lg shadow-indigo-500/30">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <h1 class="text-lg font-extrabold text-slate-800 dark:text-white tracking-tight">Admin Panel</h1>
           </div>
-          <div class="truncate">
-            <h1 class="text-sm md:text-lg font-bold text-slate-800 dark:text-white truncate">Admin Dashboard</h1>
-            <p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Kelola pelanggan FinanSmart</p>
+          <div class="space-y-2">
+            <button onclick="switchAdminTab('adminDashboard')" class="nav-admin-btn nav-adminDashboard desktop-admin-btn w-full flex items-center px-4 py-3 rounded-xl text-sm font-bold text-indigo-700 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 transition-all">
+              <i class="fas fa-chart-bar w-6 text-center mr-2 text-lg"></i> Ringkasan
+            </button>
+            <button onclick="switchAdminTab('adminUser')" class="nav-admin-btn nav-adminUser desktop-admin-btn w-full flex items-center px-4 py-3 rounded-xl text-sm font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-all">
+              <i class="fas fa-users w-6 text-center mr-2 text-lg"></i> Users
+            </button>
+            <button onclick="switchAdminTab('adminSistem')" class="nav-admin-btn nav-adminSistem desktop-admin-btn w-full flex items-center px-4 py-3 rounded-xl text-sm font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-all">
+              <i class="fas fa-cog w-6 text-center mr-2 text-lg"></i> Pengaturan
+            </button>
           </div>
-        </div>
-        <div class="flex gap-1.5 flex-shrink-0 ml-2">
-           <button onclick="toggleDarkMode()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 font-bold text-xs transition"><i class="fas fa-moon"></i></button>
-           <button onclick="prosesLogout()" class="px-3 py-1.5 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg font-bold text-xs transition"><i class="fas fa-sign-out-alt"></i></button>
         </div>
       </div>
 
-      <div class="bg-white dark:bg-slate-800 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-lg border border-slate-100 dark:border-slate-700">
-        <h2 class="text-sm md:text-base font-bold text-slate-800 dark:text-white mb-4 md:mb-6 flex items-center border-b border-slate-100 dark:border-slate-700 pb-2.5">
-          <i class="fas fa-user-plus mr-2 text-indigo-500"></i> Buat Akun Customer Baru
-        </h2>
-        <form onsubmit="buatAkunCustomer(event)">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-5 mb-3.5 md:mb-5">
-            <div>
-              <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Username Customer</label>
-              <input type="text" id="regUser" required class="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
+      <div class="flex-1 flex flex-col h-full relative overflow-hidden w-full max-w-full">
+        <div class="flex-1 overflow-y-auto hide-scroll bg-slate-50/30 dark:bg-slate-800/30 transition-colors duration-300 w-full overflow-x-hidden px-4 md:px-8 pt-6 md:pt-8 pb-28 md:pb-8">
+          
+          <div id="adminDashboardSection" class="admin-tab-content block animate-fade-in w-full max-w-3xl mx-auto">
+            <div class="mb-4 border-b border-slate-200 dark:border-slate-700 pb-3 w-full">
+              <h2 class="text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">Ringkasan Sistem</h2>
+              <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Pantau status pelanggan aplikasi SaaS Anda.</p>
             </div>
-            <div>
-              <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Password</label>
-              <input type="text" id="regPass" required class="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-5 mb-5 md:mb-8">
-            <div>
-              <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Email (Agar Sheet masuk ke HP Customer)</label>
-              <input type="email" id="regEmail" class="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white placeholder-slate-400" placeholder="customer@gmail.com">
-            </div>
-            <div>
-              <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Lama Berlangganan (Hari)</label>
-              <input type="number" id="regDays" value="30" required class="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
-            </div>
-          </div>
-          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 md:py-3.5 rounded-xl transition shadow-lg shadow-indigo-500/30 text-xs md:text-sm">
-            <i class="fas fa-magic mr-1.5"></i> Buat Akun & Generate Database
-          </button>
-        </form>
-      </div>
-      
-      <div id="hasilGenerate" class="hidden mt-5 md:mt-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-2xl p-4 md:p-6">
-         <h3 class="text-emerald-800 dark:text-emerald-400 font-bold mb-2 text-xs md:text-sm flex items-center"><i class="fas fa-check-circle mr-2"></i>Akun & Email Siap!</h3>
-         <textarea id="teksWA" class="w-full h-32 p-3 text-[10px] md:text-xs bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700/50 rounded-lg outline-none resize-none dark:text-slate-300" readonly></textarea>
-         <button onclick="copyWA()" class="mt-3 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-[10px] md:text-xs transition shadow-md">
-            <i class="fas fa-copy mr-1"></i> Salin Pesan untuk WhatsApp
-         </button>
-      </div>
 
-      <div class="mt-5 md:mt-8 bg-white dark:bg-slate-800 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-lg border border-slate-100 dark:border-slate-700">
-        <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-700 pb-3 mb-4">
-          <h2 class="text-sm md:text-base font-bold text-slate-800 dark:text-white flex items-center">
-            <i class="fas fa-users-cog mr-2 text-indigo-500"></i> Kelola Pelanggan
-          </h2>
-          <button onclick="loadAdminUsers()" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 font-bold text-[10px] md:text-xs transition flex items-center bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-lg">
-            <i class="fas fa-sync-alt mr-1.5"></i> Refresh
+            <div class="grid grid-cols-3 gap-2 md:gap-4 mb-6 md:mb-8 w-full">
+               <div class="bg-white dark:bg-slate-800 p-3 md:p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center min-w-0">
+                  <i class="fas fa-users text-blue-500 dark:text-blue-400 mb-1 text-base md:text-xl"></i>
+                  <p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate">Total User</p>
+                  <p id="adminStatTotal" class="text-sm md:text-lg font-extrabold text-slate-700 dark:text-white truncate">0</p>
+               </div>
+               <div class="bg-white dark:bg-slate-800 p-3 md:p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center min-w-0">
+                  <i class="fas fa-user-check text-emerald-500 dark:text-emerald-400 mb-1 text-base md:text-xl"></i>
+                  <p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate">Aktif</p>
+                  <p id="adminStatActive" class="text-sm md:text-lg font-extrabold text-emerald-600 dark:text-emerald-400 truncate">0</p>
+               </div>
+               <div class="bg-white dark:bg-slate-800 p-3 md:p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center min-w-0">
+                  <i class="fas fa-user-lock text-rose-500 dark:text-rose-400 mb-1 text-base md:text-xl"></i>
+                  <p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate">Suspend</p>
+                  <p id="adminStatSuspend" class="text-sm md:text-lg font-extrabold text-rose-600 dark:text-rose-400 truncate">0</p>
+               </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700">
+              <div class="flex justify-between items-center mb-4 border-b border-slate-100 dark:border-slate-700 pb-2">
+                <h2 class="text-xs md:text-sm font-bold text-slate-800 dark:text-white flex items-center">
+                  <i class="fas fa-clock mr-2 text-amber-500"></i> Masa Aktif Hampir Habis (H-7)
+                </h2>
+                <button onclick="loadAdminUsers()" class="text-indigo-600 dark:text-indigo-400 text-[10px] md:text-xs font-bold"><i class="fas fa-sync-alt"></i></button>
+              </div>
+              <div id="adminExpiringList" class="space-y-2 w-full">
+                <p class="text-xs text-center text-slate-400 py-4">Memuat data...</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="adminUserSection" class="admin-tab-content hidden animate-fade-in w-full max-w-3xl mx-auto">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 mb-6">
+              <h2 class="text-sm md:text-base font-bold text-slate-800 dark:text-white mb-4 flex items-center border-b border-slate-100 dark:border-slate-700 pb-2.5">
+                <i class="fas fa-user-plus mr-2 text-indigo-500"></i> Buat Akun Baru
+              </h2>
+              <form onsubmit="buatAkunCustomer(event)">
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                  <div>
+                    <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Username</label>
+                    <input type="text" id="regUser" required class="w-full px-3 py-2 md:px-3.5 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Password</label>
+                    <input type="text" id="regPass" required class="w-full px-3 py-2 md:px-3.5 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Email Customer</label>
+                    <input type="email" id="regEmail" class="w-full px-3 py-2 md:px-3.5 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white placeholder-slate-400" placeholder="opsional@gmail.com">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Aktif (Hari)</label>
+                    <input type="number" id="regDays" value="30" required class="w-full px-3 py-2 md:px-3.5 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
+                  </div>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg transition shadow-md text-xs md:text-sm">
+                  Generate Akun & Database
+                </button>
+              </form>
+            </div>
+            
+            <div id="hasilGenerate" class="hidden mb-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-2xl p-4">
+               <h3 class="text-emerald-800 dark:text-emerald-400 font-bold mb-2 text-xs md:text-sm flex items-center"><i class="fas fa-check-circle mr-2"></i>Siap Dikirim!</h3>
+               <textarea id="teksWA" class="w-full h-24 p-2 text-[10px] md:text-xs bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700/50 rounded-lg outline-none resize-none dark:text-slate-300" readonly></textarea>
+               <button onclick="copyWA()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-[10px] md:text-xs transition shadow-sm">
+                  <i class="fas fa-copy mr-1"></i> Salin Pesan WA
+               </button>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 w-full min-w-0">
+              <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-700 pb-2 mb-3">
+                <h2 class="text-sm md:text-base font-bold text-slate-800 dark:text-white flex items-center">
+                  <i class="fas fa-users-cog mr-2 text-indigo-500"></i> Kelola Pelanggan
+                </h2>
+                <button onclick="loadAdminUsers()" class="text-indigo-600 dark:text-indigo-400 text-[10px] md:text-xs font-bold"><i class="fas fa-sync-alt"></i></button>
+              </div>
+              <div id="adminUserList" class="space-y-2.5 w-full">
+                <p class="text-xs text-center text-slate-400 py-4">Memuat data pelanggan...</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="adminSistemSection" class="admin-tab-content hidden animate-fade-in w-full max-w-3xl mx-auto">
+            <div class="mb-4 border-b border-slate-200 dark:border-slate-700 pb-3 w-full">
+              <h2 class="text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">Pengaturan Panel</h2>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/30 p-4 md:p-5 rounded-2xl mb-5 shadow-sm transition-colors w-full">
+              <h3 class="text-blue-800 dark:text-blue-300 font-bold mb-2 text-xs md:text-sm uppercase tracking-wide flex items-center">
+                <i class="fas fa-server mr-2 text-blue-500 dark:text-blue-400"></i> Database Induk (Master DB)
+              </h3>
+              <p class="text-[10px] md:text-xs text-blue-700/80 dark:text-blue-300/80 mb-3">Buka Google Sheets Master Data Pelanggan.</p>
+              <button onclick="bukaMasterDB()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition text-xs md:text-sm shadow-sm">
+                <i class="fas fa-external-link-alt mr-1.5"></i> Buka Master Database
+              </button>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl shadow-sm mb-5">
+              <h3 class="text-slate-800 dark:text-white font-bold mb-2 text-xs md:text-sm flex items-center">
+                <i class="fas fa-info-circle mr-2 text-indigo-500"></i> Panduan Singkat
+              </h3>
+              <ul class="text-[10px] md:text-xs text-slate-600 dark:text-slate-400 space-y-1.5 pl-4 list-disc marker:text-indigo-500">
+                 <li>Sistem otomatis membuat Google Sheets baru untuk setiap User.</li>
+                 <li>Akses User yang telah expired (Habis) akan otomatis diblokir dari aplikasi.</li>
+                 <li>Gunakan tombol "Suspend" untuk menonaktifkan user sementara tanpa menghapus datanya.</li>
+              </ul>
+            </div>
+
+            <div class="mt-8 mb-4 w-full flex flex-col gap-3">
+               <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm">
+                  <i class="fas fa-moon mr-2"></i> Toggle Mode Gelap
+               </button>
+               <button onclick="prosesLogout()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all shadow-sm">
+                  <i class="fas fa-sign-out-alt mr-2"></i> Keluar / Logout
+               </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="md:hidden w-full bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 grid grid-cols-3 items-center z-20 flex-shrink-0 transition-colors duration-300 shadow-[0_-10px_20px_rgba(0,0,0,0.03)] h-[60px] absolute bottom-0 left-0 right-0">
+          <button onclick="switchAdminTab('adminDashboard')" class="nav-admin-btn nav-adminDashboard mobile-admin-btn flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400 transition duration-200">
+            <i class="fas fa-chart-bar text-lg mb-1"></i><span class="text-[9px] font-bold tracking-wide">Ringkasan</span>
+          </button>
+          <button onclick="switchAdminTab('adminUser')" class="nav-admin-btn nav-adminUser mobile-admin-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200">
+            <i class="fas fa-users text-lg mb-1"></i><span class="text-[9px] font-bold tracking-wide">Users</span>
+          </button>
+          <button onclick="switchAdminTab('adminSistem')" class="nav-admin-btn nav-adminSistem mobile-admin-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200">
+            <i class="fas fa-cog text-lg mb-1"></i><span class="text-[9px] font-bold tracking-wide">Pengaturan</span>
           </button>
         </div>
-        <div id="adminUserList" class="space-y-3">
-          <p class="text-xs text-center text-slate-400 py-4">Memuat data pelanggan...</p>
-        </div>
       </div>
-      
     </div>
   </div>
 
 
   <div id="appContainer" class="w-full h-full flex flex-col md:flex-row md:items-center md:justify-center md:p-4 hidden opacity-0 transition-opacity duration-500">
-    
     <div class="w-full h-full max-w-md md:max-w-5xl bg-white dark:bg-slate-800 sm:rounded-3xl shadow-none sm:shadow-2xl flex flex-col md:flex-row md:h-[90vh] md:max-h-[850px] border-0 sm:border border-slate-100 dark:border-slate-700 transition-colors duration-300 relative overflow-hidden">
       
       <div class="hidden md:flex flex-col w-64 bg-slate-50 dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-700 p-6 justify-between flex-shrink-0 transition-colors duration-300 z-10">
@@ -156,7 +251,6 @@
             </button>
           </div>
         </div>
-        
         <div class="pt-6 border-t border-slate-200 dark:border-slate-700 space-y-3">
           <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all">
             <i class="fas fa-moon mr-2"></i> Mode Gelap
@@ -168,7 +262,6 @@
       </div>
 
       <div class="flex-1 flex flex-col h-full relative overflow-hidden w-full max-w-full">
-        
         <div class="flex-1 overflow-y-auto hide-scroll bg-slate-50/30 dark:bg-slate-800/30 transition-colors duration-300 w-full overflow-x-hidden px-4 md:px-8 pt-6 md:pt-8 pb-28 md:pb-8">
           
           <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full">
@@ -192,189 +285,100 @@
               </div>
               <p class="text-blue-200 text-[10px] md:text-xs font-semibold uppercase tracking-widest mb-1 relative z-10">Total Sisa Uang</p>
               <h2 id="dashSaldo" class="text-3xl md:text-4xl font-extrabold tracking-tight relative z-10 mb-4 md:mb-6 truncate w-full">Rp 0</h2>
-              
               <div class="pt-4 border-t border-white/20 grid grid-cols-2 gap-4 relative z-10 w-full">
-                <div class="min-w-0">
-                  <p class="text-blue-200 text-[9px] md:text-[10px] uppercase tracking-wider mb-0.5 truncate">Total Transaksi</p>
-                  <p id="dashTotalTransaksi" class="font-semibold text-sm md:text-base truncate">0 Data</p>
-                </div>
-                <div class="min-w-0">
-                  <p class="text-blue-200 text-[9px] md:text-[10px] uppercase tracking-wider mb-0.5 truncate">Status Keuangan</p>
-                  <p id="dashStatus" class="font-semibold text-sm md:text-base text-emerald-400 truncate">Aman</p>
-                </div>
+                <div class="min-w-0"><p class="text-blue-200 text-[9px] md:text-[10px] uppercase tracking-wider mb-0.5 truncate">Total Transaksi</p><p id="dashTotalTransaksi" class="font-semibold text-sm md:text-base truncate">0 Data</p></div>
+                <div class="min-w-0"><p class="text-blue-200 text-[9px] md:text-[10px] uppercase tracking-wider mb-0.5 truncate">Status Keuangan</p><p id="dashStatus" class="font-semibold text-sm md:text-base text-emerald-400 truncate">Aman</p></div>
               </div>
-              
               <div class="mt-4 pt-4 border-t border-white/20 relative z-10 w-full">
-                <div class="flex justify-between items-end mb-1.5">
-                  <p class="text-blue-200 text-[9px] md:text-[10px] uppercase tracking-wider truncate">Batas Pengeluaran</p>
-                </div>
-                <div class="w-full bg-slate-800/60 rounded-full h-1.5 md:h-2 mb-1.5 overflow-hidden">
-                  <div id="budgetProgressBar" class="h-1.5 md:h-2 rounded-full progress-bar-fill" style="width: 0%; background-color: #10b981;"></div>
-                </div>
-                <div class="flex justify-between text-[9px] md:text-[10px] text-blue-100 font-medium w-full">
-                  <span id="budgetTerpakai" class="truncate w-1/2 pr-1">Terpakai: Rp 0</span>
-                  <span id="budgetSisa" class="truncate w-1/2 text-right pl-1">Sisa: Rp 0</span>
-                </div>
+                <div class="flex justify-between items-end mb-1.5"><p class="text-blue-200 text-[9px] md:text-[10px] uppercase tracking-wider truncate">Batas Pengeluaran</p></div>
+                <div class="w-full bg-slate-800/60 rounded-full h-1.5 md:h-2 mb-1.5 overflow-hidden"><div id="budgetProgressBar" class="h-1.5 md:h-2 rounded-full progress-bar-fill" style="width: 0%; background-color: #10b981;"></div></div>
+                <div class="flex justify-between text-[9px] md:text-[10px] text-blue-100 font-medium w-full"><span id="budgetTerpakai" class="truncate w-1/2 pr-1">Terpakai: Rp 0</span><span id="budgetSisa" class="truncate w-1/2 text-right pl-1">Sisa: Rp 0</span></div>
               </div>
-
-              <button onclick="loadListTransaksi(true)" class="absolute top-4 md:top-5 right-4 md:right-5 text-white/50 hover:text-white transition z-20" title="Muat Ulang Data">
-                <i class="fas fa-sync-alt text-sm md:text-base"></i>
-              </button>
+              <button onclick="loadListTransaksi(true)" class="absolute top-4 md:top-5 right-4 md:right-5 text-white/50 hover:text-white transition z-20" title="Muat Ulang Data"><i class="fas fa-sync-alt text-sm md:text-base"></i></button>
             </div>
 
             <div class="mb-6 md:mb-8 w-full">
               <h4 class="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 md:mb-3">Posisi Uang Saat Ini</h4>
               <div class="grid grid-cols-3 gap-1.5 md:gap-4 w-full">
                  <div class="bg-white dark:bg-slate-800 p-2 md:p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center transition-colors min-w-0 flex flex-col items-center justify-center">
-                    <i class="fas fa-money-bill-wave text-emerald-500 dark:text-emerald-400 mb-1 md:mb-2 text-base md:text-xl"></i>
-                    <p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate w-full">Tunai</p>
-                    <p id="dompetTunai" class="text-[10px] md:text-sm font-extrabold text-slate-700 dark:text-white truncate w-full">Rp 0</p>
+                    <i class="fas fa-money-bill-wave text-emerald-500 dark:text-emerald-400 mb-1 md:mb-2 text-base md:text-xl"></i><p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate w-full">Tunai</p><p id="dompetTunai" class="text-[10px] md:text-sm font-extrabold text-slate-700 dark:text-white truncate w-full">Rp 0</p>
                  </div>
                  <div class="bg-white dark:bg-slate-800 p-2 md:p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center transition-colors min-w-0 flex flex-col items-center justify-center">
-                    <i class="fas fa-university text-blue-500 dark:text-blue-400 mb-1 md:mb-2 text-base md:text-xl"></i>
-                    <p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate w-full">Bank</p>
-                    <p id="dompetBank" class="text-[10px] md:text-sm font-extrabold text-slate-700 dark:text-white truncate w-full">Rp 0</p>
+                    <i class="fas fa-university text-blue-500 dark:text-blue-400 mb-1 md:mb-2 text-base md:text-xl"></i><p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate w-full">Bank</p><p id="dompetBank" class="text-[10px] md:text-sm font-extrabold text-slate-700 dark:text-white truncate w-full">Rp 0</p>
                  </div>
                  <div class="bg-white dark:bg-slate-800 p-2 md:p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center transition-colors min-w-0 flex flex-col items-center justify-center">
-                    <i class="fas fa-wallet text-purple-500 dark:text-purple-400 mb-1 md:mb-2 text-base md:text-xl"></i>
-                    <p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate w-full">E-Wallet</p>
-                    <p id="dompetEwallet" class="text-[10px] md:text-sm font-extrabold text-slate-700 dark:text-white truncate w-full">Rp 0</p>
+                    <i class="fas fa-wallet text-purple-500 dark:text-purple-400 mb-1 md:mb-2 text-base md:text-xl"></i><p class="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold mb-0.5 truncate w-full">E-Wallet</p><p id="dompetEwallet" class="text-[10px] md:text-sm font-extrabold text-slate-700 dark:text-white truncate w-full">Rp 0</p>
                  </div>
               </div>
             </div>
 
             <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 border border-indigo-100 dark:border-indigo-800/50 p-4 md:p-6 rounded-xl shadow-sm mb-6 md:mb-8 text-center relative overflow-hidden transition-colors w-full">
-              <h3 class="text-indigo-900 dark:text-indigo-300 font-bold mb-1.5 md:mb-2 text-xs md:text-sm uppercase tracking-wide flex justify-center items-center">
-                <i class="fas fa-robot mr-2 text-indigo-500 dark:text-indigo-400"></i> Analisis Keuangan AI
-              </h3>
+              <h3 class="text-indigo-900 dark:text-indigo-300 font-bold mb-1.5 md:mb-2 text-xs md:text-sm uppercase tracking-wide flex justify-center items-center"><i class="fas fa-robot mr-2 text-indigo-500 dark:text-indigo-400"></i> Analisis Keuangan AI</h3>
               <p class="text-[10px] md:text-xs text-indigo-700/80 dark:text-indigo-300/80 mb-3 md:mb-4 px-2">Minta AI menganalisis arus kas Anda dan berikan saran cerdas bulan ini.</p>
-              <button onclick="mintaSaranAI()" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-bold py-2 md:py-2.5 px-4 md:px-6 rounded-lg transition text-[10px] md:text-xs shadow-sm">
-                <i class="fas fa-magic mr-1.5"></i> Berikan Saya Saran
-              </button>
+              <button onclick="mintaSaranAI()" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-bold py-2 md:py-2.5 px-4 md:px-6 rounded-lg transition text-[10px] md:text-xs shadow-sm"><i class="fas fa-magic mr-1.5"></i> Berikan Saya Saran</button>
             </div>
 
             <div class="grid grid-cols-2 gap-2 md:gap-5 mb-6 md:mb-8 w-full">
               <div class="bg-white dark:bg-slate-800 border border-emerald-100 dark:border-emerald-900/50 p-3 md:p-5 rounded-xl shadow-sm transition-colors min-w-0 flex flex-col justify-center">
-                <p class="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase mb-1 flex items-center tracking-wider truncate w-full"><i class="fas fa-arrow-down mr-1.5 text-emerald-500"></i>Uang Masuk</p>
-                <p id="dashPemasukan" class="text-emerald-600 dark:text-emerald-400 font-bold text-sm md:text-xl truncate w-full">Rp 0</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase mb-1 flex items-center tracking-wider truncate w-full"><i class="fas fa-arrow-down mr-1.5 text-emerald-500"></i>Uang Masuk</p><p id="dashPemasukan" class="text-emerald-600 dark:text-emerald-400 font-bold text-sm md:text-xl truncate w-full">Rp 0</p>
               </div>
               <div class="bg-white dark:bg-slate-800 border border-rose-100 dark:border-rose-900/50 p-3 md:p-5 rounded-xl shadow-sm transition-colors min-w-0 flex flex-col justify-center">
-                <p class="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase mb-1 flex items-center tracking-wider truncate w-full"><i class="fas fa-arrow-up mr-1.5 text-rose-500"></i>Uang Keluar</p>
-                <p id="dashPengeluaran" class="text-rose-600 dark:text-rose-400 font-bold text-sm md:text-xl truncate w-full">Rp 0</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase mb-1 flex items-center tracking-wider truncate w-full"><i class="fas fa-arrow-up mr-1.5 text-rose-500"></i>Uang Keluar</p><p id="dashPengeluaran" class="text-rose-600 dark:text-rose-400 font-bold text-sm md:text-xl truncate w-full">Rp 0</p>
               </div>
             </div>
 
             <div class="md:grid md:grid-cols-2 md:gap-6 w-full">
               <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 md:p-6 rounded-xl shadow-sm mb-6 md:mb-0 transition-colors w-full min-w-0">
-                <h3 class="text-slate-800 dark:text-white font-bold mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full">
-                  <i class="fas fa-chart-pie mr-2 text-blue-500"></i> Arus Kas
-                </h3>
-                <div class="relative h-44 md:h-56 w-full flex justify-center items-center">
-                  <canvas id="keuanganChart"></canvas>
-                </div>
+                <h3 class="text-slate-800 dark:text-white font-bold mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full"><i class="fas fa-chart-pie mr-2 text-blue-500"></i> Arus Kas</h3>
+                <div class="relative h-44 md:h-56 w-full flex justify-center items-center"><canvas id="keuanganChart"></canvas></div>
               </div>
-
               <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 md:p-6 rounded-xl shadow-sm mb-6 md:mb-0 transition-colors w-full min-w-0">
-                <h3 class="text-slate-800 dark:text-white font-bold mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full">
-                  <i class="fas fa-tags mr-2 text-rose-500"></i> Pengeluaran
-                </h3>
-                <div class="relative h-44 md:h-56 w-full flex justify-center items-center">
-                  <canvas id="kategoriChart"></canvas>
-                </div>
+                <h3 class="text-slate-800 dark:text-white font-bold mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full"><i class="fas fa-tags mr-2 text-rose-500"></i> Pengeluaran</h3>
+                <div class="relative h-44 md:h-56 w-full flex justify-center items-center"><canvas id="kategoriChart"></canvas></div>
               </div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 md:p-6 rounded-xl shadow-sm mt-0 md:mt-6 transition-colors w-full min-w-0">
-              <div class="flex justify-between items-center mb-4">
-                <h3 class="text-slate-800 dark:text-white font-bold text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full">
-                  <i class="fas fa-history mr-2 text-slate-500"></i> Transaksi Terakhir
-                </h3>
-                <button onclick="switchTab('list')" class="text-[10px] md:text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline flex-shrink-0 whitespace-nowrap pl-2">Lihat Semua</button>
-              </div>
-              <div id="dashRecentActivity" class="space-y-3 w-full">
-                <p class="text-xs text-slate-400 text-center py-3 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg">Belum ada transaksi bulan ini.</p>
-              </div>
+              <div class="flex justify-between items-center mb-4"><h3 class="text-slate-800 dark:text-white font-bold text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full"><i class="fas fa-history mr-2 text-slate-500"></i> Transaksi Terakhir</h3><button onclick="switchTab('list')" class="text-[10px] md:text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline flex-shrink-0 whitespace-nowrap pl-2">Lihat Semua</button></div>
+              <div id="dashRecentActivity" class="space-y-3 w-full"><p class="text-xs text-slate-400 text-center py-3 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg">Belum ada transaksi bulan ini.</p></div>
             </div>
           </div>
 
           <div id="inputSection" class="tab-content hidden animate-fade-in w-full md:max-w-3xl md:mx-auto">
-            
             <div class="mb-5 flex gap-2 w-full">
               <div class="flex-1 min-w-0">
                 <input type="file" id="strukInput" accept="image/*" capture="environment" class="hidden" onchange="prosesScanStruk(event)">
-                <button type="button" onclick="document.getElementById('strukInput').click()" class="btn-ai w-full text-white text-[11px] md:text-sm font-semibold py-3 md:py-4 rounded-xl flex items-center justify-center shadow-md transition-all truncate px-2">
-                  <i class="fas fa-camera text-base md:text-lg mr-1.5 md:mr-2"></i> Scan Struk AI
-                </button>
+                <button type="button" onclick="document.getElementById('strukInput').click()" class="btn-ai w-full text-white text-[11px] md:text-sm font-semibold py-3 md:py-4 rounded-xl flex items-center justify-center shadow-md transition-all truncate px-2"><i class="fas fa-camera text-base md:text-lg mr-1.5 md:mr-2"></i> Scan Struk AI</button>
               </div>
             </div>
 
             <div class="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-4 md:p-6 shadow-sm mb-5 relative overflow-hidden transition-colors w-full">
-              <h3 class="text-indigo-900 dark:text-indigo-300 font-bold mb-2 text-xs md:text-sm flex items-center truncate w-full">
-                <i class="fas fa-magic text-indigo-500 dark:text-indigo-400 mr-2"></i> Ketik Transaksi Cepat
-              </h3>
+              <h3 class="text-indigo-900 dark:text-indigo-300 font-bold mb-2 text-xs md:text-sm flex items-center truncate w-full"><i class="fas fa-magic text-indigo-500 dark:text-indigo-400 mr-2"></i> Ketik Transaksi Cepat</h3>
               <p class="text-[10px] md:text-xs text-indigo-700/70 dark:text-indigo-300/70 mb-3 md:mb-4 px-1">Ketik santai, biar AI isikan form otomatis.</p>
               <div class="flex gap-2 w-full">
                 <input type="text" id="magicInput" placeholder="Cth: Beli seblak 15rb pake Dana" class="flex-1 min-w-0 px-3 py-2.5 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm font-medium text-slate-800 dark:text-white placeholder-slate-400 transition-colors">
-                <button type="button" onclick="prosesMagicInput()" class="bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white px-3 md:px-4 py-2.5 rounded-lg font-semibold text-xs md:text-sm transition shadow-sm flex-shrink-0">
-                  Proses
-                </button>
+                <button type="button" onclick="prosesMagicInput()" class="bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white px-3 md:px-4 py-2.5 rounded-lg font-semibold text-xs md:text-sm transition shadow-sm flex-shrink-0">Proses</button>
               </div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 md:p-8 shadow-sm transition-colors w-full min-w-0">
-              <h3 class="text-slate-800 dark:text-white font-bold mb-4 md:mb-6 text-xs md:text-sm uppercase tracking-wide border-b border-slate-100 dark:border-slate-700 pb-3 truncate w-full">
-                <i class="fas fa-pen-square mr-2 text-blue-500"></i> Isi Manual
-              </h3>
-              
+              <h3 class="text-slate-800 dark:text-white font-bold mb-4 md:mb-6 text-xs md:text-sm uppercase tracking-wide border-b border-slate-100 dark:border-slate-700 pb-3 truncate w-full"><i class="fas fa-pen-square mr-2 text-blue-500"></i> Isi Manual</h3>
               <form id="transaksiForm" onsubmit="submitForm(event)" class="w-full">
                 <div class="md:grid md:grid-cols-2 md:gap-6 w-full">
-                  <div class="mb-4 md:mb-0 w-full min-w-0">
-                    <label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Tanggal Validasi</label>
-                    <input type="date" id="tanggal" name="tanggal" required class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm text-slate-800 dark:text-white">
-                  </div>
-                  
+                  <div class="mb-4 md:mb-0 w-full min-w-0"><label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Tanggal Validasi</label><input type="date" id="tanggal" name="tanggal" required class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm text-slate-800 dark:text-white"></div>
                   <div class="mb-4 md:mb-0 w-full min-w-0">
                     <label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Klasifikasi Arus Kas</label>
                     <div class="grid grid-cols-2 gap-2 md:gap-3 h-[42px] w-full">
-                      <label class="flex items-center justify-center p-2 md:p-2.5 border border-slate-200 dark:border-slate-600 rounded-lg cursor-pointer group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition bg-slate-50 dark:bg-slate-700/50 min-w-0">
-                        <input type="radio" name="jenis" id="radioPemasukan" value="Pemasukan" required class="w-3.5 h-3.5 flex-shrink-0 text-emerald-500 focus:ring-emerald-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600">
-                        <span class="ml-1.5 text-[11px] md:text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors truncate">Pemasukan</span>
-                      </label>
-                      <label class="flex items-center justify-center p-2 md:p-2.5 border border-slate-200 dark:border-slate-600 rounded-lg cursor-pointer group hover:bg-rose-50 dark:hover:bg-rose-900/30 transition bg-slate-50 dark:bg-slate-700/50 min-w-0">
-                        <input type="radio" name="jenis" id="radioPengeluaran" value="Pengeluaran" required class="w-3.5 h-3.5 flex-shrink-0 text-rose-500 focus:ring-rose-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600">
-                        <span class="ml-1.5 text-[11px] md:text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-rose-700 dark:group-hover:text-rose-400 transition-colors truncate">Pengeluaran</span>
-                      </label>
+                      <label class="flex items-center justify-center p-2 md:p-2.5 border border-slate-200 dark:border-slate-600 rounded-lg cursor-pointer group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition bg-slate-50 dark:bg-slate-700/50 min-w-0"><input type="radio" name="jenis" id="radioPemasukan" value="Pemasukan" required class="w-3.5 h-3.5 flex-shrink-0 text-emerald-500 focus:ring-emerald-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-1.5 text-[11px] md:text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors truncate">Pemasukan</span></label>
+                      <label class="flex items-center justify-center p-2 md:p-2.5 border border-slate-200 dark:border-slate-600 rounded-lg cursor-pointer group hover:bg-rose-50 dark:hover:bg-rose-900/30 transition bg-slate-50 dark:bg-slate-700/50 min-w-0"><input type="radio" name="jenis" id="radioPengeluaran" value="Pengeluaran" required class="w-3.5 h-3.5 flex-shrink-0 text-rose-500 focus:ring-rose-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-1.5 text-[11px] md:text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-rose-700 dark:group-hover:text-rose-400 transition-colors truncate">Pengeluaran</span></label>
                     </div>
                   </div>
-
-                  <div class="mb-4 w-full min-w-0">
-                    <label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Metode Pembayaran (Dompet)</label>
-                    <select id="metode" name="metode" required class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm text-slate-800 dark:text-white cursor-pointer">
-                      <option value="Tunai">Tunai (Cash)</option>
-                      <option value="Rekening Bank">Rekening Bank</option>
-                      <option value="E-Wallet">E-Wallet (Dana, Ovo, dll)</option>
-                    </select>
-                  </div>
-
-                  <div class="mb-4 w-full min-w-0">
-                    <label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Kategori Transaksi</label>
-                    <input type="text" id="kategori" name="kategori" oninput="autoCapitalize(this)" required placeholder="Cth: Transportasi, Makanan" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm placeholder-slate-400 dark:placeholder-slate-400 text-slate-800 dark:text-white">
-                  </div>
+                  <div class="mb-4 w-full min-w-0"><label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Metode Pembayaran</label><select id="metode" name="metode" required class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm text-slate-800 dark:text-white cursor-pointer"><option value="Tunai">Tunai (Cash)</option><option value="Rekening Bank">Rekening Bank</option><option value="E-Wallet">E-Wallet (Dana, Ovo, dll)</option></select></div>
+                  <div class="mb-4 w-full min-w-0"><label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Kategori Transaksi</label><input type="text" id="kategori" name="kategori" oninput="autoCapitalize(this)" required placeholder="Cth: Transportasi, Makanan" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm placeholder-slate-400 dark:placeholder-slate-400 text-slate-800 dark:text-white"></div>
                 </div>
-
-                <div class="mb-4 mt-2 w-full min-w-0">
-                  <label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Jumlah Uang (Rp)</label>
-                  <input type="text" id="nominal" name="nominal" onkeyup="formatRupiah(this)" required placeholder="0" class="w-full px-3.5 py-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-xl md:text-2xl font-bold text-slate-800 dark:text-white placeholder-slate-300 dark:placeholder-slate-500 shadow-inner">
-                </div>
-
-                <div class="mb-6 md:mb-8 w-full min-w-0">
-                  <label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Catatan Tambahan (Opsional)</label>
-                  <input type="text" id="keterangan" name="keterangan" placeholder="Ketik di sini..." class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm placeholder-slate-400 dark:placeholder-slate-400 text-slate-800 dark:text-white">
-                </div>
-                
-                <button type="submit" id="submitBtn" class="w-full bg-slate-800 dark:bg-blue-600 hover:bg-slate-900 dark:hover:bg-blue-700 text-white font-semibold py-3 md:py-3.5 px-4 rounded-xl transition duration-200 shadow-md text-sm md:text-base">
-                  Simpan Data Transaksi
-                </button>
+                <div class="mb-4 mt-2 w-full min-w-0"><label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Jumlah Uang (Rp)</label><input type="text" id="nominal" name="nominal" onkeyup="formatRupiah(this)" required placeholder="0" class="w-full px-3.5 py-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-xl md:text-2xl font-bold text-slate-800 dark:text-white placeholder-slate-300 dark:placeholder-slate-500 shadow-inner"></div>
+                <div class="mb-6 md:mb-8 w-full min-w-0"><label class="block text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 mb-1.5 truncate">Catatan (Opsional)</label><input type="text" id="keterangan" name="keterangan" placeholder="Ketik di sini..." class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 transition text-sm placeholder-slate-400 dark:placeholder-slate-400 text-slate-800 dark:text-white"></div>
+                <button type="submit" id="submitBtn" class="w-full bg-slate-800 dark:bg-blue-600 hover:bg-slate-900 dark:hover:bg-blue-700 text-white font-semibold py-3 md:py-3.5 px-4 rounded-xl transition duration-200 shadow-md text-sm md:text-base">Simpan Data Transaksi</button>
               </form>
             </div>
           </div>
@@ -383,165 +387,78 @@
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 md:mb-6 px-1 gap-3 border-b border-slate-200 dark:border-slate-700 pb-3 md:pb-4 transition-colors w-full">
               <h3 class="text-sm md:text-base font-bold text-slate-800 dark:text-white whitespace-nowrap truncate w-full sm:w-auto">Daftar Transaksi</h3>
               <div class="flex items-center gap-2 w-full sm:w-auto sm:justify-end">
-                <select id="sortList" onchange="sortDataList()" class="flex-1 sm:flex-none sm:w-auto text-[10px] md:text-xs font-semibold border border-slate-200 dark:border-slate-600 rounded-lg px-2 py-2 text-slate-600 dark:text-slate-200 outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 cursor-pointer appearance-none truncate transition-colors min-w-0">
-                  <option value="semua_terbaru">Semua (Terbaru)</option>
-                  <option value="hari_ini">Hari Ini</option>
-                  <option value="minggu_ini">Minggu Ini</option>
-                  <option value="bulan_ini">Bulan Ini</option>
-                  <option value="semua_terlama">Semua (Terlama)</option>
-                  <option value="nominal_tinggi">Nominal Tertinggi</option>
-                  <option value="nominal_rendah">Nominal Terendah</option>
-                </select>
-                <button onclick="toggleSearchBar()" class="flex-shrink-0 p-2 text-slate-400 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg transition duration-200 shadow-sm">
-                  <i class="fas fa-search text-xs md:text-sm w-3 md:w-4 text-center"></i>
-                </button>
+                <select id="sortList" onchange="sortDataList()" class="flex-1 sm:flex-none sm:w-auto text-[10px] md:text-xs font-semibold border border-slate-200 dark:border-slate-600 rounded-lg px-2 py-2 text-slate-600 dark:text-slate-200 outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 cursor-pointer appearance-none truncate transition-colors min-w-0"><option value="semua_terbaru">Semua (Terbaru)</option><option value="hari_ini">Hari Ini</option><option value="minggu_ini">Minggu Ini</option><option value="bulan_ini">Bulan Ini</option><option value="semua_terlama">Semua (Terlama)</option><option value="nominal_tinggi">Nominal Tertinggi</option><option value="nominal_rendah">Nominal Terendah</option></select>
+                <button onclick="toggleSearchBar()" class="flex-shrink-0 p-2 text-slate-400 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg transition duration-200 shadow-sm"><i class="fas fa-search text-xs md:text-sm w-3 md:w-4 text-center"></i></button>
               </div>
             </div>
-
             <div id="searchBarContainer" class="overflow-hidden transition-all duration-300 max-h-0 opacity-0 mb-0 w-full">
-              <div class="relative pb-3 md:pb-4 px-1 w-full min-w-0">
-                <div class="absolute inset-y-0 left-1 pl-3 flex items-center pointer-events-none pb-3 md:pb-4">
-                  <i class="fas fa-filter text-slate-300 dark:text-slate-400 text-xs md:text-sm"></i>
-                </div>
-                <input type="text" id="listSearchKeyword" onkeyup="sortDataList()" placeholder="Saring berdasarkan parameter..." class="w-full pl-8 pr-3 py-2 md:py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition shadow-sm text-xs md:text-sm text-slate-800 dark:text-white placeholder-slate-400">
-              </div>
+              <div class="relative pb-3 md:pb-4 px-1 w-full min-w-0"><div class="absolute inset-y-0 left-1 pl-3 flex items-center pointer-events-none pb-3 md:pb-4"><i class="fas fa-filter text-slate-300 dark:text-slate-400 text-xs md:text-sm"></i></div><input type="text" id="listSearchKeyword" onkeyup="sortDataList()" placeholder="Saring berdasarkan parameter..." class="w-full pl-8 pr-3 py-2 md:py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition shadow-sm text-xs md:text-sm text-slate-800 dark:text-white placeholder-slate-400"></div>
             </div>
-
             <div id="listTamuResults" class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-4 pb-2 pt-1 w-full">
               <p class="text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6">Memuat data dari server...</p>
             </div>
           </div>
 
           <div id="sistemSection" class="tab-content hidden animate-fade-in w-full md:max-w-3xl md:mx-auto">
-            
-            <div class="mb-4 md:mb-6 border-b border-slate-200 dark:border-slate-700 pb-3 md:pb-4 transition-colors w-full">
-              <h2 class="text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">Pengaturan Sistem</h2>
-              <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 truncate">Atur preferensi aplikasi dan pencadangan data.</p>
-            </div>
+            <div class="mb-4 md:mb-6 border-b border-slate-200 dark:border-slate-700 pb-3 md:pb-4 transition-colors w-full"><h2 class="text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">Pengaturan Sistem</h2><p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 truncate">Atur preferensi aplikasi dan pencadangan data.</p></div>
 
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/30 p-4 md:p-5 rounded-2xl mb-5 shadow-sm transition-colors w-full min-w-0">
-              <h3 class="text-blue-800 dark:text-blue-300 font-bold mb-2 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full">
-                <i class="fas fa-envelope-open-text mr-2 text-blue-500 dark:text-blue-400"></i> Laporan Email Otomatis
-              </h3>
+              <h3 class="text-blue-800 dark:text-blue-300 font-bold mb-2 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full"><i class="fas fa-envelope-open-text mr-2 text-blue-500 dark:text-blue-400"></i> Laporan Email Otomatis</h3>
               <p class="text-[10px] md:text-xs text-blue-700/80 dark:text-blue-300/80 mb-3 md:mb-4 pr-2">Terima PDF & Excel otomatis setiap tanggal 1 awal bulan.</p>
               <div class="flex gap-2 mb-3 w-full">
                 <input type="email" id="inputEmail" placeholder="Masukkan email Anda..." class="flex-1 min-w-0 px-3 py-2.5 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-700/50 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition text-xs md:text-sm font-medium text-slate-800 dark:text-white placeholder-slate-400 disabled:opacity-50 disabled:cursor-not-allowed">
-                <button id="btnAktifkanEmail" onclick="saveAutoReport()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">
-                  Aktifkan
-                </button>
-                <button id="btnNonaktifkanEmail" onclick="disableAutoReport()" class="hidden bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">
-                  Nonaktifkan
-                </button>
+                <button id="btnAktifkanEmail" onclick="saveAutoReport()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">Aktifkan</button>
+                <button id="btnNonaktifkanEmail" onclick="disableAutoReport()" class="hidden bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">Nonaktifkan</button>
               </div>
-              <button onclick="sendReportNow()" class="w-full bg-white dark:bg-slate-800 border border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 font-bold py-2 md:py-2.5 rounded-lg transition text-[11px] md:text-sm shadow-sm truncate px-1">
-                <i class="fas fa-paper-plane mr-1.5"></i> Kirim Laporan Bulan Ini Sekarang
-              </button>
+              <button onclick="sendReportNow()" class="w-full bg-white dark:bg-slate-800 border border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 font-bold py-2 md:py-2.5 rounded-lg transition text-[11px] md:text-sm shadow-sm truncate px-1"><i class="fas fa-paper-plane mr-1.5"></i> Kirim Laporan Bulan Ini</button>
             </div>
 
             <div class="md:grid md:grid-cols-2 md:gap-5 w-full">
               <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 md:p-5 rounded-2xl mb-5 md:mb-0 shadow-sm transition-colors w-full min-w-0 flex flex-col justify-center">
-                <h3 class="text-slate-800 dark:text-white font-bold mb-2 md:mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full">
-                  <i class="fas fa-wallet mr-2 text-emerald-500"></i> Batas Pengeluaran
-                </h3>
+                <h3 class="text-slate-800 dark:text-white font-bold mb-2 md:mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full"><i class="fas fa-wallet mr-2 text-emerald-500"></i> Batas Pengeluaran</h3>
                 <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mb-3 md:mb-4 truncate">Tentukan batas maksimal agar tidak boros.</p>
-                <div class="flex gap-2 w-full">
-                  <div class="relative flex-1 min-w-0">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs font-bold">Rp</span>
-                    <input type="text" id="inputLimitAnggaran" onkeyup="formatRupiah(this)" placeholder="0" class="w-full pl-8 pr-3 py-2 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm md:text-base font-semibold text-slate-700 dark:text-white">
-                  </div>
-                  <button onclick="saveBudgetFromSettings()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">
-                    Simpan
-                  </button>
-                </div>
+                <div class="flex gap-2 w-full"><div class="relative flex-1 min-w-0"><span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs font-bold">Rp</span><input type="text" id="inputLimitAnggaran" onkeyup="formatRupiah(this)" placeholder="0" class="w-full pl-8 pr-3 py-2 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm md:text-base font-semibold text-slate-700 dark:text-white"></div><button onclick="saveBudgetFromSettings()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg transition text-xs md:text-sm shadow-sm flex-shrink-0">Simpan</button></div>
               </div>
-
               <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 md:p-5 rounded-2xl mb-5 md:mb-0 shadow-sm transition-colors w-full min-w-0 flex flex-col justify-center">
-                <h3 class="text-slate-800 dark:text-white font-bold mb-3 md:mb-4 flex items-center text-xs md:text-sm uppercase tracking-wide border-b border-slate-100 dark:border-slate-700 pb-2 md:pb-3 truncate w-full">
-                  <i class="fas fa-folder-plus mr-2 text-indigo-500"></i> Buat Buku Kas Baru
-                </h3>
-                <div class="mb-3 w-full min-w-0">
-                  <label class="block text-[10px] md:text-xs font-semibold text-indigo-800 dark:text-indigo-400 mb-1.5 truncate">Nama (Cth: Feb 2026)</label>
-                  <input type="text" id="newSheetName" placeholder="Ketik nama bulan..." class="w-full px-3 py-2 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-600 outline-none transition text-sm text-slate-800 dark:text-white">
-                </div>
-                <button onclick="submitNewCategory()" class="w-full bg-slate-800 dark:bg-indigo-600 hover:bg-slate-900 dark:hover:bg-indigo-700 text-white font-semibold py-2 md:py-2.5 rounded-lg transition shadow-sm text-xs md:text-sm truncate">
-                  Buat Buku Sekarang
-                </button>
+                <h3 class="text-slate-800 dark:text-white font-bold mb-3 md:mb-4 flex items-center text-xs md:text-sm uppercase tracking-wide border-b border-slate-100 dark:border-slate-700 pb-2 md:pb-3 truncate w-full"><i class="fas fa-folder-plus mr-2 text-indigo-500"></i> Buat Buku Kas Baru</h3>
+                <div class="mb-3 w-full min-w-0"><label class="block text-[10px] md:text-xs font-semibold text-indigo-800 dark:text-indigo-400 mb-1.5 truncate">Nama (Cth: Feb 2026)</label><input type="text" id="newSheetName" placeholder="Ketik nama bulan..." class="w-full px-3 py-2 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-600 outline-none transition text-sm text-slate-800 dark:text-white"></div>
+                <button onclick="submitNewCategory()" class="w-full bg-slate-800 dark:bg-indigo-600 hover:bg-slate-900 dark:hover:bg-indigo-700 text-white font-semibold py-2 md:py-2.5 rounded-lg transition shadow-sm text-xs md:text-sm truncate">Buat Buku Sekarang</button>
               </div>
             </div>
 
             <div class="md:grid md:grid-cols-2 md:gap-5 mt-0 md:mt-5 w-full">
               <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 md:p-5 rounded-2xl mb-5 md:mb-0 shadow-sm transition-colors flex flex-col justify-between w-full min-w-0">
-                <div>
-                  <h3 class="text-slate-800 dark:text-white font-bold mb-2 md:mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full">
-                    <i class="fas fa-file-pdf mr-2 text-red-500"></i> Download PDF
-                  </h3>
-                  <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mb-3 pr-2">Unduh catatan keuangan bulan ini dalam PDF.</p>
-                </div>
-                <button onclick="exportPDF()" class="w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-2 md:py-2.5 px-4 rounded-lg transition duration-200 shadow-sm text-xs md:text-sm flex justify-center items-center mt-auto truncate">
-                  <i class="fas fa-download mr-1.5"></i> Simpan PDF
-                </button>
+                <div><h3 class="text-slate-800 dark:text-white font-bold mb-2 md:mb-4 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full"><i class="fas fa-file-pdf mr-2 text-red-500"></i> Download PDF</h3><p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mb-3 pr-2">Unduh catatan keuangan bulan ini.</p></div>
+                <button onclick="exportPDF()" class="w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-2 md:py-2.5 px-4 rounded-lg transition duration-200 shadow-sm text-xs md:text-sm flex justify-center items-center mt-auto truncate"><i class="fas fa-download mr-1.5"></i> Simpan PDF</button>
               </div>
-
               <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 md:p-5 rounded-2xl mb-5 md:mb-0 shadow-sm transition-colors flex flex-col justify-between w-full min-w-0">
-                <div>
-                  <h3 class="text-slate-800 dark:text-white font-bold mb-2 md:mb-3 flex items-center text-xs md:text-sm uppercase tracking-wide border-b border-slate-100 dark:border-slate-700 pb-2 truncate w-full">
-                    <i class="fas fa-database mr-2 text-slate-500 dark:text-slate-400"></i> Backup Data (CSV)
-                  </h3>
-                </div>
+                <div><h3 class="text-slate-800 dark:text-white font-bold mb-2 md:mb-3 flex items-center text-xs md:text-sm uppercase tracking-wide border-b border-slate-100 dark:border-slate-700 pb-2 truncate w-full"><i class="fas fa-database mr-2 text-slate-500 dark:text-slate-400"></i> Backup Data (CSV)</h3></div>
                 <div class="grid grid-cols-2 gap-2 md:gap-3 mt-auto w-full">
-                  <button onclick="exportCSV()" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-700 dark:text-white font-semibold py-2 md:py-2.5 px-1 rounded-lg transition duration-200 shadow-sm text-[10px] md:text-xs flex justify-center items-center truncate">
-                    Download
-                  </button>
+                  <button onclick="exportCSV()" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-700 dark:text-white font-semibold py-2 md:py-2.5 px-1 rounded-lg transition duration-200 shadow-sm text-[10px] md:text-xs flex justify-center items-center truncate">Download</button>
                   <input type="file" id="csvFileInput" accept=".csv" class="hidden" onchange="importCSV(event)">
-                  <button onclick="document.getElementById('csvFileInput').click()" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-700 dark:text-white font-semibold py-2 md:py-2.5 px-1 rounded-lg transition duration-200 shadow-sm text-[10px] md:text-xs flex justify-center items-center truncate">
-                    Upload
-                  </button>
+                  <button onclick="document.getElementById('csvFileInput').click()" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-700 dark:text-white font-semibold py-2 md:py-2.5 px-1 rounded-lg transition duration-200 shadow-sm text-[10px] md:text-xs flex justify-center items-center truncate">Upload</button>
                 </div>
               </div>
             </div>
 
             <div class="bg-rose-50 dark:bg-rose-900/10 border border-rose-200 dark:border-rose-900/50 p-4 md:p-5 rounded-2xl shadow-sm mt-0 md:mt-5 transition-colors w-full min-w-0">
-              <h3 class="text-rose-800 dark:text-rose-400 font-bold mb-2 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full">
-                <i class="fas fa-exclamation-triangle mr-2 text-rose-600 dark:text-rose-500"></i> Hapus Data
-              </h3>
-              <p class="text-[10px] md:text-xs text-rose-700 dark:text-rose-300 mb-3 pr-2">Tindakan ini menghapus buku kas saat ini selamanya.</p>
-              <button onclick="deleteBukuKas()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 md:py-2.5 rounded-lg transition shadow-sm text-xs md:text-sm flex justify-center items-center truncate">
-                <i class="fas fa-trash-alt mr-1.5"></i> Hapus Buku Kas Ini
-              </button>
+              <h3 class="text-rose-800 dark:text-rose-400 font-bold mb-2 text-xs md:text-sm uppercase tracking-wide flex items-center truncate w-full"><i class="fas fa-exclamation-triangle mr-2 text-rose-600 dark:text-rose-500"></i> Hapus Data</h3><p class="text-[10px] md:text-xs text-rose-700 dark:text-rose-300 mb-3 pr-2">Hapus buku kas saat ini selamanya.</p>
+              <button onclick="deleteBukuKas()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 md:py-2.5 rounded-lg transition shadow-sm text-xs md:text-sm flex justify-center items-center truncate"><i class="fas fa-trash-alt mr-1.5"></i> Hapus Buku Kas Ini</button>
             </div>
             
-            <div class="md:hidden mt-8 mb-12 w-full flex flex-col gap-3">
-               <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all border border-slate-300 dark:border-slate-600 shadow-sm">
-                  <i class="fas fa-moon mr-2"></i> Mode Gelap
-               </button>
-               <button onclick="prosesLogout()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all border border-rose-200 dark:border-rose-800/50 shadow-sm">
-                  <i class="fas fa-sign-out-alt mr-2"></i> Keluar Aplikasi
-               </button>
+            <div class="md:hidden mt-8 w-full flex flex-col gap-3">
+               <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all border border-slate-300 dark:border-slate-600 shadow-sm"><i class="fas fa-moon mr-2"></i> Mode Gelap</button>
+               <button onclick="prosesLogout()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all border border-rose-200 dark:border-rose-800/50 shadow-sm"><i class="fas fa-sign-out-alt mr-2"></i> Keluar Aplikasi</button>
             </div>
-
           </div>
-
         </div>
 
         <div class="md:hidden w-full bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 grid grid-cols-4 items-center z-20 flex-shrink-0 transition-colors duration-300 shadow-[0_-10px_20px_rgba(0,0,0,0.03)] h-[60px] absolute bottom-0 left-0 right-0">
-          <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-btn nav-dashboard mobile-btn flex flex-col items-center justify-center w-full h-full text-blue-600 dark:text-blue-400 transition duration-200">
-            <i class="fas fa-chart-line text-lg mb-1"></i>
-            <span class="text-[9px] font-bold tracking-wide">Ringkasan</span>
-          </button>
-          <button id="nav-input" onclick="switchTab('input')" class="nav-btn nav-input mobile-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200">
-            <i class="fas fa-plus-circle text-lg mb-1"></i>
-            <span class="text-[9px] font-bold tracking-wide">Isi Data</span>
-          </button>
-          <button id="nav-list" onclick="switchTab('list')" class="nav-btn nav-list mobile-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200">
-            <i class="fas fa-list-ul text-lg mb-1"></i>
-            <span class="text-[9px] font-bold tracking-wide">Daftar</span>
-          </button>
-          <button id="nav-sistem" onclick="switchTab('sistem')" class="nav-btn nav-sistem mobile-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200">
-            <i class="fas fa-cog text-lg mb-1"></i>
-            <span class="text-[9px] font-bold tracking-wide">Pengaturan</span>
-          </button>
+          <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-btn nav-dashboard mobile-btn flex flex-col items-center justify-center w-full h-full text-blue-600 dark:text-blue-400 transition duration-200"><i class="fas fa-chart-line text-lg mb-1"></i><span class="text-[9px] font-bold tracking-wide">Ringkasan</span></button>
+          <button id="nav-input" onclick="switchTab('input')" class="nav-btn nav-input mobile-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200"><i class="fas fa-plus-circle text-lg mb-1"></i><span class="text-[9px] font-bold tracking-wide">Isi Data</span></button>
+          <button id="nav-list" onclick="switchTab('list')" class="nav-btn nav-list mobile-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200"><i class="fas fa-list-ul text-lg mb-1"></i><span class="text-[9px] font-bold tracking-wide">Daftar</span></button>
+          <button id="nav-sistem" onclick="switchTab('sistem')" class="nav-btn nav-sistem mobile-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200"><i class="fas fa-cog text-lg mb-1"></i><span class="text-[9px] font-bold tracking-wide">Pengaturan</span></button>
         </div>
-
       </div>
     </div>
   </div>
@@ -549,64 +466,22 @@
   <div id="editModal" class="fixed inset-0 bg-slate-900/60 dark:bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all border border-transparent dark:border-slate-700">
       <div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/80 dark:bg-slate-800/80">
-        <h3 class="font-bold text-slate-800 dark:text-white text-xs md:text-sm uppercase tracking-wide flex items-center">
-          <i class="fas fa-edit mr-2 text-amber-500"></i> Edit Transaksi
-        </h3>
-        <button type="button" onclick="closeEditModal()" class="text-slate-400 dark:text-slate-500 hover:text-rose-500 transition">
-           <i class="fas fa-times text-lg"></i>
-        </button>
+        <h3 class="font-bold text-slate-800 dark:text-white text-xs md:text-sm uppercase tracking-wide flex items-center"><i class="fas fa-edit mr-2 text-amber-500"></i> Edit Transaksi</h3>
+        <button type="button" onclick="closeEditModal()" class="text-slate-400 dark:text-slate-500 hover:text-rose-500 transition"><i class="fas fa-times text-lg"></i></button>
       </div>
-      
       <form id="editForm" onsubmit="submitEditForm(event)" class="p-5">
         <input type="hidden" id="editRow">
         <div class="md:grid md:grid-cols-2 md:gap-4 w-full">
-          <div class="mb-4 min-w-0">
-            <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Tanggal</label>
-            <input type="date" id="editTanggal" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white">
-          </div>
-          <div class="mb-4 min-w-0">
-            <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Jenis Transaksi</label>
-            <div class="grid grid-cols-2 gap-2 h-[34px] w-full">
-              <label class="flex items-center cursor-pointer group">
-                <input type="radio" name="editJenis" id="editJenisPemasukan" value="Pemasukan" required class="w-3.5 h-3.5 flex-shrink-0 text-emerald-500 focus:ring-emerald-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600">
-                <span class="ml-1.5 text-[10px] md:text-xs text-slate-700 dark:text-slate-300 font-medium transition truncate">Kredit</span>
-              </label>
-              <label class="flex items-center cursor-pointer group">
-                <input type="radio" name="editJenis" id="editJenisPengeluaran" value="Pengeluaran" required class="w-3.5 h-3.5 flex-shrink-0 text-rose-500 focus:ring-rose-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600">
-                <span class="ml-1.5 text-[10px] md:text-xs text-slate-700 dark:text-slate-300 font-medium transition truncate">Debit</span>
-              </label>
-            </div>
-          </div>
+          <div class="mb-4 min-w-0"><label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Tanggal</label><input type="date" id="editTanggal" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white"></div>
+          <div class="mb-4 min-w-0"><label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Jenis Transaksi</label><div class="grid grid-cols-2 gap-2 h-[34px] w-full"><label class="flex items-center cursor-pointer group"><input type="radio" name="editJenis" id="editJenisPemasukan" value="Pemasukan" required class="w-3.5 h-3.5 flex-shrink-0 text-emerald-500 focus:ring-emerald-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-1.5 text-[10px] md:text-xs text-slate-700 dark:text-slate-300 font-medium transition truncate">Kredit</span></label><label class="flex items-center cursor-pointer group"><input type="radio" name="editJenis" id="editJenisPengeluaran" value="Pengeluaran" required class="w-3.5 h-3.5 flex-shrink-0 text-rose-500 focus:ring-rose-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-1.5 text-[10px] md:text-xs text-slate-700 dark:text-slate-300 font-medium transition truncate">Debit</span></label></div></div>
         </div>
-
         <div class="md:grid md:grid-cols-2 md:gap-4 w-full">
-          <div class="mb-4 min-w-0">
-            <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Metode Pembayaran</label>
-            <select id="editMetode" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white cursor-pointer">
-              <option value="Tunai">Tunai (Cash)</option>
-              <option value="Rekening Bank">Rekening Bank</option>
-              <option value="E-Wallet">E-Wallet (Dana, Ovo, dll)</option>
-            </select>
-          </div>
-          <div class="mb-4 min-w-0">
-            <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Kategori</label>
-            <input type="text" id="editKategori" oninput="autoCapitalize(this)" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white">
-          </div>
+          <div class="mb-4 min-w-0"><label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Metode Pembayaran</label><select id="editMetode" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white cursor-pointer"><option value="Tunai">Tunai (Cash)</option><option value="Rekening Bank">Rekening Bank</option><option value="E-Wallet">E-Wallet (Dana, Ovo, dll)</option></select></div>
+          <div class="mb-4 min-w-0"><label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Kategori</label><input type="text" id="editKategori" oninput="autoCapitalize(this)" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white"></div>
         </div>
-
-        <div class="mb-4 mt-2 min-w-0">
-          <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Jumlah Uang (Rp)</label>
-          <input type="text" id="editNominal" onkeyup="formatRupiah(this)" required class="w-full px-3 py-2.5 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-sm md:text-base font-bold text-slate-800 dark:text-white shadow-inner">
-        </div>
-        <div class="mb-6 md:mb-8 min-w-0">
-          <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Catatan</label>
-          <input type="text" id="editKeterangan" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white">
-        </div>
-        
-        <div class="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-700">
-          <button type="button" onclick="closeEditModal()" class="px-4 py-2 md:py-2.5 text-[11px] md:text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition">Batal</button>
-          <button type="submit" class="px-4 py-2 md:py-2.5 text-[11px] md:text-xs font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-lg transition shadow-sm">Simpan Perubahan</button>
-        </div>
+        <div class="mb-4 mt-2 min-w-0"><label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Jumlah Uang (Rp)</label><input type="text" id="editNominal" onkeyup="formatRupiah(this)" required class="w-full px-3 py-2.5 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-sm md:text-base font-bold text-slate-800 dark:text-white shadow-inner"></div>
+        <div class="mb-6 md:mb-8 min-w-0"><label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Catatan</label><input type="text" id="editKeterangan" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none transition text-xs text-slate-800 dark:text-white"></div>
+        <div class="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-700"><button type="button" onclick="closeEditModal()" class="px-4 py-2 md:py-2.5 text-[11px] md:text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition">Batal</button><button type="submit" class="px-4 py-2 md:py-2.5 text-[11px] md:text-xs font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-lg transition shadow-sm">Simpan Perubahan</button></div>
       </form>
     </div>
   </div>
@@ -618,7 +493,6 @@
 
     let listDataView = []; let chartInstance = null; let kategoriChartInstance = null; let isDataDirty = true; 
 
-    // FIX UKURAN MINI SWAL
     const miniSwal = Swal.mixin({ width: '280px', padding: '1.2em', customClass: { title: 'text-sm font-bold text-slate-800', htmlContainer: 'text-[11px] text-slate-500', popup: 'rounded-2xl shadow-xl border border-slate-100 dark:bg-slate-800 dark:border-slate-700' } });
 
     async function fetchAPI(action, payload = {}) {
@@ -634,12 +508,19 @@
     }
 
     window.onload = function() {
-      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else { document.documentElement.classList.remove('dark'); }
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark'); } 
+      else { document.documentElement.classList.remove('dark'); }
       cekSesiLogin();
     };
 
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+      if (document.documentElement.classList.contains('dark')) localStorage.setItem('theme', 'dark');
+      else localStorage.setItem('theme', 'light');
+      processUIFromCache(); 
+    }
+
+    // ================= FUNGSI OTENTIKASI & ROUTING =================
     function cekSesiLogin() {
       const sheetId = localStorage.getItem('finanSmartSheetId');
       const role = localStorage.getItem('finanSmartRole');
@@ -652,7 +533,7 @@
             if (role === 'admin') {
                document.getElementById('adminContainer').classList.remove('hidden');
                setTimeout(() => { document.getElementById('adminContainer').classList.remove('opacity-0'); }, 50);
-               loadAdminUsers(); // PANGGIL DATA USER PAS ADMIN LOGIN
+               loadAdminUsers(); // Load list user otomatis pas admin login
             } else {
                document.getElementById('appContainer').classList.remove('hidden');
                setTimeout(() => { document.getElementById('appContainer').classList.remove('opacity-0'); }, 50);
@@ -677,27 +558,45 @@
          if (res.success) {
             localStorage.setItem('finanSmartSheetId', res.sheetId);
             localStorage.setItem('finanSmartRole', res.role);
+            if(res.role === 'admin' && res.masterDbId) localStorage.setItem('finanSmartMasterDbId', res.masterDbId);
             miniSwal.close(); cekSesiLogin();
          } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Login Gagal</span>', html: `<span class="text-[11px] text-slate-500">${res.message}</span>`, customClass: { popup: 'rounded-2xl dark:bg-slate-800' } }); }
       } catch(err) { miniSwal.fire({ icon: 'error', title: 'Koneksi Gagal', text: err.message }); }
     }
 
     function prosesLogout() {
-      localStorage.removeItem('finanSmartSheetId');
-      localStorage.removeItem('finanSmartRole');
+      localStorage.removeItem('finanSmartSheetId'); localStorage.removeItem('finanSmartRole'); localStorage.removeItem('finanSmartMasterDbId');
       location.reload();
     }
 
     // ================= FUNGSI KHUSUS ADMIN =================
+    function switchAdminTab(tabId) {
+      document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId + 'Section').classList.remove('hidden');
+      
+      document.querySelectorAll('.nav-admin-btn').forEach(btn => {
+        btn.classList.remove('text-indigo-700', 'dark:text-indigo-400', 'bg-indigo-50', 'dark:bg-indigo-900/30');
+        btn.classList.add('text-slate-400', 'dark:text-slate-500');
+      });
+      document.querySelectorAll('.nav-' + tabId).forEach(activeBtn => {
+        activeBtn.classList.remove('text-slate-400', 'dark:text-slate-500');
+        activeBtn.classList.add('text-indigo-700', 'dark:text-indigo-400');
+        if(activeBtn.classList.contains('desktop-admin-btn')) activeBtn.classList.add('bg-indigo-50', 'dark:bg-indigo-900/30');
+      });
+    }
+
+    function bukaMasterDB() {
+       const dbId = localStorage.getItem('finanSmartMasterDbId');
+       if(dbId) window.open('https://docs.google.com/spreadsheets/d/' + dbId, '_blank');
+       else miniSwal.fire({icon: 'error', title: 'Gagal', html: '<span class="text-[11px]">ID Master Database tidak ditemukan. Silakan login ulang.</span>'});
+    }
+
     async function buatAkunCustomer(e) {
        e.preventDefault();
-       const user = document.getElementById('regUser').value.trim();
-       const pass = document.getElementById('regPass').value.trim();
-       const email = document.getElementById('regEmail').value.trim();
-       const days = document.getElementById('regDays').value;
+       const user = document.getElementById('regUser').value.trim(); const pass = document.getElementById('regPass').value.trim();
+       const email = document.getElementById('regEmail').value.trim(); const days = document.getElementById('regDays').value;
 
        Swal.fire({ title: '<span class="text-sm md:text-base font-bold">Membuat Database...</span>', html: '<span class="text-[11px] md:text-xs text-slate-500">Menyiapkan akses dan mengirim email...</span>', allowOutsideClick: false, width: '280px', customClass: { popup: 'rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-
        try {
           const res = await fetchAPI('registerUser', {username: user, password: pass, email: email, duration: days});
           if(res.success) {
@@ -705,43 +604,50 @@
              document.getElementById('regUser').value = ''; document.getElementById('regPass').value = '';
              
              const waText = `Halo Kak, terima kasih sudah berlangganan FinanSmart JagoNgulik!\n\nAkun kakak sudah aktif sampai dengan tanggal *${res.exp}*.\n\nSilakan login melalui web:\n🌐 *https://evanmardiansyah.github.io/keuangan_apps*\n\n👤 Username: *${user}*\n🔑 Password: *${pass}*\n\n*(Link akses database mentah Google Sheets juga sudah kami kirimkan ke email kakak sebagai arsip pribadi).*`;
-             document.getElementById('teksWA').value = waText;
-             document.getElementById('hasilGenerate').classList.remove('hidden');
-             loadAdminUsers(); // Refresh list
+             document.getElementById('teksWA').value = waText; document.getElementById('hasilGenerate').classList.remove('hidden');
+             loadAdminUsers();
           } else { Swal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>`, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }}); }
        } catch(err) { Swal.fire({icon: 'error', title: 'Error', html: `<span class="text-[11px]">${err.message}</span>`, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }}); }
     }
 
     function copyWA() {
-       var text = document.getElementById("teksWA");
-       text.select(); text.setSelectionRange(0, 99999);
-       document.execCommand("copy");
+       var text = document.getElementById("teksWA"); text.select(); text.setSelectionRange(0, 99999); document.execCommand("copy");
        miniSwal.fire({icon:'success', title:'<span class="text-sm font-bold">Tersalin!</span>', html:'<span class="text-[11px]">Pesan siap di-paste ke WhatsApp.</span>', timer: 1500, showConfirmButton: false});
     }
 
-    // --- KELOLA PELANGGAN ADMIN ---
     async function loadAdminUsers() {
        const listDiv = document.getElementById('adminUserList');
+       const expiringDiv = document.getElementById('adminExpiringList');
        listDiv.innerHTML = '<p class="text-xs text-center text-slate-400 py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Mengambil data...</p>';
+       
        try {
           const res = await fetchAPI('adminGetUsers');
           if(res.success) {
-             if(res.data.length === 0) { listDiv.innerHTML = '<p class="text-xs text-center text-slate-400 py-4">Belum ada pelanggan terdaftar.</p>'; return; }
-             let html = '';
-             res.data.forEach(user => {
-                let statusColor = user.status.toLowerCase() === 'aktif' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800' : 'bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800';
-                let expDate = new Date(user.expired); let isExpired = new Date() > expDate;
-                let expColor = isExpired ? 'text-rose-500 font-bold' : 'text-slate-500 dark:text-slate-400';
-                let expText = user.expired ? expDate.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : 'Lifetime';
+             let total = 0, active = 0, suspended = 0;
+             let html = '', expiringHtml = '';
+             const today = new Date();
 
+             res.data.forEach(user => {
+                total++;
+                if (user.status.toLowerCase() === 'aktif') active++; else suspended++;
+
+                let statusColor = user.status.toLowerCase() === 'aktif' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800' : 'bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800';
+                
+                let isExpired = false, diffDays = 999, expColor = 'text-slate-500 dark:text-slate-400', expText = 'Lifetime';
+                if (user.expired) {
+                   let expDate = new Date(user.expired);
+                   isExpired = today > expDate;
+                   diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+                   expColor = isExpired ? 'text-rose-500 font-bold' : 'text-slate-500 dark:text-slate-400';
+                   expText = expDate.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+                }
+
+                // Daftar Kelola Pelanggan
                 html += `<div class="p-4 border border-slate-100 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-700/30 shadow-sm relative transition hover:shadow-md">
                            <div class="flex justify-between items-center mb-2">
                              <div class="flex items-center gap-2">
                                <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xs font-bold">${user.username.charAt(0).toUpperCase()}</div>
-                               <div>
-                                 <strong class="text-slate-800 dark:text-white text-sm block">${user.username}</strong>
-                                 <span class="text-[10px] ${expColor}">Exp: ${expText}</span>
-                               </div>
+                               <div><strong class="text-slate-800 dark:text-white text-sm block">${user.username}</strong><span class="text-[10px] ${expColor}">Exp: ${expText}</span></div>
                              </div>
                              <span class="text-[9px] px-2 py-1 rounded font-bold border uppercase tracking-wider ${statusColor}">${user.status}</span>
                            </div>
@@ -755,8 +661,24 @@
                              </div>
                            </div>
                          </div>`;
+
+                // Daftar Expiring Soon (Kurang dari 7 hari atau Expired)
+                if (user.expired && (diffDays <= 7 || isExpired)) {
+                   let alertColor = isExpired ? 'text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 bg-rose-50 dark:bg-rose-900/20' : 'text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-900/20';
+                   let alertBadge = isExpired ? 'Expired' : `${diffDays} Hari Lagi`;
+                   expiringHtml += `<div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-700 last:border-0">
+                                      <div><p class="text-xs font-bold text-slate-700 dark:text-white">${user.username}</p><p class="text-[10px] text-slate-400 dark:text-slate-500">${expText}</p></div>
+                                      <span class="text-[10px] font-bold px-2 py-1 rounded-md border ${alertColor}">${alertBadge}</span>
+                                    </div>`;
+                }
              });
-             listDiv.innerHTML = html;
+
+             document.getElementById('adminStatTotal').innerText = total;
+             document.getElementById('adminStatActive').innerText = active;
+             document.getElementById('adminStatSuspend').innerText = suspended;
+
+             listDiv.innerHTML = total > 0 ? html : '<p class="text-xs text-center text-slate-400 py-4">Belum ada pelanggan.</p>';
+             expiringDiv.innerHTML = expiringHtml || '<p class="text-[11px] text-center text-slate-400 py-4">Semua pelanggan dalam masa aktif aman.</p>';
           } else { listDiv.innerHTML = '<p class="text-xs text-rose-500 text-center py-4">' + res.message + '</p>'; }
        } catch(err) { listDiv.innerHTML = '<p class="text-xs text-rose-500 text-center py-4">' + err.message + '</p>'; }
     }
@@ -764,62 +686,40 @@
     async function adminAction(type, row, extraData) {
        let title, text, inputType = null, confirmText = 'Simpan', payload = {};
        
-       if (type === 'delete') {
-          title = 'Hapus Pelanggan?'; text = `Yakin menghapus akses untuk <b>${extraData}</b> selamanya?`; confirmText = 'Ya, Hapus!';
-       } else if (type === 'toggleStatus') {
-          let newStatus = extraData.toLowerCase() === 'aktif' ? 'Suspend' : 'Aktif';
-          title = `Ubah Status ke ${newStatus}?`; text = `Akses user akan di-${newStatus}.`; payload.status = newStatus;
-       } else if (type === 'extend') {
-          title = 'Perpanjang Masa Aktif'; text = `Masukkan jumlah hari tambahan untuk <b>${extraData}</b>:`; inputType = 'number';
-       } else if (type === 'resetPassword') {
-          title = 'Reset Password'; text = `Ketik password baru untuk <b>${extraData}</b>:`; inputType = 'text';
-       }
+       if (type === 'delete') { title = 'Hapus Pelanggan?'; text = `Yakin menghapus akses <b>${extraData}</b> selamanya?`; confirmText = 'Ya, Hapus!'; } 
+       else if (type === 'toggleStatus') { let newStatus = extraData.toLowerCase() === 'aktif' ? 'Suspend' : 'Aktif'; title = `Ubah Status ke ${newStatus}?`; text = `Akses user akan di-${newStatus}.`; payload.status = newStatus; } 
+       else if (type === 'extend') { title = 'Perpanjang Masa Aktif'; text = `Masukkan tambahan hari (misal 30) untuk <b>${extraData}</b>:`; inputType = 'number'; } 
+       else if (type === 'resetPassword') { title = 'Reset Password'; text = `Ketik password baru untuk <b>${extraData}</b>:`; inputType = 'text'; }
 
        const { value: inputValue, isConfirmed } = await Swal.fire({
-          title: `<span class="text-sm md:text-base font-bold">${title}</span>`, html: `<span class="text-[11px] md:text-xs">${text}</span>`,
-          input: inputType, showCancelButton: true, confirmButtonColor: '#4f46e5', cancelButtonColor: '#94a3b8', confirmButtonText: confirmText,
-          width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' }
+          title: `<span class="text-sm md:text-base font-bold">${title}</span>`, html: `<span class="text-[11px] md:text-xs">${text}</span>`, input: inputType, showCancelButton: true, confirmButtonColor: '#4f46e5', cancelButtonColor: '#94a3b8', confirmButtonText: confirmText, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' }
        });
 
        if (!isConfirmed) return;
        if (inputType === 'number') payload.days = inputValue;
        if (inputType === 'text') payload.newPassword = inputValue;
-       
        if (inputType && !inputValue) return miniSwal.fire({icon:'warning', title:'<span class="text-sm font-bold">Batal</span>', html:'<span class="text-[11px]">Input tidak boleh kosong.</span>'});
 
        miniSwal.fire({ title: '<span class="text-sm font-bold">Memproses...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
        try {
           const res = await fetchAPI('adminManageUser', { actionType: type, row: row, payload: payload });
-          if(res.success) {
-             miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 1500, showConfirmButton: false });
-             loadAdminUsers();
-          } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+          if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 1500, showConfirmButton: false }); loadAdminUsers(); } 
+          else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
        } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
 
     // ================= INISIASI APLIKASI UTAMA (CUSTOMER) =================
+    // SEMUA FUNGSI DI BAWAH INI ADALAH MILIK CUSTOMER (TIDAK ADA PERUBAHAN DARI SEBELUMNYA)
     async function initAppUtama() {
       try { initBudgetInput(); initEmailInput(); } catch(e) {}
       updateGreeting(); document.getElementById('tanggal').valueAsDate = new Date();
       try {
          const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
-      } catch(err) {
-         document.getElementById('globalSheet').innerHTML = '<option value="">Server Error</option>';
-         miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>`});
-      }
+      } catch(err) { document.getElementById('globalSheet').innerHTML = '<option value="">Server Error</option>'; miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>`}); }
     }
 
-    function toggleDarkMode() {
-      document.documentElement.classList.toggle('dark');
-      if (document.documentElement.classList.contains('dark')) localStorage.setItem('theme', 'dark');
-      else localStorage.setItem('theme', 'light');
-      processUIFromCache(); 
-    }
-
-    function autoCapitalize(elem) {
-      let val = elem.value; elem.value = val.replace(/(^\w{1})|(\s+\w{1})/g, function(letter) { return letter.toUpperCase(); });
-    }
+    function autoCapitalize(elem) { let val = elem.value; elem.value = val.replace(/(^\w{1})|(\s+\w{1})/g, function(letter) { return letter.toUpperCase(); }); }
 
     function updateGreeting() {
       const hour = new Date().getHours(); let greeting = 'Malam';
@@ -838,152 +738,67 @@
 
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.add('hidden'); });
-      const targetSection = document.getElementById(tabId + 'Section');
-      if(targetSection) targetSection.classList.remove('hidden');
-      
-      document.querySelectorAll('.nav-btn').forEach(function(btn) {
-        btn.classList.remove('text-blue-700', 'dark:text-blue-400', 'text-indigo-600', 'dark:text-indigo-400', 'bg-blue-50', 'dark:bg-blue-900/30');
-        btn.classList.add('text-slate-400', 'dark:text-slate-500');
-      });
+      const targetSection = document.getElementById(tabId + 'Section'); if(targetSection) targetSection.classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(function(btn) { btn.classList.remove('text-blue-700', 'dark:text-blue-400', 'text-indigo-600', 'dark:text-indigo-400', 'bg-blue-50', 'dark:bg-blue-900/30'); btn.classList.add('text-slate-400', 'dark:text-slate-500'); });
       document.querySelectorAll('.nav-' + tabId).forEach(function(activeBtn) {
         activeBtn.classList.remove('text-slate-400', 'dark:text-slate-500');
-        if(tabId === 'sistem') {
-          activeBtn.classList.add('text-indigo-600', 'dark:text-indigo-400');
-          if(activeBtn.classList.contains('desktop-btn')) activeBtn.classList.add('bg-indigo-50', 'dark:bg-indigo-900/30');
-        } else {
-          activeBtn.classList.add('text-blue-700', 'dark:text-blue-400');
-          if(activeBtn.classList.contains('desktop-btn')) activeBtn.classList.add('bg-blue-50', 'dark:bg-blue-900/30');
-        }
+        if(tabId === 'sistem') { activeBtn.classList.add('text-indigo-600', 'dark:text-indigo-400'); if(activeBtn.classList.contains('desktop-btn')) activeBtn.classList.add('bg-indigo-50', 'dark:bg-indigo-900/30'); } 
+        else { activeBtn.classList.add('text-blue-700', 'dark:text-blue-400'); if(activeBtn.classList.contains('desktop-btn')) activeBtn.classList.add('bg-blue-50', 'dark:bg-blue-900/30'); }
       });
       if(tabId === 'dashboard' || tabId === 'list') { updateGreeting(); loadListTransaksi(false); }
     }
 
-    function onSheetChange() {
-      const sheet = document.getElementById('globalSheet').value; isDataDirty = true; 
-      if(sheet) { if(!document.getElementById('dashboardSection').classList.contains('hidden') || !document.getElementById('listSection').classList.contains('hidden')) { loadListTransaksi(true); } } 
-      else { resetDashboardUI(); }
-    }
+    function onSheetChange() { const sheet = document.getElementById('globalSheet').value; isDataDirty = true; if(sheet) { if(!document.getElementById('dashboardSection').classList.contains('hidden') || !document.getElementById('listSection').classList.contains('hidden')) { loadListTransaksi(true); } } else { resetDashboardUI(); } }
 
-    function formatRupiah(angka) {
-      let value = angka.value.replace(/[^,\d]/g, '').toString(); let split = value.split(','); let sisa = split[0].length % 3;
-      let rupiah = split[0].substr(0, sisa); let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-      if (ribuan) { let separator = sisa ? '.' : ''; rupiah += separator + ribuan.join('.'); }
-      angka.value = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    }
-
+    function formatRupiah(angka) { let value = angka.value.replace(/[^,\d]/g, '').toString(); let split = value.split(','); let sisa = split[0].length % 3; let rupiah = split[0].substr(0, sisa); let ribuan = split[0].substr(sisa).match(/\d{3}/gi); if (ribuan) { let separator = sisa ? '.' : ''; rupiah += separator + ribuan.join('.'); } angka.value = split[1] != undefined ? rupiah + ',' + split[1] : rupiah; }
     function formatCurrencyHelper(num) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num); }
 
-    // ================= FITUR AUTO-EMAIL =================
+    // FITUR AUTO EMAIL
     function initEmailInput() {
-       let em = localStorage.getItem('userEmailReport'); 
-       const inputEmail = document.getElementById('inputEmail');
-       const btnAktifkan = document.getElementById('btnAktifkanEmail');
-       const btnNonaktifkan = document.getElementById('btnNonaktifkanEmail');
-       
-       if(inputEmail && btnAktifkan && btnNonaktifkan) {
-         if(em) { 
-           inputEmail.value = em; 
-           inputEmail.disabled = true;
-           btnAktifkan.classList.add('hidden');
-           btnNonaktifkan.classList.remove('hidden');
-         } else {
-           inputEmail.value = '';
-           inputEmail.disabled = false;
-           btnAktifkan.classList.remove('hidden');
-           btnNonaktifkan.classList.add('hidden');
-         }
-       }
+       let em = localStorage.getItem('userEmailReport'); const inputEmail = document.getElementById('inputEmail'); const btnAktifkan = document.getElementById('btnAktifkanEmail'); const btnNonaktifkan = document.getElementById('btnNonaktifkanEmail');
+       if(inputEmail && btnAktifkan && btnNonaktifkan) { if(em) { inputEmail.value = em; inputEmail.disabled = true; btnAktifkan.classList.add('hidden'); btnNonaktifkan.classList.remove('hidden'); } else { inputEmail.value = ''; inputEmail.disabled = false; btnAktifkan.classList.remove('hidden'); btnNonaktifkan.classList.add('hidden'); } }
     }
 
     async function saveAutoReport() {
        let email = document.getElementById('inputEmail').value.trim();
        if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Email Salah</span>', html: '<span class="text-[11px]">Masukkan alamat email yang benar.</span>'});
        miniSwal.fire({ title: '<span class="text-sm font-bold">Menyiapkan...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-       try {
-         const res = await fetchAPI('setupAutoReportTrigger', {email: email});
-         if(res.success) {
-           localStorage.setItem('userEmailReport', email);
-           initEmailInput();
-           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false });
-         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
-       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
+       try { const res = await fetchAPI('setupAutoReportTrigger', {email: email}); if(res.success) { localStorage.setItem('userEmailReport', email); initEmailInput(); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function disableAutoReport() {
        miniSwal.fire({ title: '<span class="text-sm font-bold">Memproses...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-       try {
-         const res = await fetchAPI('disableAutoReport');
-         if(res.success) {
-           localStorage.removeItem('userEmailReport');
-           initEmailInput();
-           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dinonaktifkan</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false });
-         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
-       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
+       try { const res = await fetchAPI('disableAutoReport'); if(res.success) { localStorage.removeItem('userEmailReport'); initEmailInput(); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dinonaktifkan</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function sendReportNow() {
        let sheetName = document.getElementById('globalSheet').value; let email = document.getElementById('inputEmail').value.trim();
-       if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Buku Kosong</span>', html: '<span class="text-[11px]">Pilih Buku Kas dulu di atas.</span>'});
-       if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Email Salah</span>', html: '<span class="text-[11px]">Isi email yang benar.</span>'});
+       if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Buku Kosong</span>', html: '<span class="text-[11px]">Pilih Buku Kas dulu di atas.</span>'}); if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Email Salah</span>', html: '<span class="text-[11px]">Isi email yang benar.</span>'});
        miniSwal.fire({ title: '<span class="text-sm font-bold">Membuat Laporan...</span>', html: '<span class="text-[11px] text-slate-500">Mohon tunggu sebentar...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-       try {
-         const res = await fetchAPI('sendReportNow', {sheetName: sheetName, email: email});
-         if(res.success) {
-           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terkirim!</span>', html: '<span class="text-[11px]">Silakan cek Inbox email.</span>', timer: 3000, showConfirmButton: false });
-         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
-       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
+       try { const res = await fetchAPI('sendReportNow', {sheetName: sheetName, email: email}); if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terkirim!</span>', html: '<span class="text-[11px]">Silakan cek Inbox email.</span>', timer: 3000, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
-    // ================= BUDGET & KONTEN =================
-    function initBudgetInput() {
-       let budgetLimit = localStorage.getItem('userBudgetLimit');
-       if(budgetLimit && document.getElementById('inputLimitAnggaran')) { let inpt = document.getElementById('inputLimitAnggaran'); inpt.value = budgetLimit; formatRupiah(inpt); }
-       updateBudgetUI();
-    }
+    // FITUR LIMIT & DASHBOARD
+    function initBudgetInput() { let budgetLimit = localStorage.getItem('userBudgetLimit'); if(budgetLimit && document.getElementById('inputLimitAnggaran')) { let inpt = document.getElementById('inputLimitAnggaran'); inpt.value = budgetLimit; formatRupiah(inpt); } updateBudgetUI(); }
 
     function saveBudgetFromSettings() {
-       let inpt = document.getElementById('inputLimitAnggaran').value.replace(/\./g, '');
-       if(!inpt || isNaN(inpt) || inpt < 0) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Data Invalid</span>', html: '<span class="text-[11px]">Masukkan angka dengan benar.</span>'});
-       try {
-           localStorage.setItem('userBudgetLimit', inpt); updateBudgetUI();
-           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Tersimpan</span>', timer: 1500, showConfirmButton: false }); processUIFromCache(); 
-       } catch(e) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Browser menolak penyimpanan.</span>'}); }
+       let inpt = document.getElementById('inputLimitAnggaran').value.replace(/\./g, ''); if(!inpt || isNaN(inpt) || inpt < 0) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Data Invalid</span>', html: '<span class="text-[11px]">Masukkan angka dengan benar.</span>'});
+       try { localStorage.setItem('userBudgetLimit', inpt); updateBudgetUI(); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Tersimpan</span>', timer: 1500, showConfirmButton: false }); processUIFromCache(); } catch(e) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Browser menolak penyimpanan.</span>'}); }
     }
 
     function updateBudgetUI(totalPengeluaran = 0) {
        let budgetLimit = 0; try { budgetLimit = localStorage.getItem('userBudgetLimit') || 0; } catch(e) {}
        const progressBar = document.getElementById('budgetProgressBar'); const textTerpakai = document.getElementById('budgetTerpakai'); const textSisa = document.getElementById('budgetSisa');
-
-       if(budgetLimit == 0) {
-           if(progressBar) progressBar.style.width = '0%';
-           if(textTerpakai) textTerpakai.textContent = 'Terpakai: ' + formatCurrencyHelper(totalPengeluaran);
-           if(textSisa) textSisa.textContent = 'Belum diatur'; return;
-       }
-
+       if(budgetLimit == 0) { if(progressBar) progressBar.style.width = '0%'; if(textTerpakai) textTerpakai.textContent = 'Terpakai: ' + formatCurrencyHelper(totalPengeluaran); if(textSisa) textSisa.textContent = 'Belum diatur'; return; }
        let persentase = (totalPengeluaran / budgetLimit) * 100; let sisaUang = budgetLimit - totalPengeluaran; if(persentase > 100) persentase = 100;
-       if(progressBar) {
-           progressBar.style.width = persentase + '%';
-           if(persentase < 60) progressBar.style.backgroundColor = '#34d399'; 
-           else if(persentase < 90) progressBar.style.backgroundColor = '#fbbf24'; 
-           else progressBar.style.backgroundColor = '#fb7185'; 
-       }
-       
-       if(textTerpakai) textTerpakai.textContent = 'Terpakai: ' + formatCurrencyHelper(totalPengeluaran);
-       if(textSisa) textSisa.textContent = sisaUang < 0 ? 'Minus: ' + formatCurrencyHelper(Math.abs(sisaUang)) : 'Sisa: ' + formatCurrencyHelper(sisaUang);
+       if(progressBar) { progressBar.style.width = persentase + '%'; if(persentase < 60) progressBar.style.backgroundColor = '#34d399'; else if(persentase < 90) progressBar.style.backgroundColor = '#fbbf24'; else progressBar.style.backgroundColor = '#fb7185'; }
+       if(textTerpakai) textTerpakai.textContent = 'Terpakai: ' + formatCurrencyHelper(totalPengeluaran); if(textSisa) textSisa.textContent = sisaUang < 0 ? 'Minus: ' + formatCurrencyHelper(Math.abs(sisaUang)) : 'Sisa: ' + formatCurrencyHelper(sisaUang);
     }
 
     async function submitForm(event) {
-      event.preventDefault();
-      const sheetName = document.getElementById('globalSheet').value;
-      if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Pilih Buku</span>', html: '<span class="text-[11px]">Pilih Buku Kas di atas.</span>' }); 
-      
-      const form = document.getElementById('transaksiForm');
-      const nominalBersih = form.nominal.value.replace(/\./g, '');
-      if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Data Salah</span>', html: '<span class="text-[11px]">Jumlah uang harus berupa angka.</span>' });
-
-      let tglInput = form.tanggal.value;
-      if(!tglInput) { let t = new Date(); tglInput = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, '0') + "-" + String(t.getDate()).padStart(2, '0'); }
-
+      event.preventDefault(); const sheetName = document.getElementById('globalSheet').value; if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Pilih Buku</span>', html: '<span class="text-[11px]">Pilih Buku Kas di atas.</span>' }); 
+      const form = document.getElementById('transaksiForm'); const nominalBersih = form.nominal.value.replace(/\./g, ''); if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Data Salah</span>', html: '<span class="text-[11px]">Jumlah uang harus berupa angka.</span>' });
+      let tglInput = form.tanggal.value; if(!tglInput) { let t = new Date(); tglInput = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, '0') + "-" + String(t.getDate()).padStart(2, '0'); }
       const formData = { sheetName: sheetName, tanggal: tglInput, jenis: form.jenis.value, kategori: form.kategori.value, nominal: nominalBersih, keterangan: form.keterangan.value, metode: form.metode.value };
       
       miniSwal.fire({ title: '<span class="text-sm font-bold">Menyimpan...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
@@ -992,19 +807,15 @@
         if(res.success) {
           miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 2000, showConfirmButton: false });
           listDataView.push({ row: Date.now(), tanggal: formData.tanggal, jenis: formData.jenis, kategori: formData.kategori, nominal: formData.nominal, keterangan: formData.keterangan, waktu: new Date().toLocaleString('id-ID'), metode: formData.metode });
-          processUIFromCache(); isDataDirty = true; loadListTransaksi(true); 
-          form.reset(); document.getElementById('tanggal').valueAsDate = new Date();
+          processUIFromCache(); isDataDirty = true; loadListTransaksi(true); form.reset(); document.getElementById('tanggal').valueAsDate = new Date();
         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     function toggleSearchBar() {
       const container = document.getElementById('searchBarContainer'); const input = document.getElementById('listSearchKeyword');
-      if (container.classList.contains('max-h-0')) {
-        container.classList.remove('max-h-0', 'opacity-0', 'mb-0'); container.classList.add('max-h-12', 'opacity-100'); setTimeout(() => { input.focus(); }, 150);
-      } else {
-        container.classList.add('max-h-0', 'opacity-0', 'mb-0'); container.classList.remove('max-h-12', 'opacity-100'); input.value = ''; sortDataList(); 
-      }
+      if (container.classList.contains('max-h-0')) { container.classList.remove('max-h-0', 'opacity-0', 'mb-0'); container.classList.add('max-h-12', 'opacity-100'); setTimeout(() => { input.focus(); }, 150); } 
+      else { container.classList.add('max-h-0', 'opacity-0', 'mb-0'); container.classList.remove('max-h-12', 'opacity-100'); input.value = ''; sortDataList(); }
     }
 
     function renderCards(dataArray, containerDiv) {
@@ -1013,7 +824,6 @@
         const nominalRp = formatCurrencyHelper(item.nominal);
         let badgeColor = item.jenis === 'Pemasukan' ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-800/50' : 'bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-800/50';
         let textNominalColor = item.jenis === 'Pemasukan' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'; let sign = item.jenis === 'Pemasukan' ? '+' : '';
-        
         let tglFormatted = item.tanggal; if(tglFormatted && tglFormatted.includes('-')){ let p = tglFormatted.split('-'); tglFormatted = p[2] + '/' + p[1] + '/' + p[0]; }
 
         let metodeBadge = '';
@@ -1021,36 +831,21 @@
         else if(item.metode === 'E-Wallet') metodeBadge = '<span class="ml-1 text-[8px] bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 px-1.5 py-0.5 rounded border border-purple-200 dark:border-purple-700/50 whitespace-nowrap flex-shrink-0">E-Wallet</span>';
         else metodeBadge = '<span class="ml-1 text-[8px] bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-600 whitespace-nowrap flex-shrink-0">Cash</span>';
 
-        html += '<div class="p-3 md:p-4 border border-slate-100 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 shadow-sm relative transition hover:shadow-md min-w-0 w-full">' +
-            '<div class="flex justify-between items-center mb-1.5 w-full"><div class="flex items-center min-w-0 flex-1 mr-2"><strong class="text-slate-800 dark:text-white text-xs md:text-sm font-bold truncate">' + item.kategori + '</strong>' + metodeBadge + '</div><span class="text-[9px] px-1.5 py-0.5 rounded font-bold border flex-shrink-0 ' + badgeColor + '">' + item.jenis + '</span></div>' +
-            '<div class="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 mb-2 truncate w-full flex items-center">' + (item.keterangan || '-') + '</div>' +
-            '<div class="flex justify-between items-center pt-1.5 border-t border-slate-50 dark:border-slate-700/50 w-full"><span class="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 font-medium truncate w-1/3">' + tglFormatted + '</span><span class="font-extrabold ' + textNominalColor + ' text-sm md:text-base truncate w-2/3 text-right">' + sign + nominalRp + '</span></div>' +
-            '<div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-2 w-full"><button onclick="confirmDelete(' + item.row + ')" class="text-[10px] md:text-xs bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-md transition flex items-center flex-shrink-0"><i class="fas fa-trash mr-1"></i>Hapus</button><button onclick="openEditModal(' + item.row + ')" class="text-[10px] md:text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-md transition flex items-center flex-shrink-0"><i class="fas fa-pen mr-1"></i>Edit</button></div></div>';
+        html += '<div class="p-3 md:p-4 border border-slate-100 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 shadow-sm relative transition hover:shadow-md min-w-0 w-full"><div class="flex justify-between items-center mb-1.5 w-full"><div class="flex items-center min-w-0 flex-1 mr-2"><strong class="text-slate-800 dark:text-white text-xs md:text-sm font-bold truncate">' + item.kategori + '</strong>' + metodeBadge + '</div><span class="text-[9px] px-1.5 py-0.5 rounded font-bold border flex-shrink-0 ' + badgeColor + '">' + item.jenis + '</span></div><div class="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 mb-2 truncate w-full flex items-center">' + (item.keterangan || '-') + '</div><div class="flex justify-between items-center pt-1.5 border-t border-slate-50 dark:border-slate-700/50 w-full"><span class="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 font-medium truncate w-1/3">' + tglFormatted + '</span><span class="font-extrabold ' + textNominalColor + ' text-sm md:text-base truncate w-2/3 text-right">' + sign + nominalRp + '</span></div><div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-2 w-full"><button onclick="confirmDelete(' + item.row + ')" class="text-[10px] md:text-xs bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-md transition flex items-center flex-shrink-0"><i class="fas fa-trash mr-1"></i>Hapus</button><button onclick="openEditModal(' + item.row + ')" class="text-[10px] md:text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-md transition flex items-center flex-shrink-0"><i class="fas fa-pen mr-1"></i>Edit</button></div></div>';
       });
       containerDiv.innerHTML = html;
     }
 
     function sortDataList() {
       const sortType = document.getElementById('sortList').value; const searchKeyword = document.getElementById('listSearchKeyword').value.toLowerCase().trim(); const resultsDiv = document.getElementById('listTamuResults');
-      if (!listDataView || listDataView.length === 0) return;
-      let processedData = [...listDataView]; 
+      if (!listDataView || listDataView.length === 0) return; let processedData = [...listDataView]; 
 
-      if (searchKeyword) {
-        const keywords = searchKeyword.split(/\s+/);
-        processedData = processedData.filter(function(item) { const combinedText = (item.kategori + " " + item.keterangan).toLowerCase(); return keywords.every(kw => combinedText.includes(kw)); });
-      }
+      if (searchKeyword) { const keywords = searchKeyword.split(/\s+/); processedData = processedData.filter(function(item) { const combinedText = (item.kategori + " " + item.keterangan).toLowerCase(); return keywords.every(kw => combinedText.includes(kw)); }); }
 
       const today = new Date();
-      if (sortType === 'hari_ini') {
-        const tStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-        processedData = processedData.filter(i => i.tanggal === tStr);
-      } else if (sortType === 'minggu_ini') {
-        const lastWeek = new Date(today); lastWeek.setDate(today.getDate() - 7);
-        processedData = processedData.filter(i => { const d = new Date(i.tanggal); return d >= lastWeek && d <= today; });
-      } else if (sortType === 'bulan_ini') {
-        const mStr = String(today.getMonth() + 1).padStart(2, '0'); const yStr = String(today.getFullYear());
-        processedData = processedData.filter(i => { if(!i.tanggal) return false; const p = i.tanggal.split('-'); return p[0] === yStr && p[1] === mStr; });
-      }
+      if (sortType === 'hari_ini') { const tStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0'); processedData = processedData.filter(i => i.tanggal === tStr); } 
+      else if (sortType === 'minggu_ini') { const lastWeek = new Date(today); lastWeek.setDate(today.getDate() - 7); processedData = processedData.filter(i => { const d = new Date(i.tanggal); return d >= lastWeek && d <= today; }); } 
+      else if (sortType === 'bulan_ini') { const mStr = String(today.getMonth() + 1).padStart(2, '0'); const yStr = String(today.getFullYear()); processedData = processedData.filter(i => { if(!i.tanggal) return false; const p = i.tanggal.split('-'); return p[0] === yStr && p[1] === mStr; }); }
 
       switch(sortType) {
         case 'semua_terbaru': case 'hari_ini': case 'minggu_ini': case 'bulan_ini': processedData.sort((a, b) => b.row - a.row); break;
@@ -1058,71 +853,45 @@
         case 'nominal_tinggi': processedData.sort((a, b) => Number(b.nominal) - Number(a.nominal)); break;
         case 'nominal_rendah': processedData.sort((a, b) => Number(a.nominal) - Number(b.nominal)); break;
       }
-      if (processedData.length > 0) { renderCards(processedData, resultsDiv); } 
-      else { resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full">Transaksi tidak ditemukan.</p>'; }
+      if (processedData.length > 0) { renderCards(processedData, resultsDiv); } else { resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full">Transaksi tidak ditemukan.</p>'; }
     }
 
     function resetDashboardUI() {
-      const emptyText = 'Rp 0';
-      document.getElementById('dashSaldo').textContent = emptyText; document.getElementById('dashTotalTransaksi').textContent = '0 Data'; document.getElementById('dashStatus').textContent = '-'; document.getElementById('dashPemasukan').textContent = emptyText; document.getElementById('dashPengeluaran').textContent = emptyText; document.getElementById('dompetTunai').textContent = emptyText; document.getElementById('dompetBank').textContent = emptyText; document.getElementById('dompetEwallet').textContent = emptyText;
-      document.getElementById('dashRecentActivity').innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 text-center py-3 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg w-full">Belum ada transaksi.</p>';
-      updateBudgetUI(0);
-      if(chartInstance) { chartInstance.destroy(); chartInstance = null; }
-      if(kategoriChartInstance) { kategoriChartInstance.destroy(); kategoriChartInstance = null; }
+      const emptyText = 'Rp 0'; document.getElementById('dashSaldo').textContent = emptyText; document.getElementById('dashTotalTransaksi').textContent = '0 Data'; document.getElementById('dashStatus').textContent = '-'; document.getElementById('dashPemasukan').textContent = emptyText; document.getElementById('dashPengeluaran').textContent = emptyText; document.getElementById('dompetTunai').textContent = emptyText; document.getElementById('dompetBank').textContent = emptyText; document.getElementById('dompetEwallet').textContent = emptyText;
+      document.getElementById('dashRecentActivity').innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 text-center py-3 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg w-full">Belum ada transaksi.</p>'; updateBudgetUI(0);
+      if(chartInstance) { chartInstance.destroy(); chartInstance = null; } if(kategoriChartInstance) { kategoriChartInstance.destroy(); kategoriChartInstance = null; }
     }
 
     function processUIFromCache() {
-      const resultsDiv = document.getElementById('listTamuResults');
-      let totalMasuk = 0, totalKeluar = 0, saldoTunai = 0, saldoBank = 0, saldoEwallet = 0; let dataPengeluaran = {}; 
-      let filteredDashboardData = [...listDataView];
+      const resultsDiv = document.getElementById('listTamuResults'); let totalMasuk = 0, totalKeluar = 0, saldoTunai = 0, saldoBank = 0, saldoEwallet = 0; let dataPengeluaran = {}; let filteredDashboardData = [...listDataView];
       
       filteredDashboardData.forEach(function(item) {
         const nom = Number(item.nominal); let valueForWallet = (item.jenis === 'Pemasukan') ? nom : -nom;
         if(item.metode === 'Rekening Bank') saldoBank += valueForWallet; else if(item.metode === 'E-Wallet') saldoEwallet += valueForWallet; else saldoTunai += valueForWallet;
         if(item.jenis === 'Pemasukan') { totalMasuk += nom; } else { totalKeluar += nom; dataPengeluaran[item.kategori] = (dataPengeluaran[item.kategori] || 0) + nom; }
       });
-      
       let saldo = totalMasuk - totalKeluar;
       
       if(!document.getElementById('dashboardSection').classList.contains('hidden')) {
         document.getElementById('dashSaldo').textContent = formatCurrencyHelper(saldo); document.getElementById('dashTotalTransaksi').textContent = filteredDashboardData.length + ' Data';
-        
         let statusEl = document.getElementById('dashStatus');
-        if(saldo > 0) { statusEl.textContent = "Aman"; statusEl.className = "font-bold text-sm md:text-base text-emerald-400 truncate"; }
-        else if(saldo < 0) { statusEl.textContent = "Minus"; statusEl.className = "font-bold text-sm md:text-base text-rose-400 truncate"; }
-        else { statusEl.textContent = "Nol"; statusEl.className = "font-bold text-sm md:text-base text-slate-300 dark:text-slate-500 truncate"; }
-
-        document.getElementById('dashPemasukan').textContent = formatCurrencyHelper(totalMasuk); document.getElementById('dashPengeluaran').textContent = formatCurrencyHelper(totalKeluar);
-        document.getElementById('dompetTunai').textContent = formatCurrencyHelper(saldoTunai); document.getElementById('dompetBank').textContent = formatCurrencyHelper(saldoBank); document.getElementById('dompetEwallet').textContent = formatCurrencyHelper(saldoEwallet);
-
+        if(saldo > 0) { statusEl.textContent = "Aman"; statusEl.className = "font-bold text-sm md:text-base text-emerald-400 truncate"; } else if(saldo < 0) { statusEl.textContent = "Minus"; statusEl.className = "font-bold text-sm md:text-base text-rose-400 truncate"; } else { statusEl.textContent = "Nol"; statusEl.className = "font-bold text-sm md:text-base text-slate-300 dark:text-slate-500 truncate"; }
+        document.getElementById('dashPemasukan').textContent = formatCurrencyHelper(totalMasuk); document.getElementById('dashPengeluaran').textContent = formatCurrencyHelper(totalKeluar); document.getElementById('dompetTunai').textContent = formatCurrencyHelper(saldoTunai); document.getElementById('dompetBank').textContent = formatCurrencyHelper(saldoBank); document.getElementById('dompetEwallet').textContent = formatCurrencyHelper(saldoEwallet);
         updateBudgetUI(totalKeluar);
 
-        const isDark = document.documentElement.classList.contains('dark'); const chartTextColor = isDark ? '#cbd5e1' : '#475569';
-        const ctx = document.getElementById('keuanganChart').getContext('2d');
+        const isDark = document.documentElement.classList.contains('dark'); const chartTextColor = isDark ? '#cbd5e1' : '#475569'; const ctx = document.getElementById('keuanganChart').getContext('2d');
         if(chartInstance) chartInstance.destroy();
-        if(totalMasuk > 0 || totalKeluar > 0) {
-          chartInstance = new Chart(ctx, {
-            type: 'doughnut', data: { labels: ['Pemasukan', 'Pengeluaran'], datasets: [{ data: [totalMasuk, totalKeluar], backgroundColor: ['#34d399', '#fb7185'], borderWidth: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 9, family: 'Inter' } } } } }
-          });
-        } 
+        if(totalMasuk > 0 || totalKeluar > 0) { chartInstance = new Chart(ctx, { type: 'doughnut', data: { labels: ['Pemasukan', 'Pengeluaran'], datasets: [{ data: [totalMasuk, totalKeluar], backgroundColor: ['#34d399', '#fb7185'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 9, family: 'Inter' } } } } } }); } 
 
-        const ctxKategori = document.getElementById('kategoriChart').getContext('2d');
-        if(kategoriChartInstance) kategoriChartInstance.destroy();
+        const ctxKategori = document.getElementById('kategoriChart').getContext('2d'); if(kategoriChartInstance) kategoriChartInstance.destroy();
         if(Object.keys(dataPengeluaran).length > 0) {
           const sortKategori = Object.entries(dataPengeluaran).sort((a,b) => b[1] - a[1]).slice(0,5);
-          kategoriChartInstance = new Chart(ctxKategori, {
-            type: 'pie', data: { labels: sortKategori.map(k => k[0]), datasets: [{ data: sortKategori.map(k => k[1]), backgroundColor: ['#e11d48', '#3b82f6', '#f59e0b', '#8b5cf6', '#14b8a6'], borderWidth: 1, borderColor: isDark ? '#1e293b' : '#ffffff' }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 8, family: 'Inter' } } } } }
-          });
+          kategoriChartInstance = new Chart(ctxKategori, { type: 'pie', data: { labels: sortKategori.map(k => k[0]), datasets: [{ data: sortKategori.map(k => k[1]), backgroundColor: ['#e11d48', '#3b82f6', '#f59e0b', '#8b5cf6', '#14b8a6'], borderWidth: 1, borderColor: isDark ? '#1e293b' : '#ffffff' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 8, family: 'Inter' } } } } } });
         }
 
         let recentHtml = ''; const recentData = [...filteredDashboardData].sort((a, b) => b.row - a.row).slice(0, 3);
         if(recentData.length > 0) {
-          recentData.forEach(function(item) {
-            let color = item.jenis === 'Pemasukan' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'; let sign = item.jenis === 'Pemasukan' ? '+' : '';
-            recentHtml += '<div class="flex justify-between items-center p-2.5 md:p-3 border-b border-slate-100 dark:border-slate-700 last:border-0 w-full min-w-0"><div class="w-[50%] md:w-[60%] min-w-0"><p class="text-[11px] md:text-xs font-bold text-slate-700 dark:text-slate-200 truncate">' + item.kategori + '</p><p class="text-[9px] md:text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">' + item.tanggal + '</p></div><div class="text-right w-[50%] md:w-[40%] min-w-0"><p class="text-[11px] md:text-xs font-extrabold ' + color + ' truncate">' + sign + formatCurrencyHelper(item.nominal) + '</p></div></div>';
-          });
+          recentData.forEach(function(item) { let color = item.jenis === 'Pemasukan' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'; let sign = item.jenis === 'Pemasukan' ? '+' : ''; recentHtml += '<div class="flex justify-between items-center p-2.5 md:p-3 border-b border-slate-100 dark:border-slate-700 last:border-0 w-full min-w-0"><div class="w-[50%] md:w-[60%] min-w-0"><p class="text-[11px] md:text-xs font-bold text-slate-700 dark:text-slate-200 truncate">' + item.kategori + '</p><p class="text-[9px] md:text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">' + item.tanggal + '</p></div><div class="text-right w-[50%] md:w-[40%] min-w-0"><p class="text-[11px] md:text-xs font-extrabold ' + color + ' truncate">' + sign + formatCurrencyHelper(item.nominal) + '</p></div></div>'; });
         } else { recentHtml = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 text-center py-3 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg w-full">Belum ada transaksi bulan ini.</p>'; }
         document.getElementById('dashRecentActivity').innerHTML = recentHtml;
       }
@@ -1131,165 +900,90 @@
 
     async function loadListTransaksi(forceRefresh = true) {
       const sheetName = document.getElementById('globalSheet').value; const resultsDiv = document.getElementById('listTamuResults');
-      if(!sheetName) {
-        if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full">Silakan pilih Buku Kas terlebih dahulu.</p>';
-        resetDashboardUI(); return;
-      }
+      if(!sheetName) { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full">Silakan pilih Buku Kas terlebih dahulu.</p>'; resetDashboardUI(); return; }
       if(!forceRefresh && !isDataDirty && listDataView.length > 0) { processUIFromCache(); return; }
       if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-blue-500 md:col-span-2 text-center py-6 font-semibold animate-pulse w-full"><i class="fas fa-sync-alt fa-spin mr-1.5"></i>Menarik data dari server...</p>';
-      
-      try {
-         const res = await fetchAPI('getAllData', {sheetName: sheetName});
-         if(res.success) { listDataView = res.data; isDataDirty = false; processUIFromCache(); } 
-         else { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-6 w-full">' + res.message + '</p>'; }
-      } catch(err) {
-         if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-6 w-full">Gagal memuat: ' + err.message + '</p>';
-      }
+      try { const res = await fetchAPI('getAllData', {sheetName: sheetName}); if(res.success) { listDataView = res.data; isDataDirty = false; processUIFromCache(); } else { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-6 w-full">' + res.message + '</p>'; } } catch(err) { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-6 w-full">Gagal memuat: ' + err.message + '</p>'; }
     }
 
     async function submitNewCategory() {
       const input = document.getElementById('newSheetName'); const val = input.value.trim();
       if(!val) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Nama Kosong</span>', html: '<span class="text-[11px]">Isi nama buku kas.</span>' });
-      
-      const oldSheet = document.getElementById('globalSheet').value; let carryOverBalance = 0;
-      if(oldSheet && listDataView.length > 0) {
-          let tm = 0, tk = 0; listDataView.forEach(i => { if(i.jenis === 'Pemasukan') tm += Number(i.nominal); else tk += Number(i.nominal); }); carryOverBalance = tm - tk;
-      }
-      
+      const oldSheet = document.getElementById('globalSheet').value; let carryOverBalance = 0; if(oldSheet && listDataView.length > 0) { let tm = 0, tk = 0; listDataView.forEach(i => { if(i.jenis === 'Pemasukan') tm += Number(i.nominal); else tk += Number(i.nominal); }); carryOverBalance = tm - tk; }
       miniSwal.fire({ title: '<span class="text-sm font-bold">Membuat Buku...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       try {
          const res = await fetchAPI('addNewSheet', {sheetName: val});
          if(res.success) {
-            if(carryOverBalance > 0) {
-                let t = new Date(); let tglInput = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, '0') + "-" + String(t.getDate()).padStart(2, '0');
-                await fetchAPI('saveData', { data: { sheetName: val, tanggal: tglInput, jenis: "Pemasukan", kategori: "Sisa Saldo Sebelumnya", nominal: carryOverBalance, keterangan: "Dari periode " + oldSheet, metode: "Tunai" }});
-            }
-            miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 2000, showConfirmButton: false });
-            input.value = ''; const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
+            if(carryOverBalance > 0) { let t = new Date(); let tglInput = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, '0') + "-" + String(t.getDate()).padStart(2, '0'); await fetchAPI('saveData', { data: { sheetName: val, tanggal: tglInput, jenis: "Pemasukan", kategori: "Sisa Saldo Sebelumnya", nominal: carryOverBalance, keterangan: "Dari periode " + oldSheet, metode: "Tunai" }}); }
+            miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 2000, showConfirmButton: false }); input.value = ''; const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
          } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
       } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     function deleteBukuKas() {
-      const sheetName = document.getElementById('globalSheet').value;
-      if(!sheetName) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Pilih buku kas yang ingin dihapus.</span>'});
-
-      Swal.fire({
-        title: '<span class="text-sm md:text-base font-bold">Hapus Permanen</span>', html: '<span class="text-[11px] md:text-xs">Yakin menghapus buku <b>' + sheetName + '</b> beserta isinya?</span>', icon: 'error', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' }
-      }).then(async (result) => {
+      const sheetName = document.getElementById('globalSheet').value; if(!sheetName) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Pilih buku kas yang ingin dihapus.</span>'});
+      Swal.fire({ title: '<span class="text-sm md:text-base font-bold">Hapus Permanen</span>', html: '<span class="text-[11px] md:text-xs">Yakin menghapus buku <b>' + sheetName + '</b> beserta isinya?</span>', icon: 'error', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' } }).then(async (result) => {
         if(result.isConfirmed) {
           miniSwal.fire({ title: '<span class="text-sm font-bold">Menghapus...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
           try {
              const res = await fetchAPI('deleteSheet', {sheetName: sheetName});
-             if(res.success) {
-                miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terhapus</span>', timer: 1500, showConfirmButton: false });
-                const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
-                listDataView = []; resetDashboardUI();
-             } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+             if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terhapus</span>', timer: 1500, showConfirmButton: false }); const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets); listDataView = []; resetDashboardUI(); } 
+             else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
           } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Server Error</span>', html: `<span class="text-[11px]">${err.message}</span>` }) }
         }
       });
     }
 
     function confirmDelete(row) {
-      const data = listDataView.find(i => i.row === row); if (!data) return;
-      const sheetName = document.getElementById('globalSheet').value;
-
-      miniSwal.fire({
-        title: '<span class="text-sm font-bold">Hapus Transaksi</span>', html: `<span class="text-[11px]">Hapus data [${data.kategori}]?</span>`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Hapus', cancelButtonText: 'Batal'
-      }).then(async (result) => {
+      const data = listDataView.find(i => i.row === row); if (!data) return; const sheetName = document.getElementById('globalSheet').value;
+      miniSwal.fire({ title: '<span class="text-sm font-bold">Hapus Transaksi</span>', html: `<span class="text-[11px]">Hapus data [${data.kategori}]?</span>`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Hapus', cancelButtonText: 'Batal' }).then(async (result) => {
         if (result.isConfirmed) {
           miniSwal.fire({ title: '<span class="text-sm font-bold">Menghapus...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
           try {
              const res = await fetchAPI('deleteData', {sheetName: sheetName, row: row});
-             if(res.success) {
-                miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dihapus!</span>', timer: 1500, showConfirmButton: false });
-                isDataDirty = true; onSheetChange(); 
-             } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+             if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dihapus!</span>', timer: 1500, showConfirmButton: false }); isDataDirty = true; onSheetChange(); } 
+             else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
           } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
         }
       });
     }
 
     function openEditModal(row) {
-      const data = listDataView.find(i => i.row === row); if (!data) return;
-      document.getElementById('editRow').value = data.row;
-      let dVal = data.tanggal; if(dVal.includes('/')) { let p = dVal.split('/'); dVal = p[2] + '-' + p[1] + '-' + p[0]; }
-      document.getElementById('editTanggal').value = dVal;
-      if(data.jenis === 'Pemasukan') document.getElementById('editJenisPemasukan').checked = true; else document.getElementById('editJenisPengeluaran').checked = true;
-      const selectMetode = document.getElementById('editMetode'); if(selectMetode && data.metode) selectMetode.value = data.metode;
-      document.getElementById('editKategori').value = data.kategori; document.getElementById('editKeterangan').value = data.keterangan === "-" ? "" : data.keterangan;
-      const inputNominal = document.getElementById('editNominal'); inputNominal.value = data.nominal; formatRupiah(inputNominal); 
-      document.getElementById('editModal').classList.remove('hidden');
+      const data = listDataView.find(i => i.row === row); if (!data) return; document.getElementById('editRow').value = data.row; let dVal = data.tanggal; if(dVal.includes('/')) { let p = dVal.split('/'); dVal = p[2] + '-' + p[1] + '-' + p[0]; } document.getElementById('editTanggal').value = dVal; if(data.jenis === 'Pemasukan') document.getElementById('editJenisPemasukan').checked = true; else document.getElementById('editJenisPengeluaran').checked = true; const selectMetode = document.getElementById('editMetode'); if(selectMetode && data.metode) selectMetode.value = data.metode; document.getElementById('editKategori').value = data.kategori; document.getElementById('editKeterangan').value = data.keterangan === "-" ? "" : data.keterangan; const inputNominal = document.getElementById('editNominal'); inputNominal.value = data.nominal; formatRupiah(inputNominal); document.getElementById('editModal').classList.remove('hidden');
     }
 
     function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
 
     async function submitEditForm(event) {
-      event.preventDefault();
-      const sheetName = document.getElementById('globalSheet').value;
-      const nominalBersih = document.getElementById('editNominal').value.replace(/\./g, '');
-      if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Angka nominal tidak valid.</span>' });
-
+      event.preventDefault(); const sheetName = document.getElementById('globalSheet').value; const nominalBersih = document.getElementById('editNominal').value.replace(/\./g, ''); if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Angka nominal tidak valid.</span>' });
       const payload = { sheetName: sheetName, row: document.getElementById('editRow').value, tanggal: document.getElementById('editTanggal').value, jenis: document.querySelector('input[name="editJenis"]:checked').value, kategori: document.getElementById('editKategori').value, nominal: nominalBersih, keterangan: document.getElementById('editKeterangan').value, metode: document.getElementById('editMetode').value };
-      
       closeEditModal(); miniSwal.fire({ title: '<span class="text-sm font-bold">Menyimpan...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-      try {
-         const res = await fetchAPI('updateData', {payload: payload});
-         if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Disimpan</span>', timer: 1500, showConfirmButton: false }); isDataDirty = true; onSheetChange(); } 
-         else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
-      } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
+      try { const res = await fetchAPI('updateData', {payload: payload}); if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Disimpan</span>', timer: 1500, showConfirmButton: false }); isDataDirty = true; onSheetChange(); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function exportCSV() {
-       const sheetName = document.getElementById('globalSheet').value;
-       if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Pilih Buku</span>', html: '<span class="text-[11px]">Pilih buku kas yang mau dibackup.</span>' });
+       const sheetName = document.getElementById('globalSheet').value; if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Pilih Buku</span>', html: '<span class="text-[11px]">Pilih buku kas yang mau dibackup.</span>' });
        miniSwal.fire({ title: '<span class="text-sm font-bold">Menyiapkan File...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
        try {
          const res = await fetchAPI('getBackupData', {sheetName: sheetName});
-         if(res.success) {
-            let csvContent = ""; res.data.forEach(function(rowArray) { let row = rowArray.map(c => '"' + String(c).replace(/"/g, '""') + '"'); csvContent += row.join(",") + "\r\n"; });
-            const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob));
-            link.setAttribute("download", 'Backup_' + sheetName + '.csv'); link.style.visibility = 'hidden';
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
-            miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 1500, showConfirmButton: false });
-         } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+         if(res.success) { let csvContent = ""; res.data.forEach(function(rowArray) { let row = rowArray.map(c => '"' + String(c).replace(/"/g, '""') + '"'); csvContent += row.join(",") + "\r\n"; }); const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob)); link.setAttribute("download", 'Backup_' + sheetName + '.csv'); link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 1500, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
        } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     function exportPDF() {
-      const sheetName = document.getElementById('globalSheet').value;
-      if(!sheetName || listDataView.length === 0) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Tidak ada data untuk didownload.</span>' });
+      const sheetName = document.getElementById('globalSheet').value; if(!sheetName || listDataView.length === 0) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Tidak ada data untuk didownload.</span>' });
       miniSwal.fire({ title: '<span class="text-sm font-bold">Membuat PDF...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-      const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4'); 
-      let totalMasuk = 0, totalKeluar = 0; listDataView.forEach(i => { const nom = Number(i.nominal); if(i.jenis === 'Pemasukan') totalMasuk += nom; else totalKeluar += nom; });
-      let saldo = totalMasuk - totalKeluar;
-
-      doc.setFontSize(16); doc.setTextColor(30, 58, 138); doc.setFont('helvetica', 'bold'); doc.text('LAPORAN KEUANGAN', 14, 20);
-      doc.setFontSize(10); doc.setTextColor(100, 116, 139); doc.setFont('helvetica', 'normal'); doc.text('Buku Kas: ' + sheetName, 14, 27); doc.text('Tanggal Cetak: ' + new Date().toLocaleDateString('id-ID'), 14, 32);
-      doc.setDrawColor(226, 232, 240); doc.setLineWidth(0.5); doc.line(14, 36, 196, 36);
-      doc.setFontSize(9); doc.setTextColor(15, 23, 42); doc.setFont('helvetica', 'bold'); doc.text('RINGKASAN:', 14, 43); doc.setFont('helvetica', 'normal');
-      doc.text('Pemasukan', 14, 50); doc.text(': ' + formatCurrencyHelper(totalMasuk), 40, 50); doc.text('Pengeluaran', 14, 56); doc.text(': ' + formatCurrencyHelper(totalKeluar), 40, 56); doc.setFont('helvetica', 'bold'); doc.text('Sisa Saldo', 14, 62); doc.text(': ' + formatCurrencyHelper(saldo), 40, 62);
-
-      const tableColumn = ["No", "Tanggal", "Kategori", "Jenis", "Dompet", "Nominal (Rp)"]; const tableRows = [];
-      let pdfData = [...listDataView].sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
-      pdfData.forEach((item, index) => { tableRows.push([ index + 1, item.tanggal, item.kategori, item.jenis, item.metode || '-', formatCurrencyHelper(Number(item.nominal)) ]); });
-      doc.autoTable({ startY: 70, head: [tableColumn], body: tableRows, theme: 'grid', styles: { font: 'helvetica', fontSize: 8 }, headStyles: { fillColor: [30, 58, 138], textColor: [255, 255, 255], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 250, 252] }, columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 5: { halign: 'right' } } });
-      doc.save('Laporan_' + sheetName.replace(/\s+/g, '_') + '.pdf'); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Selesai!</span>', timer: 1500, showConfirmButton: false });
+      const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4'); let totalMasuk = 0, totalKeluar = 0; listDataView.forEach(i => { const nom = Number(i.nominal); if(i.jenis === 'Pemasukan') totalMasuk += nom; else totalKeluar += nom; }); let saldo = totalMasuk - totalKeluar;
+      doc.setFontSize(16); doc.setTextColor(30, 58, 138); doc.setFont('helvetica', 'bold'); doc.text('LAPORAN KEUANGAN', 14, 20); doc.setFontSize(10); doc.setTextColor(100, 116, 139); doc.setFont('helvetica', 'normal'); doc.text('Buku Kas: ' + sheetName, 14, 27); doc.text('Tanggal Cetak: ' + new Date().toLocaleDateString('id-ID'), 14, 32); doc.setDrawColor(226, 232, 240); doc.setLineWidth(0.5); doc.line(14, 36, 196, 36); doc.setFontSize(9); doc.setTextColor(15, 23, 42); doc.setFont('helvetica', 'bold'); doc.text('RINGKASAN:', 14, 43); doc.setFont('helvetica', 'normal'); doc.text('Pemasukan', 14, 50); doc.text(': ' + formatCurrencyHelper(totalMasuk), 40, 50); doc.text('Pengeluaran', 14, 56); doc.text(': ' + formatCurrencyHelper(totalKeluar), 40, 56); doc.setFont('helvetica', 'bold'); doc.text('Sisa Saldo', 14, 62); doc.text(': ' + formatCurrencyHelper(saldo), 40, 62);
+      const tableColumn = ["No", "Tanggal", "Kategori", "Jenis", "Dompet", "Nominal (Rp)"]; const tableRows = []; let pdfData = [...listDataView].sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal)); pdfData.forEach((item, index) => { tableRows.push([ index + 1, item.tanggal, item.kategori, item.jenis, item.metode || '-', formatCurrencyHelper(Number(item.nominal)) ]); }); doc.autoTable({ startY: 70, head: [tableColumn], body: tableRows, theme: 'grid', styles: { font: 'helvetica', fontSize: 8 }, headStyles: { fillColor: [30, 58, 138], textColor: [255, 255, 255], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 250, 252] }, columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 5: { halign: 'right' } } }); doc.save('Laporan_' + sheetName.replace(/\s+/g, '_') + '.pdf'); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Selesai!</span>', timer: 1500, showConfirmButton: false });
     }
 
     async function mintaSaranAI() {
       if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
       if(listDataView.length === 0) return miniSwal.fire({icon: 'info', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Belum ada transaksi untuk dianalisis.</span>'});
-
-      let totalM = 0, totalK = 0; let kat = {};
-      listDataView.forEach(function(i) { let n = Number(i.nominal); if(i.jenis === 'Pemasukan') totalM += n; else { totalK += n; kat[i.kategori] = (kat[i.kategori] || 0) + n; } });
-      let limit = localStorage.getItem('userBudgetLimit') || 0; let topKat = Object.entries(kat).sort((a,b) => b[1]-a[1]).slice(0,3).map(k => k[0] + ' (' + formatCurrencyHelper(k[1]) + ')').join(', ');
-
+      let totalM = 0, totalK = 0; let kat = {}; listDataView.forEach(function(i) { let n = Number(i.nominal); if(i.jenis === 'Pemasukan') totalM += n; else { totalK += n; kat[i.kategori] = (kat[i.kategori] || 0) + n; } }); let limit = localStorage.getItem('userBudgetLimit') || 0; let topKat = Object.entries(kat).sort((a,b) => b[1]-a[1]).slice(0,3).map(k => k[0] + ' (' + formatCurrencyHelper(k[1]) + ')').join(', ');
       miniSwal.fire({ title: '<span class="text-sm font-bold">Menganalisis...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       let aiPrompt = "Bertindaklah sebagai penasihat keuangan yang profesional tapi asyik. Berikut data bulan ini: Pemasukan Rp" + totalM + ", Pengeluaran Rp" + totalK + ", Batas Anggaran Rp" + limit + ". Pengeluaran terbesar di: " + topKat + ". Berikan analisis singkat (apakah aman/boros) dan 2 tips hemat yang spesifik. Jangan pakai format markdown (bintang-bintang). Tulis dalam 2 atau 3 paragraf. Gunakan enter untuk memisahkan paragraf.";
-
       try {
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", { method: "POST", headers: { "Authorization": "Bearer " + groqApiKey, "Content-Type": "application/json" }, body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "user", content: aiPrompt }], temperature: 0.5 }) });
         const data = await response.json(); if(data.error) throw new Error(data.error.message);
@@ -1299,50 +993,25 @@
     }
 
     async function prosesMagicInput() {
-      const textInput = document.getElementById('magicInput').value.trim();
-      if(!textInput) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Kosong</span>', html: '<span class="text-[11px]">Ketik transaksinya dulu.</span>'});
-      if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
+      const textInput = document.getElementById('magicInput').value.trim(); if(!textInput) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Kosong</span>', html: '<span class="text-[11px]">Ketik transaksinya dulu.</span>'}); if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
       miniSwal.fire({ title: '<span class="text-sm font-bold">Membaca...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-
       const aiPrompt = "Anda asisten pencatat keuangan. Terjemahkan kalimat ini ke data keuangan: '" + textInput + "'. Aturan: 1. Tentukan 'nominal' dalam angka murni. 2. Tentukan 'jenis' ('Pemasukan' atau 'Pengeluaran'). 3. Tentukan 'kategori' cerdas. 4. Tentukan 'metode' pembayaran ('Tunai', 'Rekening Bank', 'E-Wallet'). Jika tidak jelas pilih 'Tunai'. 5. Jadikan inti kalimat sebagai 'keterangan'. Output HANYA JSON tanpa teks markdown. Format: {\"nominal\": angka, \"jenis\": \"Pengeluaran\", \"kategori\": \"Nama Kategori\", \"metode\": \"Tunai\", \"keterangan\": \"Deskripsi\"}.";
-
       try {
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", { method: "POST", headers: { "Authorization": "Bearer " + groqApiKey, "Content-Type": "application/json" }, body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "user", content: aiPrompt }], temperature: 0.1 }) });
-        const data = await response.json(); if(data.error) throw new Error(data.error.message);
-        
-        const cleanJsonText = data.choices[0].message.content.replace(/```json/g, '').replace(/```/g, '').trim(); const hasil = JSON.parse(cleanJsonText);
-
-        if(hasil.nominal > 0) {
-          if (hasil.jenis && hasil.jenis.toLowerCase() === 'pemasukan') document.getElementById('radioPemasukan').checked = true; else document.getElementById('radioPengeluaran').checked = true;
-          document.getElementById('kategori').value = hasil.kategori || 'Lainnya'; if(hasil.metode) document.getElementById('metode').value = hasil.metode;
-          const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal);
-          document.getElementById('keterangan').value = hasil.keterangan || textInput; document.getElementById('magicInput').value = ''; 
-          miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 2000, showConfirmButton: false});
-        } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Nominal tidak ditemukan.</span>'}); }
+        const data = await response.json(); if(data.error) throw new Error(data.error.message); const cleanJsonText = data.choices[0].message.content.replace(/```json/g, '').replace(/```/g, '').trim(); const hasil = JSON.parse(cleanJsonText);
+        if(hasil.nominal > 0) { if (hasil.jenis && hasil.jenis.toLowerCase() === 'pemasukan') document.getElementById('radioPemasukan').checked = true; else document.getElementById('radioPengeluaran').checked = true; document.getElementById('kategori').value = hasil.kategori || 'Lainnya'; if(hasil.metode) document.getElementById('metode').value = hasil.metode; const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal); document.getElementById('keterangan').value = hasil.keterangan || textInput; document.getElementById('magicInput').value = ''; miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 2000, showConfirmButton: false}); } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Nominal tidak ditemukan.</span>'}); }
       } catch (error) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${error.message}</span>`}); }
     }
 
     function prosesScanStruk(event) {
-      const file = event.target.files[0]; if(!file) return; event.target.value = '';
-      miniSwal.fire({ title: '<span class="text-sm font-bold">Menganalisis...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
-      const reader = new FileReader(); reader.readAsDataURL(file);
+      const file = event.target.files[0]; if(!file) return; event.target.value = ''; miniSwal.fire({ title: '<span class="text-sm font-bold">Menganalisis...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } }); const reader = new FileReader(); reader.readAsDataURL(file);
       reader.onload = async function() {
-        const base64Image = reader.result;
-        if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
+        const base64Image = reader.result; if(!groqApiKey || groqApiKey.trim() === "") return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">API Key Kosong</span>', html: '<span class="text-[11px]">Kredensial Groq belum diisi.</span>'});
         const aiPrompt = "Anda adalah analis data. Ekstrak dokumen struk ini. ABAIKAN subtotal, pajak, diskon, kembalian. Ambil HANYA SATU angka: TOTAL PEMBAYARAN FINAL (Grand Total). Tentukan 'kategori' cerdas. Tentukan 'metode' pembayaran ('Tunai', 'Rekening Bank', 'E-Wallet'). Jika Debit/BCA/Mandiri pilih Rekening Bank. Jika QRIS/ShopeePay pilih E-Wallet. Jika tidak jelas pilih 'Tunai'. Jadikan nama toko sebagai 'keterangan'. Output JSON murni. Format: {\"nominal\": angka, \"kategori\": \"Kategori\", \"metode\": \"Tunai\", \"keterangan\": \"Nama Toko\"}. Jika gagal, kembalikan nominal 0.";
-
         try {
           const response = await fetch("https://api.groq.com/openai/v1/chat/completions", { method: "POST", headers: { "Authorization": "Bearer " + groqApiKey, "Content-Type": "application/json" }, body: JSON.stringify({ model: "llama-3.2-90b-vision-preview", messages: [ { role: "user", content: [ { type: "text", text: aiPrompt }, { type: "image_url", image_url: { url: base64Image } } ] } ], temperature: 0.1 }) });
-          const data = await response.json(); if(data.error) throw new Error(data.error.message);
-          const cleanJsonText = data.choices[0].message.content.replace(/```json/g, '').replace(/```/g, '').trim(); const hasil = JSON.parse(cleanJsonText);
-
-          if(hasil.nominal > 0) {
-            document.getElementById('radioPengeluaran').checked = true; document.getElementById('kategori').value = hasil.kategori || 'Scan Struk AI';
-            if(hasil.metode) document.getElementById('metode').value = hasil.metode;
-            const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal);
-            document.getElementById('keterangan').value = 'Toko: ' + (hasil.keterangan || 'Berhasil');
-            miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 3000, showConfirmButton: false});
-          } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Gambar buram.</span>'}); }
+          const data = await response.json(); if(data.error) throw new Error(data.error.message); const cleanJsonText = data.choices[0].message.content.replace(/```json/g, '').replace(/```/g, '').trim(); const hasil = JSON.parse(cleanJsonText);
+          if(hasil.nominal > 0) { document.getElementById('radioPengeluaran').checked = true; document.getElementById('kategori').value = hasil.kategori || 'Scan Struk AI'; if(hasil.metode) document.getElementById('metode').value = hasil.metode; const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal); document.getElementById('keterangan').value = 'Toko: ' + (hasil.keterangan || 'Berhasil'); miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 3000, showConfirmButton: false}); } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Gambar buram.</span>'}); }
         } catch (error) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${error.message}</span>`}); }
       };
     }
