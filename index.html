@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinanSmart by JagoNgulik | Nyatet Duit Gak Pake Ribet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+    .gradient-text { background: linear-gradient(135deg, #4f46e5, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-bg { background-image: radial-gradient(circle at top right, #e0e7ff 0%, #f8fafc 40%); }
+    .hide-scroll::-webkit-scrollbar { display: none; } .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    .mockup-shadow { box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.25); }
+  </style>
+</head>
+<body class="text-slate-800 antialiased overflow-x-hidden">
+
+  <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-md shadow-indigo-500/30">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <span class="font-extrabold text-xl tracking-tight text-slate-800">FinanSmart.</span>
+      </div>
+      <div>
+        <a href="app.html" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-xl">
+          Login App <i class="fas fa-arrow-right ml-1 text-xs"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-bg pt-32 pb-16 px-6 min-h-[80vh] flex flex-col justify-center items-center text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-semibold text-xs mb-6 animate-bounce">
+      <span class="w-2 h-2 rounded-full bg-emerald-500"></span> SaaS Pencatat Keuangan Pintar
+    </div>
+    
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 max-w-4xl leading-tight">
+      Nyatet Duit Keluar Gak Pernah Se-<span class="gradient-text">Chill</span> Ini! 😎
+    </h1>
+    
+    <p class="text-slate-500 text-base md:text-lg mb-10 max-w-2xl leading-relaxed">
+      Jujurly, capek kan masukin pengeluaran satu-satu? Di FinanSmart, lu tinggal <b>foto struk</b> atau <b>ketik santai</b>, sisanya biar AI kami yang beresin. Gaji aman, nongkrong jalan terus!
+    </p>
+    
+    <div class="flex flex-col sm:flex-row gap-4 w-full justify-center px-4">
+      <a href="https://wa.me/6289679359605?text=Halo%20Admin,%20mau%20berlangganan%20FinanSmart%20dong!" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full font-bold text-base transition-all shadow-xl shadow-indigo-500/30 flex items-center justify-center">
+        <i class="fab fa-whatsapp mr-2 text-xl"></i> Langganan Sekarang
+      </a>
+      <a href="app.html" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-full font-bold text-base transition-all flex items-center justify-center shadow-sm">
+        Udah Punya Akun? Login
+      </a>
+    </div>
+  </section>
+
+  <section class="py-10 bg-slate-900 overflow-hidden relative">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+    <div class="max-w-6xl mx-auto px-6 mb-8 text-center relative z-10">
+       <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2">Intip Tampilannya Dulu Gak Sih? 👀</h2>
+       <p class="text-slate-400 text-sm">UI/UX dirancang khusus biar mata lu adem pas ngeliat saldo.</p>
+    </div>
+    
+    <div class="flex overflow-x-auto gap-6 pb-10 px-6 hide-scroll snap-x relative z-10" style="scroll-padding-left: 24px;">
+       
+       <div class="snap-start shrink-0">
+          <div class="w-[280px] rounded-[32px] border-8 border-slate-800 bg-slate-800 overflow-hidden mockup-shadow transform transition duration-500 hover:-translate-y-2">
+             <img src="img/ss-login.jpg" alt="Login FinanSmart" class="w-full h-auto object-cover">
+          </div>
+       </div>
+
+       <div class="snap-start shrink-0">
+          <div class="w-[280px] rounded-[32px] border-8 border-slate-800 bg-slate-800 overflow-hidden mockup-shadow transform transition duration-500 hover:-translate-y-2">
+             <img src="img/ss-dash1.jpg" alt="Dashboard FinanSmart" class="w-full h-auto object-cover">
+          </div>
+       </div>
+
+       <div class="snap-start shrink-0">
+          <div class="w-[280px] rounded-[32px] border-8 border-slate-800 bg-slate-800 overflow-hidden mockup-shadow transform transition duration-500 hover:-translate-y-2">
+             <img src="img/ss-dash2.jpg" alt="AI Advisor FinanSmart" class="w-full h-auto object-cover">
+          </div>
+       </div>
+
+       <div class="snap-start shrink-0">
+          <div class="w-[280px] rounded-[32px] border-8 border-slate-800 bg-slate-800 overflow-hidden mockup-shadow transform transition duration-500 hover:-translate-y-2">
+             <img src="img/ss-list.jpg" alt="Riwayat Transaksi" class="w-full h-auto object-cover">
+          </div>
+       </div>
+
+       <div class="snap-start shrink-0">
+          <div class="w-[280px] rounded-[32px] border-8 border-slate-800 bg-slate-800 overflow-hidden mockup-shadow transform transition duration-500 hover:-translate-y-2">
+             <img src="img/ss-setting.jpg" alt="Pengaturan FinanSmart" class="w-full h-auto object-cover">
+          </div>
+       </div>
+
+    </div>
+  </section>
+
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Fitur Sultan yang Bikin Lu Melongo 🤯</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto">Udah gak zaman pakai excel ribet atau nulis di buku. Kita bawa pencatatan keuangan ke level selanjutnya pakai kecerdasan buatan.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm"><i class="fas fa-receipt"></i></div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">Scan Struk AI</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Abis nongkrong, tinggal jepret struknya. AI kita bakal otomatis bacain total harganya masuk ke sistem. <i>Bye-bye</i> ngetik manual!</p>
+        </div>
+        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm"><i class="fas fa-keyboard"></i></div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">Magic Text Input</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Ketik ala chat WA: "Makan nasgor 15k pake dana". Sistem langsung paham nominal, kategori, dan metode pembayarannya.</p>
+        </div>
+        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm"><i class="fas fa-brain"></i></div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">AI Advisor</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Berasa punya konsultan keuangan pribadi. AI bakal nganalisa cash flow lu dan ngasih tips hemat tiap akhir bulan.</p>
+        </div>
+        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm"><i class="fas fa-envelope-open-text"></i></div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">Laporan Auto Send</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Tidur nyenyak pas pergantian bulan. Laporan rekap PDF & CSV otomatis mendarat manis di email lu tiap tanggal 1.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-6 bg-slate-900 text-white text-center">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-5xl font-extrabold mb-6">Mulai Benerin Cash Flow Lu Hari Ini.</h2>
+      <p class="text-slate-300 mb-10 text-lg">Cukup seharga secangkir kopi buat ngerasain semua fitur AI premium selama sebulan penuh. Gak ada kontrak ribet.</p>
+      
+      <a href="https://wa.me/6281234567890?text=Halo%20Admin,%20mau%20berlangganan%20FinanSmart%20dong!" target="_blank" class="inline-block bg-white text-slate-900 hover:bg-slate-200 px-10 py-4 rounded-full font-extrabold text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+        Tanya Harga & Langganan 🚀
+      </a>
+    </div>
+  </section>
+
+  <footer class="bg-white py-8 border-t border-slate-100 text-center">
+    <p class="text-slate-500 text-sm font-semibold">© 2026 FinanSmart by <span class="text-indigo-600">JagoNgulik</span>. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
