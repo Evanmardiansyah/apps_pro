@@ -182,11 +182,17 @@
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 w-full min-w-0">
-              <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-700 pb-2 mb-3">
-                <h2 class="text-sm md:text-base font-bold text-slate-800 dark:text-white flex items-center">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-100 dark:border-slate-700 pb-2 mb-3 gap-2">
+                <h2 class="text-sm md:text-base font-bold text-slate-800 dark:text-white flex items-center whitespace-nowrap">
                   <i class="fas fa-users-cog mr-2 text-indigo-500"></i> Kelola Pelanggan
                 </h2>
-                <button onclick="loadAdminUsers()" class="text-indigo-600 dark:text-indigo-400 text-[10px] md:text-xs font-bold"><i class="fas fa-sync-alt"></i></button>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                   <div class="relative w-full sm:w-48">
+                     <i class="fas fa-search absolute left-2.5 top-1/2 transform -translate-y-1/2 text-slate-400 text-xs"></i>
+                     <input type="text" id="adminSearchUser" onkeyup="filterAdminUsers()" placeholder="Cari username..." class="w-full pl-7 pr-2 py-1.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg outline-none focus:ring-1 focus:ring-indigo-500 text-[10px] md:text-xs dark:text-white">
+                   </div>
+                   <button onclick="loadAdminUsers()" class="text-indigo-600 dark:text-indigo-400 text-[10px] md:text-xs font-bold p-1.5 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/50"><i class="fas fa-sync-alt"></i></button>
+                </div>
               </div>
               <div id="adminUserList" class="space-y-2.5 w-full">
                 <p class="text-xs text-center text-slate-400 py-4">Memuat data pelanggan...</p>
@@ -197,6 +203,17 @@
           <div id="adminSistemSection" class="admin-tab-content hidden animate-fade-in w-full max-w-3xl mx-auto">
             <div class="mb-4 border-b border-slate-200 dark:border-slate-700 pb-3 w-full">
               <h2 class="text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">Pengaturan Panel</h2>
+            </div>
+            
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-800/40 p-4 md:p-5 rounded-2xl mb-5 shadow-sm transition-colors w-full">
+              <h3 class="text-amber-800 dark:text-amber-400 font-bold mb-2 text-xs md:text-sm flex items-center">
+                <i class="fas fa-bullhorn mr-2 text-amber-500"></i> Broadcast Pengumuman Global
+              </h3>
+              <p class="text-[10px] md:text-xs text-amber-700/80 dark:text-amber-300/80 mb-3">Pesan ini akan muncul di dashboard semua pelanggan.</p>
+              <textarea id="adminAnnouncement" rows="2" placeholder="Ketik pengumuman di sini... (Kosongkan untuk menghapus)" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-700/50 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none text-xs md:text-sm dark:text-white placeholder-slate-400 mb-2 resize-none"></textarea>
+              <button onclick="saveGlobalAnnouncement()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded-lg transition text-xs md:text-sm shadow-sm flex items-center justify-center">
+                <i class="fas fa-paper-plane mr-2"></i> Siarkan Pengumuman
+              </button>
             </div>
 
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/30 p-4 md:p-5 rounded-2xl mb-5 shadow-sm transition-colors w-full">
@@ -295,6 +312,13 @@
           </div>
 
           <div id="dashboardSection" class="tab-content block animate-fade-in w-full">
+            
+            <div id="userAnnouncementBanner" class="hidden mb-4 w-full bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-xl p-3 md:p-4 shadow-lg shadow-amber-500/20 relative overflow-hidden">
+               <div class="absolute -right-2 -top-2 opacity-20"><i class="fas fa-bullhorn text-6xl"></i></div>
+               <h4 class="text-[10px] md:text-xs font-extrabold uppercase tracking-wider mb-1 opacity-90"><i class="fas fa-bell mr-1"></i> Informasi FinanSmart</h4>
+               <p id="userAnnouncementText" class="text-xs md:text-sm font-medium relative z-10 leading-relaxed"></p>
+            </div>
+
             <div class="mb-4 border-b border-slate-200 dark:border-slate-700 pb-3 flex justify-between items-end w-full">
               <div class="min-w-0 pr-2">
                 <h2 id="greetingText" class="text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">Ringkasan Keuangan</h2>
@@ -530,7 +554,7 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbz2xrxpy2baau2vMuvmdTHIQ7seZRfyhzTDO7OSJRWxgkWIf_KZ4fO0Z5V4Duj4v-Sp6Q/exec";
     const groqApiKey = "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";
 
-    let listDataView = []; let chartInstance = null; let kategoriChartInstance = null; let isDataDirty = true; 
+    let listDataView = []; let chartInstance = null; let kategoriChartInstance = null; let isDataDirty = true; let adminUserDataCache = [];
 
     const miniSwal = Swal.mixin({ width: '280px', padding: '1.2em', customClass: { title: 'text-sm font-bold text-slate-800', htmlContainer: 'text-[11px] text-slate-500', popup: 'rounded-2xl shadow-xl border border-slate-100 dark:bg-slate-800 dark:border-slate-700' } });
 
@@ -550,14 +574,12 @@
       if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark'); } 
       else { document.documentElement.classList.remove('dark'); }
       
-      // LOAD FITUR INGAT SAYA (MENGISI FIELD LOGIN)
       if(localStorage.getItem('savedFinanUsername') && localStorage.getItem('savedFinanPassword')) {
          const userEl = document.getElementById('loginUser'); const passEl = document.getElementById('loginPass'); const remEl = document.getElementById('rememberMe');
          if(userEl) userEl.value = localStorage.getItem('savedFinanUsername');
          if(passEl) passEl.value = localStorage.getItem('savedFinanPassword');
          if(remEl) remEl.checked = true;
       }
-      
       cekSesiLogin();
     };
 
@@ -609,6 +631,11 @@
             localStorage.setItem('finanSmartUsername', u);
             if(res.role === 'admin' && res.masterDbId) localStorage.setItem('finanSmartMasterDbId', res.masterDbId);
             
+            // 🔥 TAMPILKAN PENGUMUMAN GLOBAL JIKA ADA
+            if(res.announcement && res.announcement.trim() !== "" && res.role === 'user') {
+               localStorage.setItem('finanAnnouncement', res.announcement);
+            } else { localStorage.removeItem('finanAnnouncement'); }
+
             if(remember) {
                localStorage.setItem('savedFinanUsername', u);
                localStorage.setItem('savedFinanPassword', p);
@@ -623,7 +650,7 @@
     }
 
     function prosesLogout() {
-      localStorage.removeItem('finanSmartSheetId'); localStorage.removeItem('finanSmartRole'); localStorage.removeItem('finanSmartMasterDbId'); localStorage.removeItem('finanSmartUsername');
+      localStorage.removeItem('finanSmartSheetId'); localStorage.removeItem('finanSmartRole'); localStorage.removeItem('finanSmartMasterDbId'); localStorage.removeItem('finanSmartUsername'); localStorage.removeItem('finanAnnouncement');
       location.reload();
     }
 
@@ -648,7 +675,6 @@
        else miniSwal.fire({icon: 'error', title: 'Gagal', html: '<span class="text-[11px]">ID Master Database tidak ditemukan. Silakan login ulang.</span>'});
     }
 
-    // 🔥 FITUR BARU: FUNGSI GENERATE PASSWORD ACAK
     function generateRandomPassword() {
       const randomPass = Math.random().toString(36).slice(-8);
       document.getElementById('regPass').value = randomPass;
@@ -663,7 +689,7 @@
        try {
           const res = await fetchAPI('registerUser', {username: user, password: pass, email: email, duration: days});
           if(res.success) {
-             Swal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-[11px] text-slate-500">Database aktif dan Email terkikirim.</span>', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }});
+             Swal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-[11px] text-slate-500">Database aktif dan Email dikirim.</span>', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }});
              document.getElementById('regUser').value = ''; document.getElementById('regPass').value = '';
              
              const waText = `Halo Kak, terima kasih sudah berlangganan FinanSmart JagoNgulik!\n\nAkun kamu sudah aktif sampai dengan tanggal *${res.exp}*.\n\nSilakan login melalui web:\n🌐 *https://finan.smarttools.my.id*\n\n👤 Username: *${user}*\n🔑 Password: *${pass}*\n\n*(Link akses database mentah Google Sheets juga sudah kami kirimkan ke email kamu sebagai arsip pribadi).*`;
@@ -686,71 +712,115 @@
        try {
           const res = await fetchAPI('adminGetUsers');
           if(res.success) {
-             let total = 0, active = 0, suspended = 0;
-             let html = '', expiringHtml = '';
-             const today = new Date();
+             adminUserDataCache = res.data; // Simpan ke cache buat fitur Search
+             
+             // Isi Form Pengumuman kalau ada
+             if(res.announcement !== undefined) {
+               document.getElementById('adminAnnouncement').value = res.announcement;
+             }
 
-             res.data.forEach(user => {
-                total++;
-                if (user.status.toLowerCase() === 'aktif') active++; else suspended++;
-
-                let statusColor = user.status.toLowerCase() === 'aktif' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800' : 'bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800';
-                
-                let isExpired = false, diffDays = 999, expColor = 'text-slate-500 dark:text-slate-400', expText = 'Lifetime';
-                if (user.expired) {
-                   let expDate = new Date(user.expired);
-                   isExpired = today > expDate;
-                   diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
-                   expColor = isExpired ? 'text-rose-500 font-bold' : 'text-slate-500 dark:text-slate-400';
-                   expText = expDate.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
-                }
-
-                html += `<div class="p-4 border border-slate-100 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-700/30 shadow-sm relative transition hover:shadow-md">
-                           <div class="flex justify-between items-center mb-2">
-                             <div class="flex items-center gap-2">
-                               <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xs font-bold">${user.username.charAt(0).toUpperCase()}</div>
-                               <div><strong class="text-slate-800 dark:text-white text-sm block">${user.username}</strong><span class="text-[10px] ${expColor}">Exp: ${expText}</span></div>
-                             </div>
-                             <span class="text-[9px] px-2 py-1 rounded font-bold border uppercase tracking-wider ${statusColor}">${user.status}</span>
-                           </div>
-                           <div class="flex items-center gap-2 mt-3 pt-3 border-t border-slate-200 dark:border-slate-600/50">
-                             <input type="text" value="${user.password}" readonly class="text-[10px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 px-2 py-1.5 rounded text-slate-500 w-24 outline-none">
-                             <div class="flex-1 flex justify-end gap-1.5 flex-wrap">
-                               <button onclick="adminAction('resetPassword', ${user.row}, '${user.username}')" class="px-2 py-1.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 hover:bg-amber-100 rounded text-[9px] font-bold transition" title="Ganti Password"><i class="fas fa-key"></i></button>
-                               <button onclick="adminAction('extend', ${user.row}, '${user.username}')" class="px-2 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 rounded text-[9px] font-bold transition" title="Perpanjang Masa Aktif"><i class="fas fa-calendar-plus"></i></button>
-                               <button onclick="adminAction('toggleStatus', ${user.row}, '${user.status}')" class="px-2 py-1.5 bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-300 rounded text-[9px] font-bold transition" title="Aktif/Suspend"><i class="fas fa-power-off"></i></button>
-                               <button onclick="adminAction('delete', ${user.row}, '${user.username}')" class="px-2 py-1.5 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 rounded text-[9px] font-bold transition" title="Hapus Permanen"><i class="fas fa-trash"></i></button>
-                             </div>
-                           </div>
-                         </div>`;
-
-                if (user.expired && (diffDays <= 7 || isExpired)) {
-                   let alertColor = isExpired ? 'text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 bg-rose-50 dark:bg-rose-900/20' : 'text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-900/20';
-                   let alertBadge = isExpired ? 'Expired' : `${diffDays} Hari Lagi`;
-                   expiringHtml += `<div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-700 last:border-0">
-                                      <div><p class="text-xs font-bold text-slate-700 dark:text-white">${user.username}</p><p class="text-[10px] text-slate-400 dark:text-slate-500">${expText}</p></div>
-                                      <span class="text-[10px] font-bold px-2 py-1 rounded-md border ${alertColor}">${alertBadge}</span>
-                                    </div>`;
-                }
-             });
-
-             document.getElementById('adminStatTotal').innerText = total;
-             document.getElementById('adminStatActive').innerText = active;
-             document.getElementById('adminStatSuspend').innerText = suspended;
-
-             listDiv.innerHTML = total > 0 ? html : '<p class="text-xs text-center text-slate-400 py-4">Belum ada pelanggan.</p>';
-             expiringDiv.innerHTML = expiringHtml || '<p class="text-[11px] text-center text-slate-400 py-4">Semua pelanggan dalam masa aktif aman.</p>';
+             renderAdminUserList(res.data);
+             
           } else { listDiv.innerHTML = '<p class="text-xs text-rose-500 text-center py-4">' + res.message + '</p>'; }
        } catch(err) { listDiv.innerHTML = '<p class="text-xs text-rose-500 text-center py-4">' + err.message + '</p>'; }
     }
 
-    async function adminAction(type, row, extraData) {
+    // 🔥 FITUR BARU: FUNGSI RENDER LIST ADMIN UNTUK SEARCH
+    function renderAdminUserList(usersData) {
+       const listDiv = document.getElementById('adminUserList');
+       const expiringDiv = document.getElementById('adminExpiringList');
+       let total = 0, active = 0, suspended = 0;
+       let html = '', expiringHtml = '';
+       const today = new Date();
+
+       usersData.forEach(user => {
+          total++;
+          if (user.status.toLowerCase() === 'aktif') active++; else suspended++;
+
+          let statusColor = user.status.toLowerCase() === 'aktif' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800' : 'bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800';
+          
+          let isExpired = false, diffDays = 999, expColor = 'text-slate-500 dark:text-slate-400', expText = 'Lifetime';
+          if (user.expired) {
+             let expDate = new Date(user.expired);
+             isExpired = today > expDate;
+             diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+             expColor = isExpired ? 'text-rose-500 font-bold' : 'text-slate-500 dark:text-slate-400';
+             expText = expDate.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+          }
+
+          html += `<div class="p-4 border border-slate-100 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-700/30 shadow-sm relative transition hover:shadow-md">
+                     <div class="flex justify-between items-center mb-2">
+                       <div class="flex items-center gap-2">
+                         <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xs font-bold">${user.username.charAt(0).toUpperCase()}</div>
+                         <div><strong class="text-slate-800 dark:text-white text-sm block">${user.username}</strong><span class="text-[10px] ${expColor}">Exp: ${expText}</span></div>
+                       </div>
+                       <span class="text-[9px] px-2 py-1 rounded font-bold border uppercase tracking-wider ${statusColor}">${user.status}</span>
+                     </div>
+                     <div class="flex items-center gap-2 mt-3 pt-3 border-t border-slate-200 dark:border-slate-600/50">
+                       <input type="text" value="${user.password}" readonly class="text-[10px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 px-2 py-1.5 rounded text-slate-500 w-24 outline-none">
+                       <div class="flex-1 flex justify-end gap-1.5 flex-wrap">
+                         <button onclick="adminAction('sendEmail', ${user.row}, '${user.username}', '${expText}')" class="px-2 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 rounded text-[9px] font-bold transition" title="Kirim Email Tagihan"><i class="fas fa-envelope"></i></button>
+                         <button onclick="adminAction('resetPassword', ${user.row}, '${user.username}')" class="px-2 py-1.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 hover:bg-amber-100 rounded text-[9px] font-bold transition" title="Ganti Password"><i class="fas fa-key"></i></button>
+                         <button onclick="adminAction('extend', ${user.row}, '${user.username}')" class="px-2 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 rounded text-[9px] font-bold transition" title="Perpanjang Masa Aktif"><i class="fas fa-calendar-plus"></i></button>
+                         <button onclick="adminAction('toggleStatus', ${user.row}, '${user.status}')" class="px-2 py-1.5 bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-300 rounded text-[9px] font-bold transition" title="Aktif/Suspend"><i class="fas fa-power-off"></i></button>
+                         <button onclick="adminAction('delete', ${user.row}, '${user.username}')" class="px-2 py-1.5 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 rounded text-[9px] font-bold transition" title="Hapus Permanen"><i class="fas fa-trash"></i></button>
+                       </div>
+                     </div>
+                   </div>`;
+
+          if (user.expired && (diffDays <= 7 || isExpired)) {
+             let alertColor = isExpired ? 'text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 bg-rose-50 dark:bg-rose-900/20' : 'text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-900/20';
+             let alertBadge = isExpired ? 'Expired' : `${diffDays} Hari Lagi`;
+             expiringHtml += `<div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-700 last:border-0">
+                                <div><p class="text-xs font-bold text-slate-700 dark:text-white">${user.username}</p><p class="text-[10px] text-slate-400 dark:text-slate-500">${expText}</p></div>
+                                <div class="flex gap-2">
+                                  <button onclick="adminAction('sendEmail', ${user.row}, '${user.username}', '${expText}')" class="text-[10px] font-bold px-2 py-1 rounded border border-emerald-200 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition"><i class="fas fa-envelope"></i> Tagih</button>
+                                  <span class="text-[10px] font-bold px-2 py-1 rounded border ${alertColor}">${alertBadge}</span>
+                                </div>
+                              </div>`;
+          }
+       });
+
+       // Update Dashboard Stats hanya jika lagi ga nge-search
+       if(document.getElementById('adminSearchUser').value.trim() === "") {
+           document.getElementById('adminStatTotal').innerText = total;
+           document.getElementById('adminStatActive').innerText = active;
+           document.getElementById('adminStatSuspend').innerText = suspended;
+           expiringDiv.innerHTML = expiringHtml || '<p class="text-[11px] text-center text-slate-400 py-4">Semua pelanggan dalam masa aktif aman.</p>';
+       }
+
+       listDiv.innerHTML = total > 0 ? html : '<p class="text-xs text-center text-slate-400 py-4">Pelanggan tidak ditemukan.</p>';
+    }
+
+    // 🔥 FITUR BARU: FUNGSI PENCARIAN
+    function filterAdminUsers() {
+      const keyword = document.getElementById('adminSearchUser').value.toLowerCase().trim();
+      if(!keyword) { renderAdminUserList(adminUserDataCache); return; }
+      
+      const filtered = adminUserDataCache.filter(user => user.username.toLowerCase().includes(keyword));
+      renderAdminUserList(filtered);
+    }
+
+    // 🔥 FITUR BARU: FUNGSI BROADCAST PENGUMUMAN
+    async function saveGlobalAnnouncement() {
+      const text = document.getElementById('adminAnnouncement').value;
+      miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-broadcast-tower mr-1"></i> Menyiarkan...</span>', html: '<div class="py-4"><i class="fas fa-paper-plane text-4xl text-amber-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menyimpan pengumuman ke cloud...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-amber-500/30 shadow-xl' } });
+      try {
+         const res = await fetchAPI('setGlobalAnnouncement', { text: text });
+         if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 2000, showConfirmButton: false }); } 
+         else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
+      } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
+    }
+
+    async function adminAction(type, row, extraData, expDateText = null) {
        let title, text, inputType = null, confirmText = 'Simpan', payload = {};
        
        if (type === 'delete') { title = 'Hapus Pelanggan?'; text = `Yakin menghapus akses <b>${extraData}</b> selamanya?`; confirmText = 'Ya, Hapus!'; } 
        else if (type === 'toggleStatus') { let newStatus = extraData.toLowerCase() === 'aktif' ? 'Suspend' : 'Aktif'; title = `Ubah Status ke ${newStatus}?`; text = `Akses user akan di-${newStatus}.`; payload.status = newStatus; } 
        else if (type === 'extend') { title = 'Perpanjang Masa Aktif'; text = `Masukkan tambahan hari (misal 30) untuk <b>${extraData}</b>:`; inputType = 'number'; } 
        else if (type === 'resetPassword') { title = 'Reset Password'; text = `Ketik password baru untuk <b>${extraData}</b>:`; inputType = 'text'; }
+       // 🔥 FITUR BARU: ALERT KIRIM EMAIL
+       else if (type === 'sendEmail') { title = 'Kirim Email Tagihan?'; text = `Kirim email pengingat perpanjangan langganan ke user <b>${extraData}</b>?`; confirmText = 'Ya, Kirim Email!'; payload.username = extraData; payload.expDate = expDateText; }
 
        const { value: inputValue, isConfirmed } = await Swal.fire({
           title: `<span class="text-sm md:text-base font-bold">${title}</span>`, html: `<span class="text-[11px] md:text-xs">${text}</span>`, input: inputType, showCancelButton: true, confirmButtonColor: '#4f46e5', cancelButtonColor: '#94a3b8', confirmButtonText: confirmText, width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' }
@@ -761,10 +831,16 @@
        if (inputType === 'text') payload.newPassword = inputValue;
        if (inputType && !inputValue) return miniSwal.fire({icon:'warning', title:'<span class="text-sm font-bold">Batal</span>', html:'<span class="text-[11px]">Input tidak boleh kosong.</span>'});
 
-       miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-sync mr-1"></i> Memproses...</span>', html: '<div class="py-4"><i class="fas fa-cog text-4xl text-amber-500 animate-spin mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Memperbarui data pelanggan...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-amber-500/30 shadow-xl' } });
+       let loadingIcon = type === 'sendEmail' ? 'fa-paper-plane text-emerald-500 animate-bounce' : 'fa-cog text-amber-500 animate-spin';
+       let loadingColor = type === 'sendEmail' ? 'text-emerald-500' : 'text-amber-500';
+
+       miniSwal.fire({ title: `<span class="text-sm font-bold ${loadingColor}"><i class="fas fa-sync mr-1"></i> Memproses...</span>`, html: `<div class="py-4"><i class="fas ${loadingIcon} text-4xl mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Tunggu sebentar...</span></div>`, allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 shadow-xl' } });
        try {
-          const res = await fetchAPI('adminManageUser', { actionType: type, row: row, payload: payload });
-          if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 1500, showConfirmButton: false }); loadAdminUsers(); } 
+          let res;
+          if (type === 'sendEmail') { res = await fetchAPI('sendReminderEmail', { username: payload.username, expDate: payload.expDate }); }
+          else { res = await fetchAPI('adminManageUser', { actionType: type, row: row, payload: payload }); }
+          
+          if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 2000, showConfirmButton: false }); if(type !== 'sendEmail') loadAdminUsers(); } 
           else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
        } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
@@ -772,6 +848,14 @@
     async function initAppUtama() {
       try { initBudgetInput(); initEmailInput(); } catch(e) {}
       updateGreeting(); document.getElementById('tanggal').valueAsDate = new Date();
+      
+      // 🔥 TAMPILKAN BANNER PENGUMUMAN GLOBAL JIKA ADA
+      let announcement = localStorage.getItem('finanAnnouncement');
+      if(announcement && announcement.trim() !== "") {
+         document.getElementById('userAnnouncementText').textContent = announcement;
+         document.getElementById('userAnnouncementBanner').classList.remove('hidden');
+      }
+
       try {
          const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets);
       } catch(err) { document.getElementById('globalSheet').innerHTML = '<option value="">Server Error</option>'; miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>`}); }
