@@ -47,9 +47,9 @@
         </div>
         
         <div class="mb-5 flex items-center">
-          <label class="flex items-center cursor-pointer">
-            <input type="checkbox" id="rememberMe" class="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600 transition-colors">
-            <span class="ml-2 text-[11px] md:text-xs font-medium text-slate-600 dark:text-slate-400">Ingat Saya</span>
+          <label class="flex items-center cursor-pointer group">
+            <input type="checkbox" id="rememberMe" class="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500 transition-colors cursor-pointer">
+            <span class="ml-2 text-[11px] md:text-xs font-medium text-slate-600 dark:text-slate-400 group-hover:text-blue-600 transition-colors">Ingat Saya</span>
           </label>
         </div>
 
@@ -149,7 +149,12 @@
                   </div>
                   <div>
                     <label class="block text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Password</label>
-                    <input type="text" id="regPass" required class="w-full px-3 py-2 md:px-3.5 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
+                    <div class="relative w-full">
+                      <input type="text" id="regPass" required class="w-full pl-3 pr-9 py-2 md:pl-3.5 md:pr-10 md:py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs md:text-sm dark:text-white">
+                      <button type="button" onclick="generateRandomPassword()" class="absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition" title="Generate Password Acak">
+                        <i class="fas fa-dice"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
@@ -523,6 +528,7 @@
   <script>
     // ⚠️ GANTI DENGAN LINK WEB APP GAS KAMU DI SINI
     const API_URL = "https://script.google.com/macros/s/AKfycbz2xrxpy2baau2vMuvmdTHIQ7seZRfyhzTDO7OSJRWxgkWIf_KZ4fO0Z5V4Duj4v-Sp6Q/exec";
+    const groqApiKey = "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";
 
     let listDataView = []; let chartInstance = null; let kategoriChartInstance = null; let isDataDirty = true; 
 
@@ -603,7 +609,6 @@
             localStorage.setItem('finanSmartUsername', u);
             if(res.role === 'admin' && res.masterDbId) localStorage.setItem('finanSmartMasterDbId', res.masterDbId);
             
-            // PROSES PENYIMPANAN INGAT SAYA
             if(remember) {
                localStorage.setItem('savedFinanUsername', u);
                localStorage.setItem('savedFinanPassword', p);
@@ -641,6 +646,12 @@
        const dbId = localStorage.getItem('finanSmartMasterDbId');
        if(dbId) window.open('https://docs.google.com/spreadsheets/d/' + dbId, '_blank');
        else miniSwal.fire({icon: 'error', title: 'Gagal', html: '<span class="text-[11px]">ID Master Database tidak ditemukan. Silakan login ulang.</span>'});
+    }
+
+    // 🔥 FITUR BARU: FUNGSI GENERATE PASSWORD ACAK
+    function generateRandomPassword() {
+      const randomPass = Math.random().toString(36).slice(-8);
+      document.getElementById('regPass').value = randomPass;
     }
 
     async function buatAkunCustomer(e) {
@@ -1082,7 +1093,6 @@
         if(res.success) { 
            document.getElementById('inputNewPassword').value = ''; 
            
-           // Update password di auto-login jika fitur Ingat Saya aktif
            if(localStorage.getItem('savedFinanUsername') === username) {
                localStorage.setItem('savedFinanPassword', newPass);
            }
