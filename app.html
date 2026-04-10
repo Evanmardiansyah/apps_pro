@@ -76,6 +76,15 @@
             </button>
           </div>
         </div>
+        
+        <div class="pt-6 border-t border-slate-200 dark:border-slate-700 space-y-3">
+          <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all">
+            <i class="fas fa-moon mr-2"></i> Mode Gelap
+          </button>
+          <button onclick="prosesLogout()" class="w-full flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all">
+            <i class="fas fa-sign-out-alt mr-2"></i> Keluar
+          </button>
+        </div>
       </div>
 
       <div class="flex-1 flex flex-col h-full relative overflow-hidden w-full max-w-full">
@@ -571,7 +580,6 @@
       location.reload();
     }
 
-    // ================= FUNGSI KHUSUS ADMIN =================
     function switchAdminTab(tabId) {
       document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
       document.getElementById(tabId + 'Section').classList.remove('hidden');
@@ -708,7 +716,6 @@
        } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
-    // ================= INISIASI APLIKASI UTAMA (CUSTOMER) =================
     async function initAppUtama() {
       try { initBudgetInput(); initEmailInput(); } catch(e) {}
       updateGreeting(); document.getElementById('tanggal').valueAsDate = new Date();
@@ -974,12 +981,26 @@
       const tableColumn = ["No", "Tanggal", "Kategori", "Jenis", "Dompet", "Nominal (Rp)"]; const tableRows = []; let pdfData = [...listDataView].sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal)); pdfData.forEach((item, index) => { tableRows.push([ index + 1, item.tanggal, item.kategori, item.jenis, item.metode || '-', formatCurrencyHelper(Number(item.nominal)) ]); }); doc.autoTable({ startY: 70, head: [tableColumn], body: tableRows, theme: 'grid', styles: { font: 'helvetica', fontSize: 8 }, headStyles: { fillColor: [30, 58, 138], textColor: [255, 255, 255], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 250, 252] }, columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 5: { halign: 'right' } } }); doc.save('Laporan_' + sheetName.replace(/\s+/g, '_') + '.pdf'); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Selesai!</span>', timer: 1500, showConfirmButton: false });
     }
 
+    // =========================================================================
+    // FITUR BUMBU ANIMASI AI KEREN 🚀
+    // =========================================================================
+    
     async function mintaSaranAI() {
       if(listDataView.length === 0) return miniSwal.fire({icon: 'info', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Belum ada transaksi untuk dianalisis.</span>'});
-      let totalM = 0, totalK = 0; let kat = {}; listDataView.forEach(function(i) { let n = Number(i.nominal); if(i.jenis === 'Pemasukan') totalM += n; else { totalK += n; kat[i.kategori] = (kat[i.kategori] || 0) + n; } }); let limit = Number(localStorage.getItem('userBudgetLimit') || 0); let topKat = Object.entries(kat).sort((a,b) => b[1]-a[1]).slice(0,3).map(k => k[0] + ' (' + formatCurrencyHelper(k[1]) + ')').join(', ');
-      miniSwal.fire({ title: '<span class="text-sm font-bold">Menganalisis...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
       
-      // REVISI AI PROMPT: NOMINAL SUDAH DIFORMAT JADI "RP 50.000"
+      let totalM = 0, totalK = 0; let kat = {}; 
+      listDataView.forEach(function(i) { let n = Number(i.nominal); if(i.jenis === 'Pemasukan') totalM += n; else { totalK += n; kat[i.kategori] = (kat[i.kategori] || 0) + n; } }); 
+      let limit = Number(localStorage.getItem('userBudgetLimit') || 0); 
+      let topKat = Object.entries(kat).sort((a,b) => b[1]-a[1]).slice(0,3).map(k => k[0] + ' (' + formatCurrencyHelper(k[1]) + ')').join(', ');
+      
+      // BUMBU ANIMASI AI ADVISOR
+      miniSwal.fire({ 
+        title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-robot mr-1"></i> AI Advisor Berpikir...</span>', 
+        html: '<div class="py-4"><i class="fas fa-brain text-4xl text-indigo-500 animate-pulse mb-3 shadow-indigo-500/50 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menganalisis kebiasaan jajan lu...</span></div>', 
+        allowOutsideClick: false, showConfirmButton: false, 
+        customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-indigo-500/30 shadow-2xl shadow-indigo-500/20' } 
+      });
+      
       let aiPrompt = "Bertindaklah sebagai penasihat keuangan yang profesional tapi asyik. Berikut data bulan ini: Pemasukan " + formatCurrencyHelper(totalM) + ", Pengeluaran " + formatCurrencyHelper(totalK) + ", Batas Anggaran " + formatCurrencyHelper(limit) + ". Pengeluaran terbesar di: " + topKat + ". Berikan analisis singkat (apakah aman/boros) dan 2 tips hemat yang spesifik. Jangan pakai format markdown (bintang-bintang). Tulis dalam 2 atau 3 paragraf. Gunakan enter untuk memisahkan paragraf.";
       
       try {
@@ -991,19 +1012,47 @@
     }
 
     async function prosesMagicInput() {
-      const textInput = document.getElementById('magicInput').value.trim(); if(!textInput) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Kosong</span>', html: '<span class="text-[11px]">Ketik transaksinya dulu.</span>'});
-      miniSwal.fire({ title: '<span class="text-sm font-bold">Membaca...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } });
+      const textInput = document.getElementById('magicInput').value.trim(); 
+      if(!textInput) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Kosong</span>', html: '<span class="text-[11px]">Ketik transaksinya dulu.</span>'});
+      
+      // BUMBU ANIMASI MAGIC INPUT
+      miniSwal.fire({ 
+        title: '<span class="text-sm font-bold text-purple-500"><i class="fas fa-magic mr-1"></i> Magic AI Activating...</span>', 
+        html: '<div class="py-4"><i class="fas fa-wand-magic text-4xl text-purple-500 animate-bounce mb-3 shadow-purple-500/50 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menerjemahkan bahasa gaul jadi data...</span></div>', 
+        allowOutsideClick: false, showConfirmButton: false, 
+        customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-purple-500/30 shadow-2xl shadow-purple-500/20' } 
+      });
+      
       const aiPrompt = "Anda asisten pencatat keuangan. Terjemahkan kalimat ini ke data keuangan: '" + textInput + "'. Aturan: 1. Tentukan 'nominal' dalam angka murni. 2. Tentukan 'jenis' ('Pemasukan' atau 'Pengeluaran'). 3. Tentukan 'kategori' cerdas. 4. Tentukan 'metode' pembayaran ('Tunai', 'Rekening Bank', 'E-Wallet'). Jika tidak jelas pilih 'Tunai'. 5. Jadikan inti kalimat sebagai 'keterangan'. Output HANYA JSON tanpa teks markdown. Format: {\"nominal\": angka, \"jenis\": \"Pengeluaran\", \"kategori\": \"Nama Kategori\", \"metode\": \"Tunai\", \"keterangan\": \"Deskripsi\"}.";
+      
       try {
         const res = await fetchAPI('magicInputAI', { prompt: aiPrompt });
         if(!res.success) throw new Error(res.message);
         const cleanJsonText = res.text.replace(/```json/g, '').replace(/```/g, '').trim(); const hasil = JSON.parse(cleanJsonText);
-        if(hasil.nominal > 0) { if (hasil.jenis && hasil.jenis.toLowerCase() === 'pemasukan') document.getElementById('radioPemasukan').checked = true; else document.getElementById('radioPengeluaran').checked = true; document.getElementById('kategori').value = hasil.kategori || 'Lainnya'; if(hasil.metode) document.getElementById('metode').value = hasil.metode; const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal); document.getElementById('keterangan').value = hasil.keterangan || textInput; document.getElementById('magicInput').value = ''; miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 2000, showConfirmButton: false}); } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Nominal tidak ditemukan.</span>'}); }
+        if(hasil.nominal > 0) { 
+           if (hasil.jenis && hasil.jenis.toLowerCase() === 'pemasukan') document.getElementById('radioPemasukan').checked = true; else document.getElementById('radioPengeluaran').checked = true; 
+           document.getElementById('kategori').value = hasil.kategori || 'Lainnya'; 
+           if(hasil.metode) document.getElementById('metode').value = hasil.metode; 
+           const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal); 
+           document.getElementById('keterangan').value = hasil.keterangan || textInput; 
+           document.getElementById('magicInput').value = ''; 
+           miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 2000, showConfirmButton: false}); 
+        } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Nominal tidak ditemukan.</span>'}); }
       } catch (error) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${error.message}</span>`}); }
     }
 
     function prosesScanStruk(event) {
-      const file = event.target.files[0]; if(!file) return; event.target.value = ''; miniSwal.fire({ title: '<span class="text-sm font-bold">Menganalisis...</span>', allowOutsideClick: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800' }, didOpen: () => { Swal.showLoading() } }); const reader = new FileReader(); reader.readAsDataURL(file);
+      const file = event.target.files[0]; if(!file) return; event.target.value = ''; 
+      
+      // BUMBU ANIMASI SCAN STRUK
+      miniSwal.fire({ 
+        title: '<span class="text-sm font-bold text-blue-500"><i class="fas fa-eye mr-1"></i> AI Vision Scanning...</span>', 
+        html: '<div class="py-4"><i class="fas fa-receipt text-4xl text-blue-500 animate-pulse mb-3 shadow-blue-500/50 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Mengekstrak angka dari struk...</span></div>', 
+        allowOutsideClick: false, showConfirmButton: false, 
+        customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-blue-500/30 shadow-2xl shadow-blue-500/20' } 
+      });
+      
+      const reader = new FileReader(); reader.readAsDataURL(file);
       reader.onload = async function() {
         const base64Image = reader.result;
         const aiPrompt = "Anda adalah analis data. Ekstrak dokumen struk ini. ABAIKAN subtotal, pajak, diskon, kembalian. Ambil HANYA SATU angka: TOTAL PEMBAYARAN FINAL (Grand Total). Tentukan 'kategori' cerdas. Tentukan 'metode' pembayaran ('Tunai', 'Rekening Bank', 'E-Wallet'). Jika Debit/BCA/Mandiri pilih Rekening Bank. Jika QRIS/ShopeePay pilih E-Wallet. Jika tidak jelas pilih 'Tunai'. Jadikan nama toko sebagai 'keterangan'. Output JSON murni. Format: {\"nominal\": angka, \"kategori\": \"Kategori\", \"metode\": \"Tunai\", \"keterangan\": \"Nama Toko\"}. Jika gagal, kembalikan nominal 0.";
@@ -1011,7 +1060,14 @@
           const res = await fetchAPI('scanStrukAI', { prompt: aiPrompt, base64Image: base64Image });
           if(!res.success) throw new Error(res.message);
           const cleanJsonText = res.text.replace(/```json/g, '').replace(/```/g, '').trim(); const hasil = JSON.parse(cleanJsonText);
-          if(hasil.nominal > 0) { document.getElementById('radioPengeluaran').checked = true; document.getElementById('kategori').value = hasil.kategori || 'Scan Struk AI'; if(hasil.metode) document.getElementById('metode').value = hasil.metode; const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal); document.getElementById('keterangan').value = 'Toko: ' + (hasil.keterangan || 'Berhasil'); miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 3000, showConfirmButton: false}); } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Gambar buram.</span>'}); }
+          if(hasil.nominal > 0) { 
+             document.getElementById('radioPengeluaran').checked = true; 
+             document.getElementById('kategori').value = hasil.kategori || 'Scan Struk AI'; 
+             if(hasil.metode) document.getElementById('metode').value = hasil.metode; 
+             const inputNominal = document.getElementById('nominal'); inputNominal.value = hasil.nominal; formatRupiah(inputNominal); 
+             document.getElementById('keterangan').value = 'Toko: ' + (hasil.keterangan || 'Berhasil'); 
+             miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', timer: 3000, showConfirmButton: false}); 
+          } else { miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Gambar buram.</span>'}); }
         } catch (error) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${error.message}</span>`}); }
       };
     }
