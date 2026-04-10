@@ -663,7 +663,7 @@
        try {
           const res = await fetchAPI('registerUser', {username: user, password: pass, email: email, duration: days});
           if(res.success) {
-             Swal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-[11px] text-slate-500">Database aktif dan Email dikirim.</span>', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }});
+             Swal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-[11px] text-slate-500">Database aktif dan Email terkikirim.</span>', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800' }});
              document.getElementById('regUser').value = ''; document.getElementById('regPass').value = '';
              
              const waText = `Halo Kak, terima kasih sudah berlangganan FinanSmart JagoNgulik!\n\nAkun kamu sudah aktif sampai dengan tanggal *${res.exp}*.\n\nSilakan login melalui web:\n🌐 *https://finan.smarttools.my.id*\n\n👤 Username: *${user}*\n🔑 Password: *${pass}*\n\n*(Link akses database mentah Google Sheets juga sudah kami kirimkan ke email kamu sebagai arsip pribadi).*`;
