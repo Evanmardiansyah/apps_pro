@@ -41,10 +41,18 @@
           <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Username</label>
           <input type="text" id="loginUser" required class="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs md:text-sm dark:text-white">
         </div>
-        <div class="mb-5 text-left">
+        <div class="mb-4 text-left">
           <label class="block text-[11px] md:text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">Password</label>
           <input type="password" id="loginPass" required class="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs md:text-sm dark:text-white">
         </div>
+        
+        <div class="mb-5 flex items-center">
+          <label class="flex items-center cursor-pointer">
+            <input type="checkbox" id="rememberMe" class="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600 transition-colors">
+            <span class="ml-2 text-[11px] md:text-xs font-medium text-slate-600 dark:text-slate-400">Ingat Saya</span>
+          </label>
+        </div>
+
         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-blue-500/30 text-xs md:text-sm">
           Masuk ke Aplikasi
         </button>
@@ -93,7 +101,7 @@
             <div class="mb-4 border-b border-slate-200 dark:border-slate-700 pb-3 w-full flex justify-between items-center">
               <div>
                 <h2 class="text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">Ringkasan Sistem</h2>
-                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Pantau status pelanggan aplikasi SaaS Anda.</p>
+                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Pantau status pelanggan aplikasi SaaS kamu.</p>
               </div>
             </div>
 
@@ -513,9 +521,8 @@
   </div>
 
   <script>
-    // ⚠️ GANTI DENGAN LINK WEB APP GAS LU
+    // ⚠️ GANTI DENGAN LINK WEB APP GAS KAMU DI SINI
     const API_URL = "https://script.google.com/macros/s/AKfycbz2xrxpy2baau2vMuvmdTHIQ7seZRfyhzTDO7OSJRWxgkWIf_KZ4fO0Z5V4Duj4v-Sp6Q/exec";
-    const groqApiKey = "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";
 
     let listDataView = []; let chartInstance = null; let kategoriChartInstance = null; let isDataDirty = true; 
 
@@ -536,6 +543,15 @@
     window.onload = function() {
       if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark'); } 
       else { document.documentElement.classList.remove('dark'); }
+      
+      // LOAD FITUR INGAT SAYA (MENGISI FIELD LOGIN)
+      if(localStorage.getItem('savedFinanUsername') && localStorage.getItem('savedFinanPassword')) {
+         const userEl = document.getElementById('loginUser'); const passEl = document.getElementById('loginPass'); const remEl = document.getElementById('rememberMe');
+         if(userEl) userEl.value = localStorage.getItem('savedFinanUsername');
+         if(passEl) passEl.value = localStorage.getItem('savedFinanPassword');
+         if(remEl) remEl.checked = true;
+      }
+      
       cekSesiLogin();
     };
 
@@ -546,7 +562,6 @@
       processUIFromCache(); 
     }
 
-    // ================= FUNGSI OTENTIKASI & ROUTING =================
     function cekSesiLogin() {
       const sheetId = localStorage.getItem('finanSmartSheetId');
       const role = localStorage.getItem('finanSmartRole');
@@ -577,6 +592,7 @@
       e.preventDefault();
       const u = document.getElementById('loginUser').value.trim();
       const p = document.getElementById('loginPass').value.trim();
+      const remember = document.getElementById('rememberMe').checked;
       
       miniSwal.fire({ title: '<span class="text-sm font-bold text-blue-500"><i class="fas fa-shield-alt mr-1"></i> Autentikasi...</span>', html: '<div class="py-4"><i class="fas fa-fingerprint text-4xl text-blue-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Memverifikasi data kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-blue-500/30 shadow-xl' } });
       try {
@@ -584,8 +600,18 @@
          if (res.success) {
             localStorage.setItem('finanSmartSheetId', res.sheetId);
             localStorage.setItem('finanSmartRole', res.role);
-            localStorage.setItem('finanSmartUsername', u); // DISIMPAN UNTUK GANTI PASSWORD
+            localStorage.setItem('finanSmartUsername', u);
             if(res.role === 'admin' && res.masterDbId) localStorage.setItem('finanSmartMasterDbId', res.masterDbId);
+            
+            // PROSES PENYIMPANAN INGAT SAYA
+            if(remember) {
+               localStorage.setItem('savedFinanUsername', u);
+               localStorage.setItem('savedFinanPassword', p);
+            } else {
+               localStorage.removeItem('savedFinanUsername');
+               localStorage.removeItem('savedFinanPassword');
+            }
+            
             miniSwal.close(); cekSesiLogin();
          } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Login Gagal</span>', html: `<span class="text-[11px] text-slate-500">${res.message}</span>`, customClass: { popup: 'rounded-2xl dark:bg-slate-800' } }); }
       } catch(err) { miniSwal.fire({ icon: 'error', title: 'Koneksi Gagal', text: err.message }); }
@@ -596,7 +622,6 @@
       location.reload();
     }
 
-    // ================= FUNGSI KHUSUS ADMIN =================
     function switchAdminTab(tabId) {
       document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
       document.getElementById(tabId + 'Section').classList.remove('hidden');
@@ -733,7 +758,6 @@
        } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
-    // ================= INISIASI APLIKASI UTAMA (CUSTOMER) =================
     async function initAppUtama() {
       try { initBudgetInput(); initEmailInput(); } catch(e) {}
       updateGreeting(); document.getElementById('tanggal').valueAsDate = new Date();
@@ -1006,7 +1030,7 @@
       
       miniSwal.fire({ title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-robot mr-1"></i> AI Advisor Berpikir...</span>', html: '<div class="py-4"><i class="fas fa-brain text-4xl text-indigo-500 animate-pulse mb-3 shadow-indigo-500/50 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menganalisis pola pengeluaran kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-indigo-500/30 shadow-2xl shadow-indigo-500/20' } });
       
-      let aiPrompt = "Bertindaklah sebagai penasihat keuangan yang profesional tapi asyik ala startup. Gunakan sapaan 'kamu' (jangan gunakan kata 'lu' atau 'gue'). Berikut data bulan ini: Pemasukan Rp" + totalM + ", Pengeluaran Rp" + totalK + ", Batas Anggaran Rp" + limit + ". Pengeluaran terbesar di: " + topKat + ". Berikan analisis singkat (apakah aman/boros) dan 2 tips hemat yang spesifik. Jangan pakai format markdown (bintang-bintang). Tulis dalam 2 atau 3 paragraf. Gunakan enter untuk memisahkan paragraf.";
+      let aiPrompt = "Bertindaklah sebagai penasihat keuangan yang profesional tapi asyik ala startup. Gunakan sapaan 'kamu'. Berikut data bulan ini: Pemasukan Rp" + totalM + ", Pengeluaran Rp" + totalK + ", Batas Anggaran Rp" + limit + ". Pengeluaran terbesar di: " + topKat + ". Berikan analisis singkat (apakah aman/boros) dan 2 tips hemat yang spesifik. Jangan pakai format markdown (bintang-bintang). Tulis dalam 2 atau 3 paragraf. Gunakan enter untuk memisahkan paragraf.";
       try {
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", { method: "POST", headers: { "Authorization": "Bearer " + groqApiKey, "Content-Type": "application/json" }, body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "user", content: aiPrompt }], temperature: 0.5 }) });
         const data = await response.json(); if(data.error) throw new Error(data.error.message);
@@ -1045,7 +1069,6 @@
       };
     }
 
-    // 🔥 FITUR BARU: FUNGSI GANTI PASSWORD
     async function prosesGantiPassword() {
       const newPass = document.getElementById('inputNewPassword').value.trim(); 
       if(!newPass) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Kosong</span>', html: '<span class="text-[11px]">Ketik password baru kamu.</span>'}); 
@@ -1058,6 +1081,12 @@
         const res = await fetchAPI('changePassword', {username: username, newPassword: newPass});
         if(res.success) { 
            document.getElementById('inputNewPassword').value = ''; 
+           
+           // Update password di auto-login jika fitur Ingat Saya aktif
+           if(localStorage.getItem('savedFinanUsername') === username) {
+               localStorage.setItem('savedFinanPassword', newPass);
+           }
+           
            miniSwal.fire({icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', html: '<span class="text-[11px]">Password berhasil diperbarui.</span>', timer: 2000, showConfirmButton: false}); 
         } else { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>`}); }
       } catch (error) { miniSwal.fire({icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${error.message}</span>`}); }
