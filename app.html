@@ -3,22 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FinanSmart JagoNgulik - Edisi Premium Zenith</title>
+  <title>FinanSmart by JagoNgulik</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  <script> 
-    tailwind.config = { 
-      darkMode: 'class', 
-      theme: { 
-        extend: {
-          boxShadow: {
-            'zenith-soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
-            'zenith-medium': '0 8px 12px -2px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-          }
-        } 
-      } 
-    } 
-  </script>
+  <script> tailwind.config = { darkMode: 'class', theme: { extend: {} } } </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -28,7 +16,7 @@
   
   <style>
     html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-    html { background-color: #f1f5f9; } html.dark { background-color: #0f172a; }
+    html { background-color: #f8fafc; } html.dark { background-color: #0f172a; }
     .hide-scroll::-webkit-scrollbar { display: none; } .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
     .btn-ai { background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%); transition: all 0.2s ease-in-out; }
     .progress-bar-fill { transition: width 1s ease-in-out, background-color 0.3s ease; }
@@ -43,21 +31,21 @@
     .nav-admin-btn.active.desktop-admin-btn::before { background-color: #4f46e5; }
     .nav-admin-btn.desktop-admin-btn:not(.active):hover::before { background-color: #a5b4fc; }
 
-    /* Table styling enterprise */
-    table.enterprise-table { border-collapse: separate; border-spacing: 0; width: 100%; table-layout: fixed; }
-    table.enterprise-table thead th { text-align: left; padding: 12px 16px; border-bottom: 2px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
-    table.enterprise-table tbody tr { transition: background-color 0.15s; }
+    /* Enterprise Table Styles */
+    table.enterprise-table { border-collapse: separate; border-spacing: 0; width: 100%; }
+    table.enterprise-table thead th { text-align: left; padding: 14px 16px; border-bottom: 2px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    html.dark table.enterprise-table thead th { border-bottom-color: #334155; color: #94a3b8; }
+    table.enterprise-table tbody tr { transition: background-color 0.2s ease; }
     table.enterprise-table tbody tr:hover { background-color: #f8fafc; }
     html.dark table.enterprise-table tbody tr:hover { background-color: #1e293b; }
-    table.enterprise-table tbody td { padding: 12px 16px; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: #334155; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    table.enterprise-table tbody td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; font-size: 12px; color: #334155; vertical-align: middle; white-space: nowrap; }
     html.dark table.enterprise-table tbody td { border-bottom-color: #1e293b; color: #cbd5e1; }
     table.enterprise-table tbody tr:last-child td { border-bottom: none; }
-    table.enterprise-table tbody tr.expired-row td { color: #94a3b8; } 
   
-    /* Tooltip styles */
+    /* Tooltip Styles */
     [data-tooltip] { position: relative; cursor: pointer; }
-    [data-tooltip]::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-5px); background-color: #1e293b; color: white; font-size: 9px; padding: 5px 8px; border-radius: 6px; white-space: nowrap; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; z-index: 100; font-weight: 500; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+    [data-tooltip]::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-5px); background-color: #1e293b; color: white; font-size: 10px; padding: 5px 8px; border-radius: 4px; white-space: nowrap; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; z-index: 100; font-weight: 500; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(-8px); }
   </style>
 </head>
 <body class="text-slate-800 dark:text-slate-100 transition-colors duration-300">
@@ -95,7 +83,7 @@
   </div>
 
   <div id="adminContainer" class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-slate-900 hidden opacity-0 transition-opacity duration-500 flex flex-col md:flex-row md:items-center md:justify-center md:p-4 overflow-hidden h-screen w-screen">
-    <div class="w-full h-full max-w-md md:max-w-6xl bg-white dark:bg-slate-800 md:rounded-3xl shadow-none md:shadow-2xl flex flex-col md:flex-row md:h-[90vh] md:max-h-[850px] border-0 md:border border-slate-100 dark:border-slate-700 transition-colors duration-300 relative overflow-hidden">
+    <div class="w-full h-full max-w-md md:max-w-6xl bg-white dark:bg-slate-800 md:rounded-3xl shadow-none md:shadow-2xl flex flex-col md:flex-row md:h-[92vh] md:max-h-[900px] border-0 md:border border-slate-200 dark:border-slate-700 transition-colors duration-300 relative overflow-hidden">
       
       <div class="hidden md:flex flex-col w-64 bg-slate-50/50 dark:bg-slate-900/80 border-r border-slate-200 dark:border-slate-700/50 p-6 justify-between flex-shrink-0 transition-colors duration-300 z-10 overflow-hidden h-full backdrop-blur-sm">
         <div class="flex-shrink-0">
@@ -113,7 +101,7 @@
               <i class="fas fa-users w-6 text-center mr-2 text-base flex-shrink-0"></i> Data Pelanggan
             </button>
             <button onclick="switchAdminTab('adminSistem')" class="nav-admin-btn nav-adminSistem desktop-admin-btn w-full flex items-center px-4 py-3.5 rounded-xl text-xs font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-all">
-              <i class="fas fa-cog w-6 text-center mr-2 text-base flex-shrink-0"></i> Pengaturan
+              <i class="fas fa-cog w-6 text-center mr-2 text-base flex-shrink-0"></i> Pengaturan Web
             </button>
           </div>
         </div>
@@ -123,7 +111,7 @@
             <i class="fas fa-moon mr-2"></i> Tema Gelap
           </button>
           <button onclick="prosesLogout()" class="w-full flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all">
-            <i class="fas fa-sign-out-alt mr-2"></i> Keluar
+            <i class="fas fa-sign-out-alt mr-2"></i> Keluar Sistem
           </button>
         </div>
       </div>
@@ -132,12 +120,12 @@
         <div class="flex-1 overflow-y-auto hide-scroll transition-colors duration-300 w-full overflow-x-hidden px-4 md:px-10 pt-6 md:pt-10 pb-28 md:pb-10 h-full">
           
           <div id="adminDashboardSection" class="admin-tab-content block animate-fade-in w-full max-w-4xl mx-auto h-full overflow-y-auto hide-scroll">
-            <div class="mb-6 pb-4 w-full flex justify-between items-center border-b border-slate-100 dark:border-slate-700 flex-shrink-0">
+            <div class="mb-8 pb-4 w-full flex justify-between items-center border-b border-slate-100 dark:border-slate-700 flex-shrink-0">
               <div>
                 <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Overview Sistem</h2>
                 <p class="text-[11px] md:text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Pantau statistik pelanggan aplikasi kamu bulan ini.</p>
               </div>
-              <button onclick="loadAdminUsers()" data-tooltip="Refresh Data" class="p-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition shadow-sm"><i class="fas fa-sync-alt text-xs md:text-sm"></i></button>
+              <button onclick="loadAdminUsers()" class="p-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition shadow-sm"><i class="fas fa-sync-alt text-xs md:text-sm"></i></button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8 w-full">
@@ -249,23 +237,10 @@
                 </div>
               </div>
               
-              <div class="w-full overflow-x-auto pb-2">
-                <table class="enterprise-table w-full text-left">
-                  <thead>
-                    <tr>
-                      <th class="w-12 text-center">No</th>
-                      <th class="w-40">Pelanggan</th>
-                      <th class="w-32">Masa Aktif</th>
-                      <th class="w-24">Status</th>
-                      <th class="w-32">Password</th>
-                      <th class="text-right w-44">Aksi Manage</th>
-                    </tr>
-                  </thead>
-                  <tbody id="adminUserTableBody">
-                    <tr><td colspan="6" class="text-center text-xs py-8 text-slate-400 font-medium">Memuat data dari server...</td></tr>
-                  </tbody>
-                </table>
+              <div id="adminUserList" class="w-full">
+                <p class="text-xs text-center text-slate-400 py-8 font-medium">Memuat data dari server...</p>
               </div>
+
             </div>
           </div>
 
@@ -295,7 +270,7 @@
               </button>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 md:p-6 rounded-2xl shadow-zenith-soft mb-5">
+            <div class="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-5 md:p-6 rounded-2xl shadow-zenith-soft mb-5">
               <h3 class="text-slate-800 dark:text-white font-bold mb-3 text-sm flex items-center tracking-wide uppercase">
                 <i class="fas fa-info-circle mr-2 text-slate-400"></i> Panduan Singkat
               </h3>
@@ -320,13 +295,13 @@
 
         <div class="md:hidden w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 grid grid-cols-3 items-center z-20 flex-shrink-0 transition-colors duration-300 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] h-[65px] absolute bottom-0 left-0 right-0 px-2 pb-1">
           <button onclick="switchAdminTab('adminDashboard')" class="nav-admin-btn nav-adminDashboard mobile-admin-btn flex flex-col items-center justify-center w-full h-full text-indigo-600 dark:text-indigo-400 transition duration-200">
-            <i class="fas fa-chart-pie text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wider uppercase">Utama</span>
+            <i class="fas fa-chart-pie text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wider uppercase">Dashboard</span>
           </button>
           <button onclick="switchAdminTab('adminUser')" class="nav-admin-btn nav-adminUser mobile-admin-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200">
-            <i class="fas fa-users text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wider uppercase">User</span>
+            <i class="fas fa-users text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wider uppercase">Data User</span>
           </button>
           <button onclick="switchAdminTab('adminSistem')" class="nav-admin-btn nav-adminSistem mobile-admin-btn flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 transition duration-200">
-            <i class="fas fa-cog text-xl mb-1"></i><span class="text-[9px] font-bold tracking-wider uppercase">Setting</span>
+            <i class="fas fa-cog text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wider uppercase">Setting</span>
           </button>
         </div>
       </div>
@@ -430,7 +405,7 @@
             </div>
 
             <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800/40 p-5 md:p-6 rounded-2xl shadow-sm mb-6 md:mb-8 text-center relative overflow-hidden transition-colors w-full">
-              <h3 class="text-indigo-900 dark:text-indigo-300 font-bold mb-2 text-xs md:text-sm uppercase tracking-widest flex justify-center items-center"><i class="fas fa-robot mr-2 text-indigo-500 dark:text-indigo-400 text-lg"></i> AI Advisor</h3>
+              <h3 class="text-indigo-900 dark:text-indigo-300 font-bold mb-1.5 md:mb-2 text-xs md:text-sm uppercase tracking-widest flex justify-center items-center"><i class="fas fa-robot mr-2 text-indigo-500 dark:text-indigo-400 text-lg"></i> AI Advisor</h3>
               <p class="text-[10px] md:text-xs text-indigo-700/80 dark:text-indigo-300/80 mb-4 px-2 font-medium">Minta AI menganalisis arus kas dan memberikan pandangan objektif bulan ini.</p>
               <button onclick="mintaSaranAI()" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-bold py-2.5 md:py-3 px-6 md:px-8 rounded-xl transition text-[11px] md:text-xs shadow-md flex items-center justify-center mx-auto"><i class="fas fa-magic mr-2"></i> Berikan Analisis</button>
             </div>
@@ -493,8 +468,8 @@
                   <div class="mb-4 md:mb-0 w-full min-w-0">
                     <label class="block text-[11px] md:text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Jenis Transaksi</label>
                     <div class="grid grid-cols-2 gap-2 h-[42px] md:h-[44px] w-full">
-                      <label class="flex items-center justify-center border border-slate-200 dark:border-slate-600 rounded-xl cursor-pointer group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition bg-slate-50 dark:bg-slate-900 min-w-0"><input type="radio" name="jenis" id="radioPemasukan" value="Pemasukan" required class="w-4 h-4 flex-shrink-0 text-emerald-500 focus:ring-emerald-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-2 text-xs font-bold text-slate-600 dark:text-slate-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors truncate">Masuk</span></label>
-                      <label class="flex items-center justify-center border border-slate-200 dark:border-slate-600 rounded-xl cursor-pointer group hover:bg-rose-50 dark:hover:bg-rose-900/30 transition bg-slate-50 dark:bg-slate-900 min-w-0"><input type="radio" name="jenis" id="radioPengeluaran" value="Pengeluaran" required class="w-4 h-4 flex-shrink-0 text-rose-500 focus:ring-rose-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-2 text-xs font-bold text-slate-600 dark:text-slate-300 group-hover:text-rose-700 dark:group-hover:text-rose-400 transition-colors truncate">Keluar</span></label>
+                      <label class="flex items-center justify-center border border-slate-100 dark:border-slate-600 rounded-xl cursor-pointer group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition bg-slate-50 dark:bg-slate-900 min-w-0"><input type="radio" name="jenis" id="radioPemasukan" value="Pemasukan" required class="w-4 h-4 flex-shrink-0 text-emerald-500 focus:ring-emerald-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-2 text-xs font-bold text-slate-600 dark:text-slate-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors truncate">Masuk</span></label>
+                      <label class="flex items-center justify-center border border-slate-100 dark:border-slate-600 rounded-xl cursor-pointer group hover:bg-rose-50 dark:hover:bg-rose-900/30 transition bg-slate-50 dark:bg-slate-900 min-w-0"><input type="radio" name="jenis" id="radioPengeluaran" value="Pengeluaran" required class="w-4 h-4 flex-shrink-0 text-rose-500 focus:ring-rose-500 border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600"><span class="ml-2 text-xs font-bold text-slate-600 dark:text-slate-300 group-hover:text-rose-700 dark:group-hover:text-rose-400 transition-colors truncate">Keluar</span></label>
                     </div>
                   </div>
                   <div class="mb-4 w-full min-w-0"><label class="block text-[11px] md:text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Sumber Dana</label><select id="metode" name="metode" required class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 transition text-xs md:text-sm text-slate-800 dark:text-white cursor-pointer font-medium"><option value="Tunai">Tunai (Cash)</option><option value="Rekening Bank">Rekening Bank</option><option value="E-Wallet">E-Wallet (Dana, Ovo, dll)</option></select></div>
@@ -705,7 +680,7 @@
       const p = document.getElementById('loginPass').value.trim();
       const remember = document.getElementById('rememberMe').checked;
       
-      miniSwal.fire({ title: '<span class="text-sm font-bold text-blue-500"><i class="fas fa-shield-alt mr-1"></i> Autentikasi...</span>', html: '<div class="py-4"><i class="fas fa-fingerprint text-4xl text-blue-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Memverifikasi data kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-blue-500/30 shadow-2xl' } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold text-blue-500"><i class="fas fa-shield-alt mr-1"></i> Autentikasi...</span>', html: '<div class="py-4"><i class="fas fa-fingerprint text-4xl text-blue-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Memverifikasi kredensial kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-blue-500/30 shadow-2xl' } });
       try {
          const res = await fetchAPI('login', {username: u, password: p});
          if (res.success) {
@@ -736,13 +711,12 @@
       location.reload();
     }
 
-    // ================= FUNGSI KHUSUS ADMIN =================
     function switchAdminTab(tabId) {
       document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
       document.getElementById(tabId + 'Section').classList.remove('hidden');
       
       document.querySelectorAll('.nav-admin-btn').forEach(btn => {
-        btn.classList.remove('text-indigo-700', 'dark:text-indigo-400', 'bg-indigo-50', 'dark:bg-indigo-900/30', 'border-indigo-600', 'dark:border-indigo-400');
+        btn.classList.remove('text-indigo-700', 'dark:text-indigo-400', 'bg-indigo-50', 'dark:bg-indigo-900/30', 'border-indigo-600', 'dark:border-indigo-400', 'active');
         btn.classList.add('text-slate-500', 'dark:text-slate-400');
       });
       document.querySelectorAll('.nav-' + tabId).forEach(activeBtn => {
@@ -809,7 +783,7 @@
        }
     }
 
-    // 🔥 MENJADI TABLE ENTERPRISE STYLE
+    // 🔥 REWRITTEN ENTERPRISE TABLE STYLE
     function renderAdminUserList(usersData) {
        const listDiv = document.getElementById('adminUserList');
        const expiringDiv = document.getElementById('adminExpiringList');
@@ -823,10 +797,10 @@
            <thead>
              <tr>
                <th class="w-12 text-center border-b-2 border-slate-100 dark:border-slate-700">No</th>
-               <th class="border-b-2 border-slate-100 dark:border-slate-700">Pelanggan</th>
-               <th class="border-b-2 border-slate-100 dark:border-slate-700">Masa Aktif</th>
-               <th class="border-b-2 border-slate-100 dark:border-slate-700">Status</th>
-               <th class="border-b-2 border-slate-100 dark:border-slate-700">Password</th>
+               <th class="w-40 border-b-2 border-slate-100 dark:border-slate-700">Pelanggan</th>
+               <th class="w-32 border-b-2 border-slate-100 dark:border-slate-700">Masa Aktif</th>
+               <th class="w-24 border-b-2 border-slate-100 dark:border-slate-700">Status</th>
+               <th class="w-32 border-b-2 border-slate-100 dark:border-slate-700">Password</th>
                <th class="text-right w-48 border-b-2 border-slate-100 dark:border-slate-700">Aksi Manage</th>
              </tr>
            </thead>
@@ -857,7 +831,7 @@
               let rowClass = isExpired ? 'expired-row bg-slate-50/50 dark:bg-slate-800/30' : '';
 
               tableHtml += `
-                 <tr class="${rowClass} hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                 <tr class="${rowClass}">
                    <td class="text-center font-bold text-slate-400 text-xs">${index + 1}</td>
                    <td>
                      <div class="flex items-center gap-3">
@@ -1099,19 +1073,19 @@
     async function saveAutoReport() {
        let email = document.getElementById('inputEmail').value.trim();
        if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Email Salah</span>', html: '<span class="text-[11px]">Masukkan alamat email yang benar.</span>'});
-       miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-sync mr-1"></i> Memproses...</span>', html: '<div class="py-4"><i class="fas fa-cog text-4xl text-amber-500 animate-spin mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Sinkronisasi data kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-amber-500/30 shadow-xl' } });
+       miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-sync mr-1"></i> Memproses...</span>', html: '<div class="py-4"><i class="fas fa-cog text-4xl text-amber-500 animate-spin mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Sinkronisasi data kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-amber-500/30 shadow-2xl' } });
        try { const res = await fetchAPI('setupAutoReportTrigger', {email: email}); if(res.success) { localStorage.setItem('userEmailReport', email); initEmailInput(); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function disableAutoReport() {
-       miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-sync mr-1"></i> Memproses...</span>', html: '<div class="py-4"><i class="fas fa-cog text-4xl text-amber-500 animate-spin mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Sinkronisasi data kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-amber-500/30 shadow-xl' } });
+       miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-sync mr-1"></i> Memproses...</span>', html: '<div class="py-4"><i class="fas fa-cog text-4xl text-amber-500 animate-spin mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Sinkronisasi data kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-amber-500/30 shadow-2xl' } });
        try { const res = await fetchAPI('disableAutoReport'); if(res.success) { localStorage.removeItem('userEmailReport'); initEmailInput(); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dinonaktifkan</span>', html: `<span class="text-[11px]">${res.message}</span>`, timer: 3000, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function sendReportNow() {
        let sheetName = document.getElementById('globalSheet').value; let email = document.getElementById('inputEmail').value.trim();
        if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Buku Kosong</span>', html: '<span class="text-[11px]">Pilih Buku Kas dulu di atas.</span>'}); if(!email || !email.includes('@')) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Email Salah</span>', html: '<span class="text-[11px]">Isi email yang benar.</span>'});
-       miniSwal.fire({ title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-paper-plane mr-1"></i> Membuat Laporan...</span>', html: '<div class="py-4"><i class="fas fa-file-pdf text-4xl text-indigo-500 animate-bounce mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menyiapkan dan mengirim email kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-indigo-500/30 shadow-xl' } });
+       miniSwal.fire({ title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-paper-plane mr-1"></i> Membuat Laporan...</span>', html: '<div class="py-4"><i class="fas fa-file-pdf text-4xl text-indigo-500 animate-bounce mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menyiapkan dan mengirim email kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-indigo-500/30 shadow-2xl' } });
        try { const res = await fetchAPI('sendReportNow', {sheetName: sheetName, email: email}); if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terkirim!</span>', html: '<span class="text-[11px]">Silakan cek Inbox email.</span>', timer: 3000, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
@@ -1137,7 +1111,7 @@
       let tglInput = form.tanggal.value; if(!tglInput) { let t = new Date(); tglInput = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, '0') + "-" + String(t.getDate()).padStart(2, '0'); }
       const formData = { sheetName: sheetName, tanggal: tglInput, jenis: form.jenis.value, kategori: form.kategori.value, nominal: nominalBersih, keterangan: form.keterangan.value, metode: form.metode.value };
       
-      miniSwal.fire({ title: '<span class="text-sm font-bold text-emerald-500"><i class="fas fa-cloud-upload-alt mr-1"></i> Menyimpan...</span>', html: '<div class="py-4"><i class="fas fa-database text-4xl text-emerald-500 animate-bounce mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Mengamankan data ke brankas cloud...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-emerald-500/30 shadow-xl' } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold text-emerald-500"><i class="fas fa-cloud-upload-alt mr-1"></i> Menyimpan...</span>', html: '<div class="py-4"><i class="fas fa-database text-4xl text-emerald-500 animate-bounce mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Mengamankan data ke brankas cloud...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-emerald-500/30 shadow-2xl' } });
       try {
         const res = await fetchAPI('saveData', {data: formData});
         if(res.success) {
@@ -1163,11 +1137,11 @@
         let tglFormatted = item.tanggal; if(tglFormatted && tglFormatted.includes('-')){ let p = tglFormatted.split('-'); tglFormatted = p[2] + '/' + p[1] + '/' + p[0]; }
 
         let metodeBadge = '';
-        if(item.metode === 'Rekening Bank') metodeBadge = '<span class="ml-1 text-[8px] bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 px-1.5 py-0.5 rounded border border-blue-200 dark:border-blue-700/50 whitespace-nowrap flex-shrink-0">Bank</span>';
-        else if(item.metode === 'E-Wallet') metodeBadge = '<span class="ml-1 text-[8px] bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 px-1.5 py-0.5 rounded border border-purple-200 dark:border-purple-700/50 whitespace-nowrap flex-shrink-0">E-Wallet</span>';
-        else metodeBadge = '<span class="ml-1 text-[8px] bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-600 whitespace-nowrap flex-shrink-0">Cash</span>';
+        if(item.metode === 'Rekening Bank') metodeBadge = '<span class="ml-1 text-[8px] bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 px-1.5 py-0.5 rounded border border-blue-200 dark:border-blue-700/50 whitespace-nowrap flex-shrink-0 font-bold">Bank</span>';
+        else if(item.metode === 'E-Wallet') metodeBadge = '<span class="ml-1 text-[8px] bg-purple-50 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300 px-1.5 py-0.5 rounded border border-purple-200 dark:border-purple-700/50 whitespace-nowrap flex-shrink-0 font-bold">E-Wallet</span>';
+        else metodeBadge = '<span class="ml-1 text-[8px] bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-600 whitespace-nowrap flex-shrink-0 font-bold">Cash</span>';
 
-        html += '<div class="p-3 md:p-4 border border-slate-100 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 shadow-sm relative transition hover:shadow-md min-w-0 w-full"><div class="flex justify-between items-center mb-1.5 w-full"><div class="flex items-center min-w-0 flex-1 mr-2"><strong class="text-slate-800 dark:text-white text-xs md:text-sm font-bold truncate">' + item.kategori + '</strong>' + metodeBadge + '</div><span class="text-[9px] px-1.5 py-0.5 rounded font-bold border flex-shrink-0 ' + badgeColor + '">' + item.jenis + '</span></div><div class="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 mb-2 truncate w-full flex items-center">' + (item.keterangan || '-') + '</div><div class="flex justify-between items-center pt-1.5 border-t border-slate-50 dark:border-slate-700/50 w-full"><span class="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 font-medium truncate w-1/3">' + tglFormatted + '</span><span class="font-extrabold ' + textNominalColor + ' text-sm md:text-base truncate w-2/3 text-right">' + sign + nominalRp + '</span></div><div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-2 w-full"><button onclick="confirmDelete(' + item.row + ')" class="text-[10px] md:text-xs bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-md transition flex items-center flex-shrink-0"><i class="fas fa-trash mr-1"></i>Hapus</button><button onclick="openEditModal(' + item.row + ')" class="text-[10px] md:text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-md transition flex items-center flex-shrink-0"><i class="fas fa-pen mr-1"></i>Edit</button></div></div>';
+        html += '<div class="p-3 md:p-5 border border-slate-100 dark:border-slate-700 rounded-2xl bg-white dark:bg-slate-800 shadow-zenith-soft relative transition-all hover:shadow-zenith-medium min-w-0 w-full"><div class="flex justify-between items-center mb-2 w-full"><div class="flex items-center min-w-0 flex-1 mr-2"><strong class="text-slate-800 dark:text-white text-xs md:text-sm font-bold truncate">' + item.kategori + '</strong>' + metodeBadge + '</div><span class="text-[9px] px-2 py-0.5 rounded font-extrabold border flex-shrink-0 uppercase tracking-widest ' + badgeColor + '">' + item.jenis + '</span></div><div class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mb-3 truncate w-full font-medium"><i class="far fa-comment-dots mr-1.5 opacity-70"></i>' + (item.keterangan || '-') + '</div><div class="flex justify-between items-end pt-2.5 border-t border-slate-50 dark:border-slate-700/50 w-full"><span class="text-[9px] md:text-[10px] text-slate-400 dark:text-slate-500 font-bold truncate w-1/3 tracking-widest uppercase"><i class="far fa-calendar-alt mr-1"></i>' + tglFormatted + '</span><span class="font-black ' + textNominalColor + ' text-sm md:text-lg truncate w-2/3 text-right tracking-tight">' + sign + nominalRp + '</span></div><div class="absolute -bottom-3 -right-3 flex gap-1.5 opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-4 rounded-tl-2xl shadow-sm"><button onclick="confirmDelete(' + item.row + ')" class="w-8 h-8 rounded-full bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 font-bold transition flex items-center justify-center shadow-sm" title="Hapus"><i class="fas fa-trash text-xs"></i></button><button onclick="openEditModal(' + item.row + ')" class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 font-bold transition flex items-center justify-center shadow-sm" title="Edit"><i class="fas fa-pen text-xs"></i></button></div></div>';
       });
       containerDiv.innerHTML = html;
     }
@@ -1189,12 +1163,12 @@
         case 'nominal_tinggi': processedData.sort((a, b) => Number(b.nominal) - Number(a.nominal)); break;
         case 'nominal_rendah': processedData.sort((a, b) => Number(a.nominal) - Number(b.nominal)); break;
       }
-      if (processedData.length > 0) { renderCards(processedData, resultsDiv); } else { resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full">Transaksi tidak ditemukan.</p>'; }
+      if (processedData.length > 0) { renderCards(processedData, resultsDiv); } else { resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full font-medium">Transaksi tidak ditemukan.</p>'; }
     }
 
     function resetDashboardUI() {
       const emptyText = 'Rp 0'; document.getElementById('dashSaldo').textContent = emptyText; document.getElementById('dashTotalTransaksi').textContent = '0 Data'; document.getElementById('dashStatus').textContent = '-'; document.getElementById('dashPemasukan').textContent = emptyText; document.getElementById('dashPengeluaran').textContent = emptyText; document.getElementById('dompetTunai').textContent = emptyText; document.getElementById('dompetBank').textContent = emptyText; document.getElementById('dompetEwallet').textContent = emptyText;
-      document.getElementById('dashRecentActivity').innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 text-center py-3 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg w-full">Belum ada transaksi.</p>'; updateBudgetUI(0);
+      document.getElementById('dashRecentActivity').innerHTML = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 text-center py-6 border border-dashed border-slate-200 dark:border-slate-700 rounded-2xl w-full font-medium">Belum ada transaksi.</p>'; updateBudgetUI(0);
       if(chartInstance) { chartInstance.destroy(); chartInstance = null; } if(kategoriChartInstance) { kategoriChartInstance.destroy(); kategoriChartInstance = null; }
     }
 
@@ -1217,36 +1191,36 @@
 
         const isDark = document.documentElement.classList.contains('dark'); const chartTextColor = isDark ? '#cbd5e1' : '#475569'; const ctx = document.getElementById('keuanganChart').getContext('2d');
         if(chartInstance) chartInstance.destroy();
-        if(totalMasuk > 0 || totalKeluar > 0) { chartInstance = new Chart(ctx, { type: 'doughnut', data: { labels: ['Pemasukan', 'Pengeluaran'], datasets: [{ data: [totalMasuk, totalKeluar], backgroundColor: ['#34d399', '#fb7185'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', animation: { animateScale: true, animateRotate: true, duration: 1500, easing: 'easeOutQuart' }, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 9, family: 'Inter' } } } } } }); } 
+        if(totalMasuk > 0 || totalKeluar > 0) { chartInstance = new Chart(ctx, { type: 'doughnut', data: { labels: ['Pemasukan', 'Pengeluaran'], datasets: [{ data: [totalMasuk, totalKeluar], backgroundColor: ['#10b981', '#f43f5e'], borderWidth: isDark ? 2 : 0, borderColor: '#1e293b' }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '70%', animation: { animateScale: true, animateRotate: true, duration: 1500, easing: 'easeOutQuart' }, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 10, family: 'Inter', weight: '600' } } } } } }); } 
 
         const ctxKategori = document.getElementById('kategoriChart').getContext('2d'); if(kategoriChartInstance) kategoriChartInstance.destroy();
         if(Object.keys(dataPengeluaran).length > 0) {
           const sortKategori = Object.entries(dataPengeluaran).sort((a,b) => b[1] - a[1]).slice(0,5);
-          kategoriChartInstance = new Chart(ctxKategori, { type: 'pie', data: { labels: sortKategori.map(k => k[0]), datasets: [{ data: sortKategori.map(k => k[1]), backgroundColor: ['#e11d48', '#3b82f6', '#f59e0b', '#8b5cf6', '#14b8a6'], borderWidth: 1, borderColor: isDark ? '#1e293b' : '#ffffff' }] }, options: { responsive: true, maintainAspectRatio: false, animation: { animateScale: true, animateRotate: true, duration: 1500, easing: 'easeOutBounce' }, plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 8, family: 'Inter' } } } } } });
+          kategoriChartInstance = new Chart(ctxKategori, { type: 'pie', data: { labels: sortKategori.map(k => k[0]), datasets: [{ data: sortKategori.map(k => k[1]), backgroundColor: ['#e11d48', '#3b82f6', '#f59e0b', '#8b5cf6', '#14b8a6'], borderWidth: isDark ? 2 : 0, borderColor: '#1e293b' }] }, options: { responsive: true, maintainAspectRatio: false, animation: { animateScale: true, animateRotate: true, duration: 1500, easing: 'easeOutBounce' }, plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 6, color: chartTextColor, font: { size: 9, family: 'Inter', weight: '600' } } } } } });
         }
 
         let recentHtml = ''; const recentData = [...filteredDashboardData].sort((a, b) => b.row - a.row).slice(0, 3);
         if(recentData.length > 0) {
-          recentData.forEach(function(item) { let color = item.jenis === 'Pemasukan' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'; let sign = item.jenis === 'Pemasukan' ? '+' : ''; recentHtml += '<div class="flex justify-between items-center p-2.5 md:p-3 border-b border-slate-100 dark:border-slate-700 last:border-0 w-full min-w-0"><div class="w-[50%] md:w-[60%] min-w-0"><p class="text-[11px] md:text-xs font-bold text-slate-700 dark:text-slate-200 truncate">' + item.kategori + '</p><p class="text-[9px] md:text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">' + item.tanggal + '</p></div><div class="text-right w-[50%] md:w-[40%] min-w-0"><p class="text-[11px] md:text-xs font-extrabold ' + color + ' truncate">' + sign + formatCurrencyHelper(item.nominal) + '</p></div></div>'; });
-        } else { recentHtml = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 text-center py-3 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg w-full">Belum ada transaksi bulan ini.</p>'; }
+          recentData.forEach(function(item) { let color = item.jenis === 'Pemasukan' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'; let sign = item.jenis === 'Pemasukan' ? '+' : ''; recentHtml += '<div class="flex justify-between items-center p-3 md:p-4 border-b border-slate-100 dark:border-slate-700 last:border-0 w-full min-w-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors rounded-xl"><div class="w-[50%] md:w-[60%] min-w-0"><p class="text-xs font-bold text-slate-800 dark:text-white truncate">' + item.kategori + '</p><p class="text-[10px] text-slate-500 font-medium mt-1 truncate"><i class="far fa-clock mr-1"></i>' + item.tanggal + '</p></div><div class="text-right w-[50%] md:w-[40%] min-w-0"><p class="text-xs md:text-sm font-black tracking-tight ' + color + ' truncate">' + sign + formatCurrencyHelper(item.nominal) + '</p></div></div>'; });
+        } else { recentHtml = '<p class="text-xs md:text-sm text-slate-400 dark:text-slate-500 text-center py-6 border border-dashed border-slate-200 dark:border-slate-700 rounded-2xl w-full font-medium">Belum ada transaksi bulan ini.</p>'; }
         document.getElementById('dashRecentActivity').innerHTML = recentHtml;
       }
-      if(!document.getElementById('listSection').classList.contains('hidden')) { if(listDataView.length > 0) { sortDataList(); } else { resultsDiv.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full">Belum ada data di bulan ini.</p>'; } }
+      if(!document.getElementById('listSection').classList.contains('hidden')) { if(listDataView.length > 0) { sortDataList(); } else { resultsDiv.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-10 w-full font-medium">Belum ada data di bulan ini.</p>'; } }
     }
 
     async function loadListTransaksi(forceRefresh = true) {
       const sheetName = document.getElementById('globalSheet').value; const resultsDiv = document.getElementById('listTamuResults');
-      if(!sheetName) { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-6 w-full">Silakan pilih Buku Kas terlebih dahulu.</p>'; resetDashboardUI(); return; }
+      if(!sheetName) { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 md:col-span-2 text-center py-10 w-full font-medium">Silakan pilih Buku Kas terlebih dahulu.</p>'; resetDashboardUI(); return; }
       if(!forceRefresh && !isDataDirty && listDataView.length > 0) { processUIFromCache(); return; }
-      if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-blue-500 md:col-span-2 text-center py-6 font-semibold animate-pulse w-full"><i class="fas fa-sync-alt fa-spin mr-1.5"></i>Menarik data dari server...</p>';
-      try { const res = await fetchAPI('getAllData', {sheetName: sheetName}); if(res.success) { listDataView = res.data; isDataDirty = false; processUIFromCache(); } else { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-6 w-full">' + res.message + '</p>'; } } catch(err) { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-6 w-full">Gagal memuat: ' + err.message + '</p>'; }
+      if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-blue-500 md:col-span-2 text-center py-10 font-bold animate-pulse w-full"><i class="fas fa-circle-notch fa-spin mr-2"></i>Sinkronisasi data...</p>';
+      try { const res = await fetchAPI('getAllData', {sheetName: sheetName}); if(res.success) { listDataView = res.data; isDataDirty = false; processUIFromCache(); } else { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-10 font-medium w-full">' + res.message + '</p>'; } } catch(err) { if(!document.getElementById('listSection').classList.contains('hidden')) resultsDiv.innerHTML = '<p class="text-xs md:text-sm text-rose-500 md:col-span-2 text-center py-10 font-medium w-full">Gagal memuat: ' + err.message + '</p>'; }
     }
 
     async function submitNewCategory() {
       const input = document.getElementById('newSheetName'); const val = input.value.trim();
       if(!val) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Nama Kosong</span>', html: '<span class="text-[11px]">Isi nama buku kas.</span>' });
       const oldSheet = document.getElementById('globalSheet').value; let carryOverBalance = 0; if(oldSheet && listDataView.length > 0) { let tm = 0, tk = 0; listDataView.forEach(i => { if(i.jenis === 'Pemasukan') tm += Number(i.nominal); else tk += Number(i.nominal); }); carryOverBalance = tm - tk; }
-      miniSwal.fire({ title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-folder-plus mr-1"></i> Membuat Buku...</span>', html: '<div class="py-4"><i class="fas fa-book-open text-4xl text-indigo-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Lagi nyiapin buku kas baru buat kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-indigo-500/30 shadow-xl' } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-folder-plus mr-1"></i> Membuat Buku...</span>', html: '<div class="py-4"><i class="fas fa-book-open text-4xl text-indigo-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Lagi nyiapin buku kas baru buat kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-indigo-500/30 shadow-2xl' } });
       try {
          const res = await fetchAPI('addNewSheet', {sheetName: val});
          if(res.success) {
@@ -1258,9 +1232,9 @@
 
     function deleteBukuKas() {
       const sheetName = document.getElementById('globalSheet').value; if(!sheetName) return miniSwal.fire({icon: 'warning', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Pilih buku kas yang ingin dihapus.</span>'});
-      Swal.fire({ title: '<span class="text-sm md:text-base font-bold">Hapus Permanen</span>', html: '<span class="text-[11px] md:text-xs">Yakin menghapus buku <b>' + sheetName + '</b> beserta isinya?</span>', icon: 'error', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal', width: '280px', customClass: { popup: 'rounded-2xl dark:bg-slate-800 dark:border-slate-700' } }).then(async (result) => {
+      Swal.fire({ title: '<span class="text-sm md:text-base font-bold tracking-tight">Hapus Permanen</span>', html: '<span class="text-[11px] md:text-xs font-medium text-slate-500">Yakin menghapus buku <b>' + sheetName + '</b> beserta isinya?</span>', icon: 'error', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal', width: '300px', customClass: { popup: 'rounded-3xl dark:bg-slate-800 dark:border-slate-700 shadow-2xl' } }).then(async (result) => {
         if(result.isConfirmed) {
-          miniSwal.fire({ title: '<span class="text-sm font-bold text-rose-500"><i class="fas fa-radiation mr-1"></i> Menghapus...</span>', html: '<div class="py-4"><i class="fas fa-trash-alt text-4xl text-rose-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menghapus buku kas secara permanen...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-rose-500/30 shadow-xl' } });
+          miniSwal.fire({ title: '<span class="text-sm font-bold text-rose-500"><i class="fas fa-radiation mr-1"></i> Menghapus...</span>', html: '<div class="py-4"><i class="fas fa-trash-alt text-4xl text-rose-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menghapus buku kas secara permanen...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-rose-500/30 shadow-2xl' } });
           try {
              const res = await fetchAPI('deleteSheet', {sheetName: sheetName});
              if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Terhapus</span>', timer: 1500, showConfirmButton: false }); const sheets = await fetchAPI('getSheetNames'); populateSheets(sheets); listDataView = []; resetDashboardUI(); } 
@@ -1272,9 +1246,9 @@
 
     function confirmDelete(row) {
       const data = listDataView.find(i => i.row === row); if (!data) return; const sheetName = document.getElementById('globalSheet').value;
-      miniSwal.fire({ title: '<span class="text-sm font-bold">Hapus Transaksi</span>', html: `<span class="text-[11px]">Hapus data [${data.kategori}]?</span>`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Hapus', cancelButtonText: 'Batal' }).then(async (result) => {
+      miniSwal.fire({ title: '<span class="text-sm font-bold tracking-tight">Hapus Transaksi</span>', html: `<span class="text-[11px] font-medium text-slate-500">Hapus data [${data.kategori}]?</span>`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#e11d48', cancelButtonColor: '#94a3b8', confirmButtonText: 'Hapus', cancelButtonText: 'Batal' }).then(async (result) => {
         if (result.isConfirmed) {
-          miniSwal.fire({ title: '<span class="text-sm font-bold text-rose-500"><i class="fas fa-radiation mr-1"></i> Menghapus...</span>', html: '<div class="py-4"><i class="fas fa-trash-alt text-4xl text-rose-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Melakukan penghapusan permanen...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-rose-500/30 shadow-xl' } });
+          miniSwal.fire({ title: '<span class="text-sm font-bold text-rose-500"><i class="fas fa-radiation mr-1"></i> Menghapus...</span>', html: '<div class="py-4"><i class="fas fa-trash-alt text-4xl text-rose-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Melakukan penghapusan permanen...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-rose-500/30 shadow-2xl' } });
           try {
              const res = await fetchAPI('deleteData', {sheetName: sheetName, row: row});
              if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Dihapus!</span>', timer: 1500, showConfirmButton: false }); isDataDirty = true; onSheetChange(); } 
@@ -1293,13 +1267,13 @@
     async function submitEditForm(event) {
       event.preventDefault(); const sheetName = document.getElementById('globalSheet').value; const nominalBersih = document.getElementById('editNominal').value.replace(/\./g, ''); if(nominalBersih === "" || isNaN(nominalBersih)) return miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: '<span class="text-[11px]">Angka nominal tidak valid.</span>' });
       const payload = { sheetName: sheetName, row: document.getElementById('editRow').value, tanggal: document.getElementById('editTanggal').value, jenis: document.querySelector('input[name="editJenis"]:checked').value, kategori: document.getElementById('editKategori').value, nominal: nominalBersih, keterangan: document.getElementById('editKeterangan').value, metode: document.getElementById('editMetode').value };
-      closeEditModal(); miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-sync mr-1"></i> Mengupdate...</span>', html: '<div class="py-4"><i class="fas fa-cog text-4xl text-amber-500 animate-spin mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menyimpan perubahan catatan kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-amber-500/30 shadow-xl' } });
+      closeEditModal(); miniSwal.fire({ title: '<span class="text-sm font-bold text-amber-500"><i class="fas fa-sync mr-1"></i> Mengupdate...</span>', html: '<div class="py-4"><i class="fas fa-cog text-4xl text-amber-500 animate-spin mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menyimpan perubahan catatan kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-amber-500/30 shadow-2xl' } });
       try { const res = await fetchAPI('updateData', {payload: payload}); if(res.success) { miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Disimpan</span>', timer: 1500, showConfirmButton: false }); isDataDirty = true; onSheetChange(); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); } } catch(err) { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Terputus</span>', html: `<span class="text-[11px]">${err.message}</span>` }); }
     }
 
     async function exportCSV() {
        const sheetName = document.getElementById('globalSheet').value; if(!sheetName) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Pilih Buku</span>', html: '<span class="text-[11px]">Pilih buku kas yang mau dibackup.</span>' });
-       miniSwal.fire({ title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-database mr-1"></i> Menyiapkan Data...</span>', html: '<div class="py-4"><i class="fas fa-download text-4xl text-indigo-500 animate-bounce mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menarik data dari brankas cloud...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-indigo-500/30 shadow-xl' } });
+       miniSwal.fire({ title: '<span class="text-sm font-bold text-indigo-500"><i class="fas fa-database mr-1"></i> Menyiapkan Data...</span>', html: '<div class="py-4"><i class="fas fa-download text-4xl text-indigo-500 animate-bounce mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Menarik data dari brankas cloud...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-indigo-500/30 shadow-2xl' } });
        try {
          const res = await fetchAPI('getBackupData', {sheetName: sheetName});
          if(res.success) { let csvContent = ""; res.data.forEach(function(rowArray) { let row = rowArray.map(c => '"' + String(c).replace(/"/g, '""') + '"'); csvContent += row.join(",") + "\r\n"; }); const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob)); link.setAttribute("download", 'Backup_' + sheetName + '.csv'); link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Berhasil!</span>', timer: 1500, showConfirmButton: false }); } else { miniSwal.fire({ icon: 'error', title: '<span class="text-sm font-bold">Gagal</span>', html: `<span class="text-[11px]">${res.message}</span>` }); }
@@ -1308,7 +1282,7 @@
 
     function exportPDF() {
       const sheetName = document.getElementById('globalSheet').value; if(!sheetName || listDataView.length === 0) return miniSwal.fire({ icon: 'warning', title: '<span class="text-sm font-bold">Data Kosong</span>', html: '<span class="text-[11px]">Tidak ada data untuk didownload.</span>' });
-      miniSwal.fire({ title: '<span class="text-sm font-bold text-red-500"><i class="fas fa-file-pdf mr-1"></i> Membuat PDF...</span>', html: '<div class="py-4"><i class="fas fa-print text-4xl text-red-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Merender laporan keuangan kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-2xl dark:bg-slate-800 border border-red-500/30 shadow-xl' } });
+      miniSwal.fire({ title: '<span class="text-sm font-bold text-red-500"><i class="fas fa-file-pdf mr-1"></i> Membuat PDF...</span>', html: '<div class="py-4"><i class="fas fa-print text-4xl text-red-500 animate-pulse mb-3 drop-shadow-lg"></i><br><span class="text-[11px] text-slate-500 font-medium">Merender laporan keuangan kamu...</span></div>', allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'rounded-3xl dark:bg-slate-800 border border-red-500/30 shadow-2xl' } });
       const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4'); let totalMasuk = 0, totalKeluar = 0; listDataView.forEach(i => { const nom = Number(i.nominal); if(i.jenis === 'Pemasukan') totalMasuk += nom; else totalKeluar += nom; }); let saldo = totalMasuk - totalKeluar;
       doc.setFontSize(16); doc.setTextColor(30, 58, 138); doc.setFont('helvetica', 'bold'); doc.text('LAPORAN KEUANGAN', 14, 20); doc.setFontSize(10); doc.setTextColor(100, 116, 139); doc.setFont('helvetica', 'normal'); doc.text('Buku Kas: ' + sheetName, 14, 27); doc.text('Tanggal Cetak: ' + new Date().toLocaleDateString('id-ID'), 14, 32); doc.setDrawColor(226, 232, 240); doc.setLineWidth(0.5); doc.line(14, 36, 196, 36); doc.setFontSize(9); doc.setTextColor(15, 23, 42); doc.setFont('helvetica', 'bold'); doc.text('RINGKASAN:', 14, 43); doc.setFont('helvetica', 'normal'); doc.text('Pemasukan', 14, 50); doc.text(': ' + formatCurrencyHelper(totalMasuk), 40, 50); doc.text('Pengeluaran', 14, 56); doc.text(': ' + formatCurrencyHelper(totalKeluar), 40, 56); doc.setFont('helvetica', 'bold'); doc.text('Sisa Saldo', 14, 62); doc.text(': ' + formatCurrencyHelper(saldo), 40, 62);
       const tableColumn = ["No", "Tanggal", "Kategori", "Jenis", "Dompet", "Nominal (Rp)"]; const tableRows = []; let pdfData = [...listDataView].sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal)); pdfData.forEach((item, index) => { tableRows.push([ index + 1, item.tanggal, item.kategori, item.jenis, item.metode || '-', formatCurrencyHelper(Number(item.nominal)) ]); }); doc.autoTable({ startY: 70, head: [tableColumn], body: tableRows, theme: 'grid', styles: { font: 'helvetica', fontSize: 8 }, headStyles: { fillColor: [30, 58, 138], textColor: [255, 255, 255], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 250, 252] }, columnStyles: { 0: { cellWidth: 10, halign: 'center' }, 5: { halign: 'right' } } }); doc.save('Laporan_' + sheetName.replace(/\s+/g, '_') + '.pdf'); miniSwal.fire({ icon: 'success', title: '<span class="text-sm font-bold">Selesai!</span>', timer: 1500, showConfirmButton: false });
